@@ -5,6 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pharos — katalog over åpne data i Europa</title>
 <meta name="description" content="Velg tema og land. Pharos peker deg til kilden som forvalter de åpne dataene du trenger.">
+<link rel="canonical" href="https://u9ts.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pharos">
+<meta property="og:url" content="https://u9ts.github.io/">
+<meta property="og:title" content="Pharos — katalog over åpne data i Europa">
+<meta property="og:description" content="Velg tema og land. Pharos peker deg til kilden som forvalter de åpne dataene du trenger.">
+<meta property="og:image" content="https://u9ts.github.io/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="PHAROS skrevet i ASCII mot svart bakgrunn">
+<meta property="og:locale" content="nb_NO">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pharos — katalog over åpne data i Europa">
+<meta name="twitter:description" content="Velg tema og land. Pharos peker deg til kilden som forvalter de åpne dataene du trenger.">
+<meta name="twitter:image" content="https://u9ts.github.io/og-image.png">
+<meta name="theme-color" content="#0b0b0b">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0b0b'/%3E%3Cpath d='M11 25 L13 11 L19 11 L21 25 Z' fill='none' stroke='%23fff' stroke-width='1.8'/%3E%3Crect x='12.5' y='5' width='7' height='6' fill='none' stroke='%23fff' stroke-width='1.8'/%3E%3Cpath d='M21 6 L29 3 M21 10 L29 13 M11 6 L3 3 M11 10 L3 13' stroke='%23fff' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -169,6 +186,11 @@
 
   footer{ border-top:1px solid var(--line); padding:20px 26px 28px; font-size:0.8rem; color:var(--text-faint); }
   footer a{ color:var(--brass); }
+  .made-by{
+    margin:18px 0 0; padding-top:14px;
+    border-top:1px solid var(--line);
+    font-size:0.78rem; color:var(--text-faint);
+  }
   footer b{ color:var(--text-soft); }
 
   @media (max-width:640px){
@@ -216,6 +238,7 @@
   <footer>
     <p id="foot1"></p>
     <p style="margin-top:10px"><b id="footLabel"></b><span id="foot2"></span></p>
+    <p class="made-by"><span id="madeBy">Laget av</span> <a href="https://github.com/u9ts" target="_blank" rel="noopener">u9ts</a></p>
   </footer>
 </div>
 
@@ -492,7 +515,7 @@ const NAME_NO = {
 "Open Data Albania": "Open Data Albania"
 };
 
-const UI = {"en": {"lede": "Catalogue of open data sources across Europe", "step1": "1 — Country or region", "step2": "2 — Theme", "selectLabel": "Choose a country or region", "regions": "Regions", "countries": "Countries", "intro": "Pick a theme below and Pharos will point you to the right portal.", "special": "Specialist source", "single": "Held in the national portal", "unmapped": "Not mapped in detail", "confirmed": "✓ confirmed", "unconfirmed": "unconfirmed", "confirmedTitle": "Address checked against an independent source", "unconfirmedTitle": "Agency is probably right, address unconfirmed", "go": "Go to the portal ↗", "other": "Other sources", "foot1": "A curated catalogue of official open data sources in Europe. All 37 countries have a national portal; 55 of about 100 sources have been confirmed against an independent source; the rest are marked unconfirmed.", "footLabel": "On the labels:", "foot2": "“Confirmed” means the address has been checked against an independent source as the right entry point to that agency’s data. “Unconfirmed” means the agency is probably right, but the address may lead to a front page rather than to the datasets. Links point to each source’s own site; Pharos stores no data itself."}, "no": {"lede": "Katalog over kilder til åpne data i Europa", "step1": "1 — Land eller region", "step2": "2 — Tema", "selectLabel": "Velg land eller region", "regions": "Regioner", "countries": "Land", "intro": "Velg et tema under, så peker Pharos deg til riktig portal.", "special": "Spesialkilde", "single": "Samlet i nasjonalportalen", "unmapped": "Ikke kartlagt i detalj", "confirmed": "✓ bekreftet", "unconfirmed": "ikke bekreftet", "confirmedTitle": "Adressen er bekreftet mot en uavhengig kilde", "unconfirmedTitle": "Etaten er trolig riktig, adressen er ikke bekreftet", "go": "Gå til portalen ↗", "other": "Andre kilder", "foot1": "Kuratert katalog over offisielle kilder til åpne data i Europa. Alle 37 land har nasjonalportal; 55 av rundt 100 kilder er bekreftet mot en uavhengig kilde; resten er merket ubekreftet.", "footLabel": "Om merkingen:", "foot2": "«Bekreftet» betyr at adressen er kontrollert mot en uavhengig kilde som riktig inngang til etatens data. «Ikke bekreftet» betyr at etaten trolig er riktig, men at adressen kan peke til en forside i stedet for til datasettene. Lenkene peker til kildens egne sider; Pharos lagrer ingen data selv."}};
+const UI = {"en": {"lede": "Catalogue of open data sources across Europe", "step1": "1 — Country or region", "step2": "2 — Theme", "selectLabel": "Choose a country or region", "regions": "Regions", "countries": "Countries", "intro": "Pick a theme below and Pharos will point you to the right portal.", "special": "Specialist source", "single": "Held in the national portal", "unmapped": "Not mapped in detail", "confirmed": "✓ confirmed", "unconfirmed": "unconfirmed", "confirmedTitle": "Address checked against an independent source", "unconfirmedTitle": "Agency is probably right, address unconfirmed", "go": "Go to the portal ↗", "other": "Other sources", "foot1": "A curated catalogue of official open data sources in Europe. All 37 countries have a national portal; 55 of about 100 sources have been confirmed against an independent source; the rest are marked unconfirmed.", "madeBy": "Made by", "footLabel": "On the labels:", "foot2": "“Confirmed” means the address has been checked against an independent source as the right entry point to that agency’s data. “Unconfirmed” means the agency is probably right, but the address may lead to a front page rather than to the datasets. Links point to each source’s own site; Pharos stores no data itself."}, "no": {"lede": "Katalog over kilder til åpne data i Europa", "step1": "1 — Land eller region", "step2": "2 — Tema", "selectLabel": "Velg land eller region", "regions": "Regioner", "countries": "Land", "intro": "Velg et tema under, så peker Pharos deg til riktig portal.", "special": "Spesialkilde", "single": "Samlet i nasjonalportalen", "unmapped": "Ikke kartlagt i detalj", "confirmed": "✓ bekreftet", "unconfirmed": "ikke bekreftet", "confirmedTitle": "Adressen er bekreftet mot en uavhengig kilde", "unconfirmedTitle": "Etaten er trolig riktig, adressen er ikke bekreftet", "go": "Gå til portalen ↗", "other": "Andre kilder", "foot1": "Kuratert katalog over offisielle kilder til åpne data i Europa. Alle 37 land har nasjonalportal; 55 av rundt 100 kilder er bekreftet mot en uavhengig kilde; resten er merket ubekreftet.", "madeBy": "Laget av", "footLabel": "Om merkingen:", "foot2": "«Bekreftet» betyr at adressen er kontrollert mot en uavhengig kilde som riktig inngang til etatens data. «Ikke bekreftet» betyr at etaten trolig er riktig, men at adressen kan peke til en forside i stedet for til datasettene. Lenkene peker til kildens egne sider; Pharos lagrer ingen data selv."}};
 
 let lang = "no";
 let place = "no", theme = null;
@@ -532,6 +555,7 @@ function applyLang(){
   document.getElementById('lbl-step2').textContent = t('step2');
   document.getElementById('foot1').textContent     = t('foot1');
   document.getElementById('footLabel').textContent = t('footLabel');
+  document.getElementById('madeBy').textContent    = t('madeBy');
   document.getElementById('foot2').textContent     = ' ' + t('foot2');
   placeEl.setAttribute('aria-label', t('selectLabel'));
   buildPlaces();
