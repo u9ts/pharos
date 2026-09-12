@@ -289,12 +289,12 @@ const PLACES = {
 /* Europe-wide specialist sources, applied to every country. */
 const EU_SPECIAL = {
   REGI:[["data.europa.eu","European Commission — replaced the INSPIRE Geoportal in July 2026","https://data.europa.eu",1],
-        ["Copernicus Land","ESA and EU","https://land.copernicus.eu"],
+        ["Copernicus Land","ESA and EU","https://land.copernicus.eu",1],
         ["GISCO","Eurostat","https://ec.europa.eu/eurostat/web/gisco"]],
-  ENVI:[["EEA Datahub","European Environment Agency","https://www.eea.europa.eu/en/datahub"],
+  ENVI:[["EEA Datahub","European Environment Agency","https://www.eea.europa.eu/en/datahub",1],
         ["Copernicus Climate","ECMWF","https://climate.copernicus.eu"]],
-  SOCI:[["Eurostat","European Commission","https://ec.europa.eu/eurostat"]],
-  ECON:[["Eurostat","European Commission","https://ec.europa.eu/eurostat"],
+  SOCI:[["Eurostat Database","European Commission","https://ec.europa.eu/eurostat/data/database",1]],
+  ECON:[["Eurostat Database","European Commission","https://ec.europa.eu/eurostat/data/database",1],
         ["ECB Data Portal","European Central Bank","https://data.ecb.europa.eu"]],
   GOVE:[["data.europa.eu","European Commission","https://data.europa.eu"]],
   TRAN:[["Eurostat transport","European Commission","https://ec.europa.eu/eurostat/web/transport"]],
@@ -315,17 +315,17 @@ const EU_SPECIAL = {
 /* National specialist sources. Shown before the Europe-wide ones. */
 const NAT_SPECIAL = {
   no:{ REGI:[["Geonorge","Norwegian Mapping Authority","https://www.geonorge.no",1],
-             ["Kilden","NIBIO","https://kilden.nibio.no"]],
-       ENVI:[["Frost","Norwegian Meteorological Institute","https://frost.met.no"],
+             ["Kilden","NIBIO","https://kilden.nibio.no",1]],
+       ENVI:[["Frost","Norwegian Meteorological Institute","https://frost.met.no",1],
              ["Miljøstatus","Norwegian Environment Agency","https://miljostatus.miljodirektoratet.no"]],
-       SOCI:[["StatBank","SSB","https://www.ssb.no/api"]],
-       ECON:[["Enhetsregisteret","Brønnøysund Register Centre","https://data.brreg.no"]],
-       GOVE:[["Enhetsregisteret","Brønnøysund Register Centre","https://data.brreg.no"]],
-       TRAN:[["NVDB","Norwegian Public Roads Administration","https://www.vegvesen.no/nvdb/"],
+       SOCI:[["Statistikkbanken API","SSB","https://data.ssb.no/api/",1]],
+       ECON:[["Enhetsregisteret","Brønnøysund Register Centre","https://data.brreg.no",1]],
+       GOVE:[["Enhetsregisteret","Brønnøysund Register Centre","https://data.brreg.no",1]],
+       TRAN:[["NVDB API","Norwegian Public Roads Administration","https://nvdbapiles-v3.atlas.vegvesen.no/dokumentasjon",1],
              ["Entur","Entur","https://developer.entur.org"]],
        HEAL:[["Statistics bank","Norwegian Institute of Public Health","https://www.fhi.no/hn/helseregistre-og-registre/statistikkbank/"]],
        ENER:[["NVE map services","NVE","https://www.nve.no/karttjenester"]],
-       AGRI:[["Kilden","NIBIO","https://kilden.nibio.no"],
+       AGRI:[["Kilden","NIBIO","https://kilden.nibio.no",1],
              ["Institute of Marine Research","IMR","https://www.hi.no"]],
        TECH:[["Norwegian Polar Institute","NPI","https://data.npolar.no"]] },
   se:{ REGI:[["Geodata.se","Lantmäteriet","https://www.geodata.se",1]],
@@ -341,7 +341,7 @@ const NAT_SPECIAL = {
   is:{ REGI:[["Landmælingar Íslands","LMÍ","https://www.lmi.is",1]],
        ENVI:[["Veðurstofa Íslands","Met Office","https://www.vedur.is"]] },
   de:{ REGI:[["Geoportal.de","GDI-DE","https://www.geoportal.de",1]],
-       ENVI:[["DWD Open Data","Deutscher Wetterdienst","https://opendata.dwd.de"],
+       ENVI:[["DWD Open Data","Deutscher Wetterdienst","https://opendata.dwd.de",1],
              ["Umweltbundesamt","UBA","https://www.umweltbundesamt.de"]],
        SOCI:[["GENESIS","Destatis","https://www-genesis.destatis.de"]] },
   fr:{ REGI:[["Géoportail","IGN","https://www.geoportail.gouv.fr",1]],
@@ -353,10 +353,10 @@ const NAT_SPECIAL = {
              ["DEFRA Data Services","DEFRA","https://environment.data.gov.uk"]],
        SOCI:[["ONS","Office for National Statistics","https://www.ons.gov.uk"]] },
   nl:{ REGI:[["PDOK","Kadaster","https://www.pdok.nl",1]],
-       ENVI:[["KNMI Data Platform","KNMI","https://dataplatform.knmi.nl"]],
+       ENVI:[["KNMI Data Platform","KNMI","https://dataplatform.knmi.nl",1]],
        SOCI:[["StatLine","CBS","https://opendata.cbs.nl"]] },
   es:{ REGI:[["IDEE","Infraestructura de Datos Espaciales","https://www.idee.es",1]],
-       ENVI:[["AEMET OpenData","AEMET","https://opendata.aemet.es"]],
+       ENVI:[["AEMET OpenData","AEMET","https://opendata.aemet.es",1]],
        SOCI:[["INEbase","Instituto Nacional de Estadística","https://www.ine.es/dyngs/DAB/en/index.htm",1]] },
   it:{ REGI:[["Geoportale Nazionale","Ministry of the Environment","https://gn.mase.gov.it",1],
              ["geodati.gov.it","National spatial data register","https://geodati.gov.it",1]],
@@ -492,7 +492,7 @@ const NAME_NO = {
 "Open Data Albania": "Open Data Albania"
 };
 
-const UI = {"en": {"lede": "Catalogue of open data sources across Europe", "step1": "1 — Country or region", "step2": "2 — Theme", "selectLabel": "Choose a country or region", "regions": "Regions", "countries": "Countries", "intro": "Pick a theme below and Pharos will point you to the right portal.", "special": "Specialist source", "single": "Held in the national portal", "unmapped": "Not mapped in detail", "confirmed": "\\u2713 confirmed", "unconfirmed": "unconfirmed", "confirmedTitle": "Address checked against an independent source", "unconfirmedTitle": "Agency is probably right, address unconfirmed", "go": "Go to the portal \\u2197", "other": "Other sources", "foot1": "A curated catalogue of official open data sources in Europe. All 37 countries have a national portal; geodata sources are confirmed for 31 of them, other themes are largely unconfirmed.", "footLabel": "On the labels:", "foot2": "\\u201cConfirmed\\u201d means the address has been checked against an independent source as the right entry point to that agency\\u2019s data. \\u201cUnconfirmed\\u201d means the agency is probably right, but the address may lead to a front page rather than to the datasets. Links point to each source\\u2019s own site; Pharos stores no data itself."}, "no": {"lede": "Katalog over kilder til åpne data i Europa", "step1": "1 — Land eller region", "step2": "2 — Tema", "selectLabel": "Velg land eller region", "regions": "Regioner", "countries": "Land", "intro": "Velg et tema under, så peker Pharos deg til riktig portal.", "special": "Spesialkilde", "single": "Samlet i nasjonalportalen", "unmapped": "Ikke kartlagt i detalj", "confirmed": "\\u2713 bekreftet", "unconfirmed": "ikke bekreftet", "confirmedTitle": "Adressen er bekreftet mot en uavhengig kilde", "unconfirmedTitle": "Etaten er trolig riktig, adressen er ikke bekreftet", "go": "Gå til portalen \\u2197", "other": "Andre kilder", "foot1": "Kuratert katalog over offisielle kilder til åpne data i Europa. Alle 37 land har nasjonalportal; geodatakilder er bekreftet for 31 av dem, øvrige tema er i hovedsak ubekreftede.", "footLabel": "Om merkingen:", "foot2": "\\u00abBekreftet\\u00bb betyr at adressen er kontrollert mot en uavhengig kilde som riktig inngang til etatens data. \\u00abIkke bekreftet\\u00bb betyr at etaten trolig er riktig, men at adressen kan peke til en forside i stedet for til datasettene. Lenkene peker til kildens egne sider; Pharos lagrer ingen data selv."}};
+const UI = {"en": {"lede": "Catalogue of open data sources across Europe", "step1": "1 — Country or region", "step2": "2 — Theme", "selectLabel": "Choose a country or region", "regions": "Regions", "countries": "Countries", "intro": "Pick a theme below and Pharos will point you to the right portal.", "special": "Specialist source", "single": "Held in the national portal", "unmapped": "Not mapped in detail", "confirmed": "✓ confirmed", "unconfirmed": "unconfirmed", "confirmedTitle": "Address checked against an independent source", "unconfirmedTitle": "Agency is probably right, address unconfirmed", "go": "Go to the portal ↗", "other": "Other sources", "foot1": "A curated catalogue of official open data sources in Europe. All 37 countries have a national portal; 55 of about 100 sources have been confirmed against an independent source; the rest are marked unconfirmed.", "footLabel": "On the labels:", "foot2": "“Confirmed” means the address has been checked against an independent source as the right entry point to that agency’s data. “Unconfirmed” means the agency is probably right, but the address may lead to a front page rather than to the datasets. Links point to each source’s own site; Pharos stores no data itself."}, "no": {"lede": "Katalog over kilder til åpne data i Europa", "step1": "1 — Land eller region", "step2": "2 — Tema", "selectLabel": "Velg land eller region", "regions": "Regioner", "countries": "Land", "intro": "Velg et tema under, så peker Pharos deg til riktig portal.", "special": "Spesialkilde", "single": "Samlet i nasjonalportalen", "unmapped": "Ikke kartlagt i detalj", "confirmed": "✓ bekreftet", "unconfirmed": "ikke bekreftet", "confirmedTitle": "Adressen er bekreftet mot en uavhengig kilde", "unconfirmedTitle": "Etaten er trolig riktig, adressen er ikke bekreftet", "go": "Gå til portalen ↗", "other": "Andre kilder", "foot1": "Kuratert katalog over offisielle kilder til åpne data i Europa. Alle 37 land har nasjonalportal; 55 av rundt 100 kilder er bekreftet mot en uavhengig kilde; resten er merket ubekreftet.", "footLabel": "Om merkingen:", "foot2": "«Bekreftet» betyr at adressen er kontrollert mot en uavhengig kilde som riktig inngang til etatens data. «Ikke bekreftet» betyr at etaten trolig er riktig, men at adressen kan peke til en forside i stedet for til datasettene. Lenkene peker til kildens egne sider; Pharos lagrer ingen data selv."}};
 
 let lang = "no";
 let place = "no", theme = null;
