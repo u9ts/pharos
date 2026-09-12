@@ -184,6 +184,32 @@
   .alt-x{ margin-left:auto; padding-left:8px; font-size:0.8rem; color:var(--text-faint); }
   .empty{ font-size:0.94rem; color:var(--text-faint); margin:0; }
 
+  .tools{ border-top:1px solid var(--line); padding:0 26px; }
+  .tools summary{
+    cursor:pointer; list-style:none; padding:18px 0;
+    font-family:"JetBrains Mono","SF Mono",Menlo,Consolas,monospace;
+    font-size:0.72rem; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--text-faint);
+  }
+  .tools summary::-webkit-details-marker{ display:none; }
+  .tools summary::before{ content:"+ "; color:var(--brass); }
+  .tools[open] summary::before{ content:"– "; }
+  .tools summary:hover{ color:var(--brass); }
+  .tools summary:focus-visible{ outline:2px solid var(--brass); outline-offset:2px; }
+  .tools-note{ font-size:0.84rem; color:var(--text-faint); margin:0 0 18px; }
+  .tool-group{ margin-bottom:20px; }
+  .tool-group h3{
+    font-family:"JetBrains Mono","SF Mono",Menlo,Consolas,monospace;
+    font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--text-faint); margin:0 0 8px; font-weight:400;
+  }
+  .tool{ display:block; text-decoration:none; color:inherit; padding:9px 0; border-bottom:1px solid var(--line); }
+  .tool:last-child{ border-bottom:none; }
+  .tool:hover .tool-n{ color:var(--glow); }
+  .tool-n{ font-weight:600; font-size:0.94rem; color:var(--brass); }
+  .tool-d{ font-size:0.85rem; color:var(--text-soft); margin:2px 0 0; }
+  .tools[open]{ padding-bottom:22px; }
+
   footer{ border-top:1px solid var(--line); padding:20px 26px 28px; font-size:0.8rem; color:var(--text-faint); }
   footer a{ color:var(--brass); }
   .made-by{
@@ -235,16 +261,23 @@
 
   <div class="result" id="result"></div>
 
+  <details class="tools" id="toolsBox">
+    <summary><span id="toolsTitle">Andre nyttige nettsider</span></summary>
+    <p class="tools-note" id="toolsNote"></p>
+    <div id="toolsBody"></div>
+  </details>
+
   <footer>
     <p id="foot1"></p>
     <p style="margin-top:10px"><b id="footLabel"></b><span id="foot2"></span></p>
-    <p class="made-by"><span id="madeBy">Laget av</span> <a href="https://github.com/u9ts" target="_blank" rel="noopener">u9ts</a></p>
+    <p class="made-by"><span id="madeBy">Utviklet av</span> <a href="https://github.com/u9ts" target="_blank" rel="noopener">u9ts</a></p>
   </footer>
 </div>
 
 <script>
 const THEMES = [
   { id:"REGI", name:"Maps and geodata",       hint:"terrain, cadastre, land use" },
+  { id:"ORTO", name:"Aerial and satellite imagery", hint:"orthophotos, land cover" },
   { id:"ENVI", name:"Environment and climate",hint:"nature, weather, pollution" },
   { id:"SOCI", name:"Population and society", hint:"demography, living conditions" },
   { id:"ECON", name:"Economy and business",   hint:"companies, trade, prices" },
@@ -311,6 +344,9 @@ const PLACES = {
 
 /* Europe-wide specialist sources, applied to every country. */
 const EU_SPECIAL = {
+  ORTO:[["Copernicus Data Space","ESA and EU","https://dataspace.copernicus.eu"],
+        ["Copernicus Land","ESA and EU","https://land.copernicus.eu",1],
+        ["EO Browser","Sinergise","https://apps.sentinel-hub.com/eo-browser/"]],
   REGI:[["data.europa.eu","European Commission — replaced the INSPIRE Geoportal in July 2026","https://data.europa.eu",1],
         ["Copernicus Land","ESA and EU","https://land.copernicus.eu",1],
         ["GISCO","Eurostat","https://ec.europa.eu/eurostat/web/gisco"]],
@@ -337,7 +373,8 @@ const EU_SPECIAL = {
 
 /* National specialist sources. Shown before the Europe-wide ones. */
 const NAT_SPECIAL = {
-  no:{ REGI:[["Geonorge","Norwegian Mapping Authority","https://www.geonorge.no",1],
+  no:{ ORTO:[["Norge i bilder","Kartverket — fri visning, nedlasting krever Norge digitalt","https://www.norgeibilder.no",1]],
+       REGI:[["Geonorge","Norwegian Mapping Authority","https://www.geonorge.no",1],
              ["Kilden","NIBIO","https://kilden.nibio.no",1]],
        ENVI:[["Frost","Norwegian Meteorological Institute","https://frost.met.no",1],
              ["Miljøstatus","Norwegian Environment Agency","https://miljostatus.miljodirektoratet.no"]],
@@ -355,10 +392,12 @@ const NAT_SPECIAL = {
        ENVI:[["SMHI Öppna data","SMHI","https://www.smhi.se/data"]],
        SOCI:[["Statistikdatabasen (PxWebApi)","SCB","https://www.scb.se/en/services/open-data-api/pxwebapi/",1]],
        TRAN:[["Trafiklab","Samtrafiken","https://www.trafiklab.se"]] },
-  dk:{ REGI:[["Dataforsyningen","Danish Climate Data Agency","https://dataforsyningen.dk",1]],
+  dk:{ ORTO:[["Ortofoto","Dataforsyningen","https://dataforsyningen.dk"]],
+       REGI:[["Dataforsyningen","Danish Climate Data Agency","https://dataforsyningen.dk",1]],
        ENVI:[["DMI Open Data","DMI","https://opendatadocs.dmi.govcloud.dk"]],
        SOCI:[["Statistikbanken","Danmarks Statistik","https://www.statistikbanken.dk"]] },
-  fi:{ REGI:[["Paikkatietoikkuna","Maanmittauslaitos","https://www.paikkatietoikkuna.fi",1]],
+  fi:{ ORTO:[["Ortoilmakuva","Maanmittauslaitos","https://www.paikkatietoikkuna.fi"]],
+       REGI:[["Paikkatietoikkuna","Maanmittauslaitos","https://www.paikkatietoikkuna.fi",1]],
        ENVI:[["FMI Open Data","Ilmatieteen laitos","https://en.ilmatieteenlaitos.fi/open-data"]],
        SOCI:[["StatFin","Tilastokeskus","https://stat.fi"]] },
   is:{ REGI:[["Landmælingar Íslands","LMÍ","https://www.lmi.is",1]],
@@ -367,7 +406,8 @@ const NAT_SPECIAL = {
        ENVI:[["DWD Open Data","Deutscher Wetterdienst","https://opendata.dwd.de",1],
              ["Umweltbundesamt","UBA","https://www.umweltbundesamt.de"]],
        SOCI:[["GENESIS","Destatis","https://www-genesis.destatis.de"]] },
-  fr:{ REGI:[["Géoportail","IGN","https://www.geoportail.gouv.fr",1]],
+  fr:{ ORTO:[["Orthophotographies","IGN Géoservices","https://geoservices.ign.fr"]],
+       REGI:[["Géoportail","IGN","https://www.geoportail.gouv.fr",1]],
        ENVI:[["Météo-France données","Météo-France","https://meteo.data.gouv.fr"]],
        SOCI:[["INSEE-datasett","INSEE via data.gouv.fr","https://www.data.gouv.fr/organizations/institut-national-de-la-statistique-et-des-etudes-economiques-insee/datasets",1]] },
   uk:{ REGI:[["OS Data Hub","Ordnance Survey","https://osdatahub.os.uk"],
@@ -375,22 +415,27 @@ const NAT_SPECIAL = {
        ENVI:[["Met Office DataPoint","Met Office","https://www.metoffice.gov.uk/services/data"],
              ["DEFRA Data Services","DEFRA","https://environment.data.gov.uk"]],
        SOCI:[["ONS","Office for National Statistics","https://www.ons.gov.uk"]] },
-  nl:{ REGI:[["PDOK","Kadaster","https://www.pdok.nl",1]],
+  nl:{ ORTO:[["Luchtfoto","PDOK / Beeldmateriaal Nederland","https://www.pdok.nl"]],
+       REGI:[["PDOK","Kadaster","https://www.pdok.nl",1]],
        ENVI:[["KNMI Data Platform","KNMI","https://dataplatform.knmi.nl",1]],
        SOCI:[["StatLine","CBS","https://opendata.cbs.nl"]] },
-  es:{ REGI:[["IDEE","Infraestructura de Datos Espaciales","https://www.idee.es",1]],
+  es:{ ORTO:[["PNOA ortofoto","CNIG / IGN","https://centrodedescargas.cnig.es/CentroDescargas/ortofoto-pnoa-maxima-actualidad",1]],
+       REGI:[["IDEE","Infraestructura de Datos Espaciales","https://www.idee.es",1]],
        ENVI:[["AEMET OpenData","AEMET","https://opendata.aemet.es",1]],
        SOCI:[["INEbase","Instituto Nacional de Estadística","https://www.ine.es/dyngs/DAB/en/index.htm",1]] },
   it:{ REGI:[["Geoportale Nazionale","Ministry of the Environment","https://gn.mase.gov.it",1],
              ["geodati.gov.it","National spatial data register","https://geodati.gov.it",1]],
        ENVI:[["Geoportale ISPRA","ISPRA","https://geoportale.isprambiente.gov.it",1]],
        SOCI:[["Esplora Dati (I.Stat)","ISTAT","https://esploradati.istat.it/databrowser/",1]] },
-  pl:{ REGI:[["Geoportal","GUGiK","https://www.geoportal.gov.pl",1]],
+  pl:{ ORTO:[["Ortofotomapa","GUGiK","https://www.geoportal.gov.pl"]],
+       REGI:[["Geoportal","GUGiK","https://www.geoportal.gov.pl",1]],
        SOCI:[["Bank Danych Lokalnych","GUS","https://bdl.stat.gov.pl"]] },
-  ch:{ REGI:[["data.geo.admin.ch","swisstopo","https://data.geo.admin.ch",1]],
+  ch:{ ORTO:[["SWISSIMAGE","swisstopo","https://www.swisstopo.admin.ch/en/orthoimage-swissimage-10",1]],
+       REGI:[["data.geo.admin.ch","swisstopo","https://data.geo.admin.ch",1]],
        ENVI:[["MeteoSwiss Open Data","MeteoSchweiz","https://opendatadocs.meteoswiss.ch",1]],
        SOCI:[["STAT-TAB","Swiss Federal Statistical Office","https://www.pxweb.bfs.admin.ch/pxweb/en/",1]] },
-  at:{ REGI:[["geoportal.at","National geoportal","https://www.geoportal.at",1]],
+  at:{ ORTO:[["Orthofoto","GeoSphere / basemap.at","https://www.geoportal.at"]],
+       REGI:[["geoportal.at","National geoportal","https://www.geoportal.at",1]],
        ENVI:[["GeoSphere Austria","GeoSphere","https://data.hub.geosphere.at"]],
        SOCI:[["Statistics Austria — open data","Statistik Austria","https://www.statistik.at/en/services/tools/data-access/open-data",1]] },
   ie:{ REGI:[["GeoHive","Tailte Éireann","https://www.geohive.ie",1]],
@@ -399,9 +444,11 @@ const NAT_SPECIAL = {
        SOCI:[["Statbel","Statbel","https://statbel.fgov.be"]] },
   pt:{ REGI:[["SNIG","DGT","https://snig.dgterritorio.gov.pt",1]],
        SOCI:[["INE","INE","https://www.ine.pt"]] },
-  cz:{ REGI:[["geoportal.gov.cz","National geoportal","https://geoportal.gov.cz",1]],
+  cz:{ ORTO:[["Ortofoto ČR","ČÚZK","https://geoportal.gov.cz"]],
+       REGI:[["geoportal.gov.cz","National geoportal","https://geoportal.gov.cz",1]],
        SOCI:[["ČSÚ","Český statistický úřad","https://www.czso.cz"]] },
-  ee:{ REGI:[["Maa-amet geoportaal","Maa-amet","https://geoportaal.maaamet.ee",1]],
+  ee:{ ORTO:[["Ortofoto","Maa-amet","https://geoportaal.maaamet.ee"]],
+       REGI:[["Maa-amet geoportaal","Maa-amet","https://geoportaal.maaamet.ee",1]],
        SOCI:[["Statistikaamet","Statistikaamet","https://www.stat.ee"]] },
   bg:{ REGI:[["Kadastar","Geodesy and Cartography Agency","https://www.cadastre.bg",1]] },
   cy:{ REGI:[["data.gov.cy","DMRID","https://www.data.gov.cy",1]] },
@@ -418,10 +465,18 @@ const NAT_SPECIAL = {
 };
 
 
-const NO_THEMES = {"REGI": {"name": "Kart og geodata", "hint": "terreng, eiendom, arealbruk"}, "ENVI": {"name": "Miljø og klima", "hint": "natur, vær, forurensning"}, "SOCI": {"name": "Befolkning og samfunn", "hint": "demografi, levekår"}, "ECON": {"name": "Økonomi og næring", "hint": "foretak, handel, priser"}, "GOVE": {"name": "Forvaltning", "hint": "registre, budsjett, valg"}, "TRAN": {"name": "Transport", "hint": "veg, kollektiv, sjøfart"}, "HEAL": {"name": "Helse", "hint": "folkehelse, sykdom"}, "ENER": {"name": "Energi", "hint": "kraft, forbruk, nett"}, "AGRI": {"name": "Landbruk og fiskeri", "hint": "jord, skog, hav"}, "EDUC": {"name": "Utdanning", "hint": "skole, forskning"}, "JUST": {"name": "Justis", "hint": "lover, rettsvesen"}, "TECH": {"name": "Forskningsdata", "hint": "publikasjoner, datasett"}, "INTR": {"name": "Internasjonalt", "hint": "bistand, samarbeid"}};
+const NO_THEMES = {"REGI": {"name": "Kart og geodata", "hint": "terreng, eiendom, arealbruk"}, "ORTO": {"name": "Fly- og satellittbilder", "hint": "ortofoto, arealdekke"}, "ENVI": {"name": "Miljø og klima", "hint": "natur, vær, forurensning"}, "SOCI": {"name": "Befolkning og samfunn", "hint": "demografi, levekår"}, "ECON": {"name": "Økonomi og næring", "hint": "foretak, handel, priser"}, "GOVE": {"name": "Forvaltning", "hint": "registre, budsjett, valg"}, "TRAN": {"name": "Transport", "hint": "veg, kollektiv, sjøfart"}, "HEAL": {"name": "Helse", "hint": "folkehelse, sykdom"}, "ENER": {"name": "Energi", "hint": "kraft, forbruk, nett"}, "AGRI": {"name": "Landbruk og fiskeri", "hint": "jord, skog, hav"}, "EDUC": {"name": "Utdanning", "hint": "skole, forskning"}, "JUST": {"name": "Justis", "hint": "lover, rettsvesen"}, "TECH": {"name": "Forskningsdata", "hint": "publikasjoner, datasett"}, "INTR": {"name": "Internasjonalt", "hint": "bistand, samarbeid"}};
 const NO_PLACES = {"EU": "Europa (samlet)", "NORDIC": "Norden", "al": "Albania", "at": "Østerrike", "be": "Belgia", "bg": "Bulgaria", "ch": "Sveits", "cy": "Kypros", "cz": "Tsjekkia", "de": "Tyskland", "dk": "Danmark", "ee": "Estland", "es": "Spania", "fi": "Finland", "fr": "Frankrike", "gr": "Hellas", "hr": "Kroatia", "hu": "Ungarn", "ie": "Irland", "is": "Island", "it": "Italia", "lt": "Litauen", "lu": "Luxembourg", "lv": "Latvia", "md": "Moldova", "me": "Montenegro", "mk": "Nord-Makedonia", "mt": "Malta", "nl": "Nederland", "no": "Norge", "pl": "Polen", "pt": "Portugal", "ro": "Romania", "rs": "Serbia", "se": "Sverige", "si": "Slovenia", "sk": "Slovakia", "ua": "Ukraina", "uk": "Storbritannia"};
 const ORG_NO = {
 "Norwegian Mapping Authority": "Kartverket",
+"Kartverket — fri visning, nedlasting krever Norge digitalt": "Kartverket – fri visning, nedlasting krever Norge digitalt",
+"ESA and EU": "ESA og EU",
+"CNIG / IGN": "Spanias kartverk",
+"PDOK / Beeldmateriaal Nederland": "Nederlands kartverk",
+"Dataforsyningen": "Klimadatastyrelsen",
+"IGN Géoservices": "Frankrikes kartverk",
+"GeoSphere / basemap.at": "Østerrikes geoinstitutt",
+"Sinergise": "Sinergise",
 "Norwegian Meteorological Institute": "Meteorologisk institutt",
 "Norwegian Environment Agency": "Miljødirektoratet",
 "Norwegian Institute of Public Health": "Folkehelseinstituttet",
@@ -515,7 +570,108 @@ const NAME_NO = {
 "Open Data Albania": "Open Data Albania"
 };
 
-const UI = {"en": {"lede": "Catalogue of open data sources across Europe", "step1": "1 — Country or region", "step2": "2 — Theme", "selectLabel": "Choose a country or region", "regions": "Regions", "countries": "Countries", "intro": "Pick a theme below and Pharos will point you to the right portal.", "special": "Specialist source", "single": "Held in the national portal", "unmapped": "Not mapped in detail", "confirmed": "✓ confirmed", "unconfirmed": "unconfirmed", "confirmedTitle": "Address checked against an independent source", "unconfirmedTitle": "Agency is probably right, address unconfirmed", "go": "Go to the portal ↗", "other": "Other sources", "foot1": "A curated catalogue of official open data sources in Europe. All 37 countries have a national portal; 55 of about 100 sources have been confirmed against an independent source; the rest are marked unconfirmed.", "madeBy": "Made by", "footLabel": "On the labels:", "foot2": "“Confirmed” means the address has been checked against an independent source as the right entry point to that agency’s data. “Unconfirmed” means the agency is probably right, but the address may lead to a front page rather than to the datasets. Links point to each source’s own site; Pharos stores no data itself."}, "no": {"lede": "Katalog over kilder til åpne data i Europa", "step1": "1 — Land eller region", "step2": "2 — Tema", "selectLabel": "Velg land eller region", "regions": "Regioner", "countries": "Land", "intro": "Velg et tema under, så peker Pharos deg til riktig portal.", "special": "Spesialkilde", "single": "Samlet i nasjonalportalen", "unmapped": "Ikke kartlagt i detalj", "confirmed": "✓ bekreftet", "unconfirmed": "ikke bekreftet", "confirmedTitle": "Adressen er bekreftet mot en uavhengig kilde", "unconfirmedTitle": "Etaten er trolig riktig, adressen er ikke bekreftet", "go": "Gå til portalen ↗", "other": "Andre kilder", "foot1": "Kuratert katalog over offisielle kilder til åpne data i Europa. Alle 37 land har nasjonalportal; 55 av rundt 100 kilder er bekreftet mot en uavhengig kilde; resten er merket ubekreftet.", "madeBy": "Laget av", "footLabel": "Om merkingen:", "foot2": "«Bekreftet» betyr at adressen er kontrollert mot en uavhengig kilde som riktig inngang til etatens data. «Ikke bekreftet» betyr at etaten trolig er riktig, men at adressen kan peke til en forside i stedet for til datasettene. Lenkene peker til kildens egne sider; Pharos lagrer ingen data selv."}};
+const TOOLS = [
+{
+"g": {
+"no": "Farge",
+"en": "Colour"
+},
+"items": [
+{
+"n": "ColorBrewer",
+"u": "https://colorbrewer2.org",
+"no": "Fargeskalaer laget for kart, med filtre for fargeblindhet og trykk.",
+"en": "Colour scales built for maps, with filters for colour blindness and print."
+},
+{
+"n": "Chroma.js Color Scale Helper",
+"u": "https://gka.github.io/palettes/",
+"no": "Bygg egne skalaer med jevn oppfattet lyshet.",
+"en": "Build custom scales with even perceived lightness."
+},
+{
+"n": "Viz Palette",
+"u": "https://projects.susielu.com/viz-palette",
+"no": "Tester hvordan paletten din ser ut for fargeblinde.",
+"en": "Tests how your palette reads for colour-blind viewers."
+}
+]
+},
+{
+"g": {
+"no": "Projeksjon",
+"en": "Projection"
+},
+"items": [
+{
+"n": "Projection Wizard",
+"u": "https://projectionwizard.org",
+"no": "Foreslår projeksjon ut fra område og forvrengning, med PROJ-streng.",
+"en": "Suggests a projection from extent and distortion, with a PROJ string."
+},
+{
+"n": "The True Size Of",
+"u": "https://www.thetruesize.com",
+"no": "Dra land rundt på kartet og se hvordan de vokser og krymper.",
+"en": "Drag countries across the map and watch them grow and shrink."
+},
+{
+"n": "Compare Map Projections",
+"u": "https://map-projections.net",
+"no": "Sammenligner projeksjoner side ved side med Tissots indikatriser.",
+"en": "Compares projections side by side using Tissot's indicatrices."
+}
+]
+},
+{
+"g": {
+"no": "Geometri og data",
+"en": "Geometry and data"
+},
+"items": [
+{
+"n": "Mapshaper",
+"u": "https://mapshaper.org",
+"no": "Forenkler, konverterer og slår sammen geometri i nettleseren.",
+"en": "Simplifies, converts and merges geometry in the browser."
+},
+{
+"n": "geojson.io",
+"u": "https://geojson.io",
+"no": "Tegn eller inspiser GeoJSON raskt.",
+"en": "Draw or inspect GeoJSON quickly."
+},
+{
+"n": "Natural Earth",
+"u": "https://www.naturalearthdata.com",
+"no": "Frie bakgrunnsdata i liten målestokk, laget for kartografi.",
+"en": "Free small-scale base data, made for cartography."
+}
+]
+},
+{
+"g": {
+"no": "Utforsking",
+"en": "Exploration"
+},
+"items": [
+{
+"n": "earth :: nullschool",
+"u": "https://earth.nullschool.net",
+"no": "Animert globus med vind, vær, havstrømmer og luftkvalitet i sanntid.",
+"en": "Animated globe of live wind, weather, ocean currents and air quality."
+},
+{
+"n": "Macrostrat",
+"u": "https://macrostrat.org/map/",
+"no": "Geologisk kart over hele kloden, lagvis.",
+"en": "Geological map of the whole planet, layer by layer."
+}
+]
+}
+];
+
+const UI = {"en": {"lede": "Catalogue of open data sources across Europe", "step1": "1 — Country or region", "step2": "2 — Theme", "selectLabel": "Choose a country or region", "regions": "Regions", "countries": "Countries", "intro": "Pick a theme below and Pharos will point you to the right portal.", "special": "Specialist source", "single": "Held in the national portal", "unmapped": "Not mapped in detail", "confirmed": "✓ confirmed", "unconfirmed": "unconfirmed", "confirmedTitle": "Address checked against an independent source", "unconfirmedTitle": "Agency is probably right, address unconfirmed", "go": "Go to the portal ↗", "other": "Other sources", "foot1": "A curated catalogue of official open data sources in Europe. All 37 countries have a national portal; 55 of about 100 sources have been confirmed against an independent source; the rest are marked unconfirmed.", "tools": "Other useful sites", "toolsNote": "Tools for making and reading maps. Not data sources.", "madeBy": "Developed by", "footLabel": "On the labels:", "foot2": "“Confirmed” means the address has been checked against an independent source as the right entry point to that agency’s data. “Unconfirmed” means the agency is probably right, but the address may lead to a front page rather than to the datasets. Links point to each source’s own site; Pharos stores no data itself."}, "no": {"lede": "Katalog over kilder til åpne data i Europa", "step1": "1 — Land eller region", "step2": "2 — Tema", "selectLabel": "Velg land eller region", "regions": "Regioner", "countries": "Land", "intro": "Velg et tema under, så peker Pharos deg til riktig portal.", "special": "Spesialkilde", "single": "Samlet i nasjonalportalen", "unmapped": "Ikke kartlagt i detalj", "confirmed": "✓ bekreftet", "unconfirmed": "ikke bekreftet", "confirmedTitle": "Adressen er bekreftet mot en uavhengig kilde", "unconfirmedTitle": "Etaten er trolig riktig, adressen er ikke bekreftet", "go": "Gå til portalen ↗", "other": "Andre kilder", "foot1": "Kuratert katalog over offisielle kilder til åpne data i Europa. Alle 37 land har nasjonalportal; 55 av rundt 100 kilder er bekreftet mot en uavhengig kilde; resten er merket ubekreftet.", "tools": "Andre nyttige nettsider", "toolsNote": "Verktøy for å lage og lese kart. Ikke datakilder.", "madeBy": "Utviklet av", "footLabel": "Om merkingen:", "foot2": "«Bekreftet» betyr at adressen er kontrollert mot en uavhengig kilde som riktig inngang til etatens data. «Ikke bekreftet» betyr at etaten trolig er riktig, men at adressen kan peke til en forside i stedet for til datasettene. Lenkene peker til kildens egne sider; Pharos lagrer ingen data selv."}};
 
 let lang = "no";
 let place = "no", theme = null;
@@ -556,6 +712,9 @@ function applyLang(){
   document.getElementById('foot1').textContent     = t('foot1');
   document.getElementById('footLabel').textContent = t('footLabel');
   document.getElementById('madeBy').textContent    = t('madeBy');
+  document.getElementById('toolsTitle').textContent= t('tools');
+  document.getElementById('toolsNote').textContent = t('toolsNote');
+  buildTools();
   document.getElementById('foot2').textContent     = ' ' + t('foot2');
   placeEl.setAttribute('aria-label', t('selectLabel'));
   buildPlaces();
@@ -571,6 +730,18 @@ document.querySelectorAll('.langs button').forEach(b => {
     applyLang();
   };
 });
+
+function buildTools(){
+  document.getElementById('toolsBody').innerHTML = TOOLS.map(g => `
+    <div class="tool-group">
+      <h3>${esc(g.g[lang])}</h3>
+      ${g.items.map(i => `
+        <a class="tool" href="${esc(i.u)}" target="_blank" rel="noopener">
+          <span class="tool-n">${esc(i.n)}</span>
+          <p class="tool-d">${esc(i[lang])}</p>
+        </a>`).join('')}
+    </div>`).join('');
+}
 
 function buildPlaces(){
   placeEl.innerHTML = '';
