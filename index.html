@@ -3,28 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pharos — katalog over åpne data i Europa</title>
+<title>Varde — katalog over åpne data i Europa</title>
 <meta name="description" content="Katalog over kilder til åpne data i Europa">
 <link rel="canonical" href="https://u9ts.github.io/">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Pharos">
+<meta property="og:site_name" content="Varde">
 <meta property="og:url" content="https://u9ts.github.io/">
-<meta property="og:title" content="Pharos — katalog over åpne data i Europa">
+<meta property="og:title" content="Varde — katalog over åpne data i Europa">
 <meta property="og:description" content="Katalog over kilder til åpne data i Europa">
 <meta property="og:image" content="https://u9ts.github.io/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="PHAROS skrevet i ASCII mot svart bakgrunn">
+<meta property="og:image:alt" content="VARDE skrevet i ASCII mot svart bakgrunn">
 <meta property="og:locale" content="nb_NO">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Pharos — katalog over åpne data i Europa">
+<meta name="twitter:title" content="Varde — katalog over åpne data i Europa">
 <meta name="twitter:description" content="Katalog over kilder til åpne data i Europa">
 <meta name="twitter:image" content="https://u9ts.github.io/og-image.png">
 <meta name="theme-color" content="#0b0b0b">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0b0b'/%3E%3Cpath d='M11 25 L13 11 L19 11 L21 25 Z' fill='none' stroke='%23fff' stroke-width='1.8'/%3E%3Crect x='12.5' y='5' width='7' height='6' fill='none' stroke='%23fff' stroke-width='1.8'/%3E%3Cpath d='M21 6 L29 3 M21 10 L29 13 M11 6 L3 3 M11 10 L3 13' stroke='%23fff' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0b0b'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='1.6' stroke-linejoin='round'%3E%3Cpath d='M13 7 L19 7 L20 11 L12 11 Z'/%3E%3Cpath d='M10 11 L22 11 L23 16 L9 16 Z'/%3E%3Cpath d='M7 16 L25 16 L27 23 L5 23 Z'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Chakra+Petch:ital,wght@1,500&display=swap" rel="stylesheet">
 <style>
   :root{
     /* Terminal: nesten svart, hvit tekst, ingen kulør. */
@@ -76,7 +76,7 @@
 
 
   /* ---------- hero ---------- */
-  header.hero{ padding:56px 0 30px; text-align:center; position:relative; overflow:hidden; }
+  header.hero{ padding:44px 0 26px; text-align:center; position:relative; overflow:hidden; }
   header.hero::before{
     content:""; position:absolute; top:-50px; left:50%;
     width:660px; height:330px; transform:translateX(-50%);
@@ -87,20 +87,48 @@
   }
   .hero .wrap{ position:relative; }
 
+  pre.globe{
+    font-family:"JetBrains Mono","SF Mono",Menlo,Consolas,monospace;
+    font-size:clamp(6px, 1.15vw, 10px);
+    line-height:1.0;
+    color:var(--ice);
+    display:block; width:max-content;
+    margin:0 auto -4.2em;
+    text-align:left; white-space:pre;
+    cursor:grab; user-select:none;
+    opacity:0.85;
+  }
+  pre.globe:active{ cursor:grabbing; }
+  @media (max-width:640px){ pre.globe{ font-size:5px; margin:0 auto -4.2em; } }
+
   pre.wordmark{
     font-family:"JetBrains Mono","SF Mono",Menlo,Consolas,monospace;
     line-height:1.05;
     color:var(--glow);
-    margin:0 0 20px;
+    margin:0;
     text-align:left; white-space:pre;
+    position:relative;
+    pointer-events:none;
   }
-  pre.wordmark.slant{ display:inline-block; font-size:clamp(11px, 1.9vw, 16px); }
-  pre.wordmark.compact{ display:none; font-size:clamp(13px, 4.2vw, 18px); }
+  pre.wordmark.slant{ display:block; width:max-content; margin:0 auto; font-size:clamp(11px, 1.9vw, 16px); }
+  pre.wordmark.compact{ display:none; width:max-content; margin:0 auto; font-size:clamp(13px, 4.2vw, 18px); }
   @media (max-width:620px){
     pre.wordmark.slant{ display:none; }
-    pre.wordmark.compact{ display:inline-block; }
+    pre.wordmark.compact{ display:block; }
   }
-  .lede{ font-size:1rem; color:var(--text-soft); max-width:54ch; margin:0 auto; }
+  .lede{
+    font-family:"Chakra Petch",-apple-system,"Segoe UI",sans-serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:1.06rem;
+    letter-spacing:0.012em;
+    line-height:1.5;
+    color:var(--ice);
+    max-width:54ch; margin:0 auto;
+  }
+  @media (max-width:640px){
+    .lede{ font-size:0.96rem; }
+  }
 
   /* ---------- panel ---------- */
   .panel{
@@ -108,14 +136,42 @@
     border:1px solid var(--line); border-radius:4px;
     box-shadow:0 24px 60px -24px rgba(0,0,0,0.75);
   }
+  .info{
+    padding:17px 26px;
+    text-align:center;
+    background:linear-gradient(90deg,
+      rgba(169,211,227,0) 0%, rgba(169,211,227,0.07) 50%, rgba(169,211,227,0) 100%);
+    border-bottom:1px solid var(--line);
+  }
+  .info .lede{ margin:0 auto; text-align:center; }
+
   .step{ padding:24px 26px; border-bottom:1px solid var(--line); }
   .step-label{
     font-family:"JetBrains Mono",monospace;
     font-size:0.74rem; letter-spacing:0.09em; text-transform:uppercase;
     color:var(--ice); margin:0 0 12px;
   }
+  .place-row{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(178px,1fr));
+    gap:8px; align-items:center;
+  }
+  .coords{
+    grid-column:-2 / -1; justify-self:end;
+    font-family:"JetBrains Mono","SF Mono",Menlo,Consolas,monospace;
+    font-size:0.76rem; letter-spacing:0.06em;
+    color:var(--ice); background:none; border:none; padding:4px 0;
+    cursor:pointer; white-space:nowrap;
+  }
+  .coords:hover{ color:var(--glow); }
+  .coords:focus-visible{ outline:2px solid var(--ice); outline-offset:3px; }
+  .coords.set{ cursor:default; opacity:0.85; }
+  .coords.set:hover{ color:var(--ice); }
+  @media (max-width:640px){ .coords{ grid-column:1 / -1; justify-self:start; } }
+
   select{
-    font-family:inherit; font-size:1rem; width:100%; max-width:420px;
+    font-family:inherit; font-size:1rem;
+    grid-column:1 / 2; width:100%; min-width:0;
     padding:11px 14px; color:var(--text);
     background:rgba(0,0,0,0.22); border:1px solid rgba(255,255,255,0.26);
     border-radius:2px; cursor:pointer;
@@ -214,6 +270,11 @@
   .tool:hover .tool-n{ color:var(--glow); }
   .tool-n{ font-weight:600; font-size:0.94rem; color:var(--brass); }
   .tool-d{ font-size:0.85rem; color:var(--text-soft); margin:2px 0 0; }
+  .tool-c{
+    font-family:"JetBrains Mono",monospace;
+    font-size:0.7rem; letter-spacing:0.04em; color:var(--text-faint);
+    margin-left:9px;
+  }
   .tools[open]{ padding-bottom:22px; }
 
   footer{ border-top:1px solid var(--line); padding:20px 26px 28px; font-size:0.8rem; color:var(--text-faint); }
@@ -223,11 +284,13 @@
     border-top:1px solid var(--line);
     font-size:0.78rem; color:var(--text-faint);
   }
+  .made-by .sep{ margin:0 8px; opacity:0.5; }
+  .weather-note{ margin:12px 0 0; font-size:0.76rem; color:var(--text-faint); }
   footer b{ color:var(--text-soft); }
 
   @media (max-width:640px){
     .panel{ margin:0 12px 40px; }
-    header.hero{ padding:34px 0 22px; }
+    header.hero{ padding:24px 0 18px; }
   }
 </style>
 </head>
@@ -235,20 +298,24 @@
 
 <header class="hero">
   <div class="wrap">
-<pre class="wordmark slant" role="img" aria-label="Pharos">    ____  __  _____    ____  ____  _____
-   / __ \/ / / /   |  / __ \/ __ \/ ___/
-  / /_/ / /_/ / /| | / /_/ / / / /\__ \ 
- / ____/ __  / ___ |/ _, _/ /_/ /___/ / 
-/_/   /_/ /_/_/  |_/_/ |_|\____//____/  </pre>
-<pre class="wordmark compact" role="img" aria-label="Pharos"> ___ _  _   _   ___  ___  ___ 
-| _ \ || | /_\ | _ \/ _ \/ __|
-|  _/ __ |/ _ \|   / (_) \__ \
-|_| |_||_/_/ \_\_|_\\___/|___/</pre>
-    <p class="lede" id="lede">Katalog over kilder til åpne data i Europa</p>
+<pre class="globe" id="globe" aria-hidden="true"></pre>
+<pre class="wordmark slant" role="img" aria-label="Varde">    _    __ ___    ____   ____   ______
+   | |  / //   |  / __ \ / __ \ / ____/
+   | | / // /| | / /_/ // / / // __/   
+   | |/ // ___ |/ _, _// /_/ // /___   
+   |___//_/  |_/_/ |_|/_____//_____/   </pre>
+<pre class="wordmark compact" role="img" aria-label="Varde"> _   _   _   ___  ___  ___ 
+| | | | /_\ | _ \|   \| __|
+| |_| |/ _ \|   /| |) | _| 
+ \___//_/ \_\_|_\|___/|___|</pre>
   </div>
 </header>
 
 <div class="panel">
+  <div class="info">
+    <p class="lede" id="lede">Katalog over kilder til åpne data i Europa</p>
+  </div>
+
   <div class="step">
     <div class="step-top">
       <p class="step-label" id="lbl-step1">1 — Land eller region</p>
@@ -257,11 +324,14 @@
         <button type="button" data-lang="en" aria-pressed="false">EN</button>
       </div>
     </div>
-    <select id="place" aria-label="Velg land eller region"></select>
+    <div class="place-row">
+      <select id="place" aria-label="Velg land eller region"></select>
+      <button type="button" class="coords" id="coords">— — —</button>
+    </div>
   </div>
 
   <div class="step">
-    <p class="step-label" id="lbl-step2">2 — Tema</p>
+    <p class="step-label" id="lbl-step2">2 — Velg tema</p>
     <div class="themes" id="themes"></div>
   </div>
 
@@ -273,10 +343,21 @@
     <div id="toolsBody"></div>
   </details>
 
+  <details class="tools" id="orgsBox">
+    <summary><span id="orgsTitle">Fagmiljøer og foreninger</span></summary>
+    <p class="tools-note" id="orgsNote"></p>
+    <div id="orgsBody"></div>
+  </details>
+
   <footer>
     <p id="foot1"></p>
     <p style="margin-top:10px"><b id="footLabel"></b><span id="foot2"></span></p>
-    <p class="made-by"><span id="madeBy">Utviklet av</span> <a href="https://github.com/u9ts" target="_blank" rel="noopener">u9ts</a></p>
+    <p class="weather-note" id="weatherNote"></p>
+    <p class="made-by"><span id="madeBy">Utviklet av</span>
+    <a href="https://github.com/u9ts" target="_blank" rel="noopener">u9ts</a>
+    <span class="sep">·</span>
+    <span id="licenseTxt">Åpen kildekode under</span>
+    <a href="https://github.com/u9ts/u9ts.github.io/blob/main/LICENSE" target="_blank" rel="noopener">MIT-lisens</a></p>
   </footer>
 </div>
 
@@ -677,9 +758,277 @@ const TOOLS = [
 }
 ];
 
-const UI = {"en": {"lede": "Catalogue of open data sources across Europe", "step1": "1 — Country or region", "step2": "2 — Theme", "selectLabel": "Choose a country or region", "regions": "Regions", "countries": "Countries", "intro": "Pick a theme below and Pharos will point you to the right portal.", "special": "Specialist source", "single": "Held in the national portal", "unmapped": "Not mapped in detail", "confirmed": "✓ confirmed", "unconfirmed": "unconfirmed", "confirmedTitle": "Address checked against an independent source", "unconfirmedTitle": "Agency is probably right, address unconfirmed", "go": "Go to the portal ↗", "other": "Other sources", "foot1": "A curated catalogue of official open data sources in Europe. All 37 countries have a national portal; 55 of about 100 sources have been confirmed against an independent source; the rest are marked unconfirmed.", "tools": "Other useful sites", "toolsNote": "Tools for making and reading maps. Not data sources.", "madeBy": "Developed by", "footLabel": "On the labels:", "foot2": "“Confirmed” means the address has been checked against an independent source as the right entry point to that agency’s data. “Unconfirmed” means the agency is probably right, but the address may lead to a front page rather than to the datasets. Links point to each source’s own site; Pharos stores no data itself."}, "no": {"lede": "Katalog over kilder til åpne data i Europa", "step1": "1 — Land eller region", "step2": "2 — Tema", "selectLabel": "Velg land eller region", "regions": "Regioner", "countries": "Land", "intro": "Velg et tema under, så peker Pharos deg til riktig portal.", "special": "Spesialkilde", "single": "Samlet i nasjonalportalen", "unmapped": "Ikke kartlagt i detalj", "confirmed": "✓ bekreftet", "unconfirmed": "ikke bekreftet", "confirmedTitle": "Adressen er bekreftet mot en uavhengig kilde", "unconfirmedTitle": "Etaten er trolig riktig, adressen er ikke bekreftet", "go": "Gå til portalen ↗", "other": "Andre kilder", "foot1": "Kuratert katalog over offisielle kilder til åpne data i Europa. Alle 37 land har nasjonalportal; 55 av rundt 100 kilder er bekreftet mot en uavhengig kilde; resten er merket ubekreftet.", "tools": "Andre nyttige nettsider", "toolsNote": "Verktøy for å lage og lese kart. Ikke datakilder.", "madeBy": "Utviklet av", "footLabel": "Om merkingen:", "foot2": "«Bekreftet» betyr at adressen er kontrollert mot en uavhengig kilde som riktig inngang til etatens data. «Ikke bekreftet» betyr at etaten trolig er riktig, men at adressen kan peke til en forside i stedet for til datasettene. Lenkene peker til kildens egne sider; Pharos lagrer ingen data selv."}};
+const ORGS = [
+{
+"g": {
+"no": "Norden",
+"en": "Nordics"
+},
+"items": [
+{
+"n": "GeoForum",
+"u": "https://www.geoforum.no",
+"cno": "Norge",
+"cen": "Norway",
+"no": "Norsk interesseorganisasjon for alle som jobber med geografisk informasjon.",
+"en": "Norwegian member organisation for everyone working with geographic information."
+},
+{
+"n": "Geoforum Danmark",
+"u": "https://geoforum.dk",
+"cno": "Danmark",
+"cen": "Denmark",
+"no": "Dansk fagforening for geografisk informasjon, med medlemmer fra offentlig og privat sektor. Gir ut tidsskriftet Geoforum Perspektiv.",
+"en": "Danish professional association for geographic information, spanning public bodies, companies and researchers."
+},
+{
+"n": "ULI Geoforum",
+"u": "https://geoforum.se",
+"cno": "Sverige",
+"cen": "Sweden",
+"no": "Uavhengig nasjonal forening for geografisk informasjon og GIS. Jobber for dialog mellom brukere, produsenter og beslutningstakere.",
+"en": "Independent national association for geographic information and GIS, connecting users, producers and decision makers."
+}
+]
+},
+{
+"g": {
+"no": "Vest-Europa",
+"en": "Western Europe"
+},
+"items": [
+{
+"n": "AGI",
+"u": "https://www.agi.org.uk",
+"cno": "Storbritannia",
+"cen": "United Kingdom",
+"no": "Uavhengig organisasjon som representerer hele den britiske geomatikkbransjen.",
+"en": "Independent body representing the UK geospatial sector."
+},
+{
+"n": "Afigéo",
+"u": "https://www.afigeo.asso.fr",
+"cno": "Frankrike",
+"cen": "France",
+"no": "Fransk forening for geografisk informasjon, stiftet i 1986. Samler offentlige etater, bedrifter og forskningsmiljøer.",
+"en": "French association for geographic information, founded 1986, spanning agencies, industry and research."
+},
+{
+"n": "DVW",
+"u": "https://www.dvw.de",
+"cno": "Tyskland",
+"cen": "Germany",
+"no": "Tysk forening for geodesi, geoinformasjon og arealforvaltning. Står bak Intergeo, Europas største geomatikkmesse.",
+"en": "German association for geodesy, geoinformation and land management. Organises Intergeo, Europe's largest geospatial event."
+},
+{
+"n": "Geo-Informatie Nederland",
+"u": "https://geoinformatienederland.nl",
+"cno": "Nederland",
+"cen": "Netherlands",
+"no": "Nederlandsk fagforening og åpent kunnskapsnettverk for alle som jobber profesjonelt med geoinformasjon.",
+"en": "Dutch professional association and open knowledge network for geo-information practitioners."
+}
+]
+},
+{
+"g": {
+"no": "Europeisk nivå",
+"en": "Europe-wide"
+},
+"items": [
+{
+"n": "AGILE",
+"u": "https://agile-online.org",
+"cno": "Forskningsmiljøer",
+"cen": "Research community",
+"no": "Samler universiteter og forskningslaboratorier innen geografisk informasjonsvitenskap. Arrangerer en årlig konferanse.",
+"en": "Networks universities and research labs in geographic information science, with an annual conference."
+},
+{
+"n": "EUROGEO",
+"u": "https://www.eurogeography.eu",
+"cno": "Geografer",
+"cen": "Geographers",
+"no": "Europeisk vitenskapelig forening som knytter sammen geografer på tvers av landegrensene.",
+"en": "European scientific society networking geographers across borders."
+},
+{
+"n": "EGEA",
+"u": "https://egea.eu",
+"cno": "Studenter",
+"cen": "Students",
+"no": "Nettverk for geografistudenter og unge geografer, med utveksling og ekskursjoner. Stiftet i 1987.",
+"en": "Network for geography students and early-career geographers, with exchanges and field trips. Founded 1987."
+}
+]
+}
+];
+
+const UI = {"en": {"lede": "Catalogue of open data sources across Europe", "step1": "1 — Country or region", "step2": "2 — Choose theme", "selectLabel": "Choose a country or region", "regions": "Regions", "countries": "Countries", "intro": "Pick a theme below and Varde will point you to the right portal.", "special": "Specialist source", "single": "Held in the national portal", "unmapped": "Not mapped in detail", "confirmed": "✓ confirmed", "unconfirmed": "unconfirmed", "confirmedTitle": "Address checked against an independent source", "unconfirmedTitle": "Agency is probably right, address unconfirmed", "go": "Go to the portal ↗", "other": "Other sources", "foot1": "A curated catalogue of official open data sources in Europe. All 37 countries have a national portal; 55 of about 100 sources have been confirmed against an independent source; the rest are marked unconfirmed.", "orgs": "Professional bodies", "orgsNote": "Member organisations for people working with geographic information.", "tools": "Other useful sites", "toolsNote": "Tools for making and reading maps. Not data sources.", "license": "Open source under the", "madeBy": "Developed by", "footLabel": "On the labels:", "weatherNote": "Position and weather are fetched only when you ask for it. Weather from Open-Meteo.", "foot2": "“Confirmed” means the address has been checked against an independent source as the right entry point to that agency’s data. “Unconfirmed” means the agency is probably right, but the address may lead to a front page rather than to the datasets. Links point to each source’s own site; Varde stores no data itself."}, "no": {"lede": "Katalog over kilder til åpne data i Europa", "step1": "1 — Land eller region", "step2": "2 — Velg tema", "selectLabel": "Velg land eller region", "regions": "Regioner", "countries": "Land", "intro": "Velg et tema under, så peker Varde deg til riktig portal.", "special": "Spesialkilde", "single": "Samlet i nasjonalportalen", "unmapped": "Ikke kartlagt i detalj", "confirmed": "✓ bekreftet", "unconfirmed": "ikke bekreftet", "confirmedTitle": "Adressen er bekreftet mot en uavhengig kilde", "unconfirmedTitle": "Etaten er trolig riktig, adressen er ikke bekreftet", "go": "Gå til portalen ↗", "other": "Andre kilder", "foot1": "Kuratert katalog over offisielle kilder til åpne data i Europa. Alle 37 land har nasjonalportal; 55 av rundt 100 kilder er bekreftet mot en uavhengig kilde; resten er merket ubekreftet.", "orgs": "Fagmiljøer og foreninger", "orgsNote": "Interesseorganisasjoner for folk som jobber med geografisk informasjon.", "tools": "Andre nyttige nettsider", "toolsNote": "Verktøy for å lage og lese kart. Ikke datakilder.", "license": "Åpen kildekode under", "madeBy": "Utviklet av", "footLabel": "Om merkingen:", "weatherNote": "Posisjon og vær hentes bare når du selv ber om det. Værdata fra Open-Meteo.", "foot2": "«Bekreftet» betyr at adressen er kontrollert mot en uavhengig kilde som riktig inngang til etatens data. «Ikke bekreftet» betyr at etaten trolig er riktig, men at adressen kan peke til en forside i stedet for til datasettene. Lenkene peker til kildens egne sider; Varde lagrer ingen data selv."}};
+
+/* ---------- ASCII-klode ----------
+   Strålekast mot kule, oppslag i pakket landmaske (1 bit per grad),
+   og to adskilte tegnramper for land og hav.                        */
+(function(){
+  const el = document.getElementById('globe');
+  if(!el) return;
+
+  const MASK = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//gAAD//4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB//////Hf///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAf/////////////AAAAAAAAAAAAAAAAAHAAAAAAAAAAAAAAAAAAAAAAAAAAAB/////////////wAAAAX/8AAP8AAAAAAfwAAAAAAAAAAAAAAAAAAAAAAAAAOB////g////////AAAAD//wAAAAAAAAAAH/gAAAAAAAAAAAAAAAAAAAAAAAeP3vv/7////////+AAAAB//AAAAAAAAAAAAf8AAAAAAAAAAAAAAAAAAAAAA8+AL4f/g////////+AAAAAfvgAAAAAAAAAAAF+AAAAAAAAAAAAAAAAAAAAAH/3R////gP////////AAAAAHAAAAAAAf4AAAHP//AAAA8AAAAAAAAAAAAAAACP/5///8AAAf/////+AAAAAAAAAAAAf+AAAH////gAAD//gAAAAAAAAAAAAAf4+AN//+AAAP/////+AAAAAAAAAAAAeAAAAP///4AAAA/nAAAAAAAAAAAAAAf/B8///3wAAH/////8AAAAAAAAAAAB4AEAP//////H4AfAAAAAAAAAAAAAAA//+5/9//4AAD/////wAAAAAAAAAAAHwAHt////////8Af/AAAAA4AABgAAAA///8f8///AAD/////wAAAAAAAiAAAHwA//////////8///gQAADwAA//+gAOYf//1+///+AB/////4AAAAAAH/wAAB8A/v/////////////8AIDAAD///+P/////v/j///AB////+AAAAAAAf//gAAA+/////////////////P+4Af//////////H/z4f/AAf///4AAAAAAD///4eB//////////////////////AH/////////////45/wA///8AAAAAAAP////e///////////////////////4f/////////////gD/+A///wAycAAAAf//////////////////////////////////////////7g/+4Af//AB/+AAAA/+f+f///////////////////////jwf/////////////9//oAf/wAA/8AAAD/8//////////////////////////APH////////////PcB/wAP/gAAfgAAAP/3/////////////////////////+ACP////////////A///gAD/AAAAAAAB//H//////////////////////////AAf///////////wAG/5AAD/AAAAAAAD//H/////////////////////////gAA////////////wAA/4QAB+AAAAAAAB//n//////////////////////D/+AAAb/zwn///////wAA/44AAAAAAAAAAB//D//////////////////////D6IAAAAv4AA///////4AB//8AAAAAAAAA4B5/B///////////////////4AYPgAAAAAH8AAD///////AAf/8AAAAAAAAA+AP+H///////////////////gAA/wAAAAAfQAAB///////wAf/+AAAAAAAAB8AO8H///////////////////AAB/wAAAAD8AAAA////////x///gAAAAAAAD8AP4H//////////////////+AAB/AAAAAGAAAAD////////z///4AAAAAAAH/AP////////////////////+yAB/gAAAAAAAAADP///////x///+AAAAAAAPfj//////////////////////+AB+AAAAAAAAAABv///////5///+AAAAAAAPfz///////////////////////AA4AAAAAAAAAAAD///////////+AAAAAAAM/////////////////////////AA4AAAAAAAAAAAH///////////MAAAAAAAA////////////////////////7AAAAAAAAAAAAAAH//////////+fgAAAAAAAj///////////////////////7AAAAAAAAAAAAAAA//////////w/wAAAAAAAf///////////////////////+gAAAAAAAAAAAAAAf/////////x/wAAAAAAAf////////7//////////////yAAAAAAAAAAAAAAAf/////////9DgAAAAAAAD////////g//////////////nAAAAAAAAAAAAAAAP//////////gAAAAAAAAD/////P/+A/////////////+GAAAAAAAAAAAAAAAP/////////4AAAAAAAAAD/////Hf8D/////////////8HQAAAAAAAAAAAAAAf////////5gAAAAAAAAP//3z/+AH+D/////////////8PwAAAAAAAAAAAAAAf////////wAAAAAAAAAH/4P5/8HB+A////////////+wfgAAAAAAAAAAAAAAf////////4AAAAAAAAAP/8M+f//n/Af///////////8AdAAAAAAAAAAAAAAAf////////gAAAAAAAAAH/gMP/////gf///////////8AcAAAAAAAAAAAAAAAP///////8AAAAAAAAAAP/AMH/P///g///////////fwAMAAAAAAAAAAAAAAAP///////8AAAAAAAAAAP/gI/Pv///A//////////+T4AYAAAAAAAAAAAAAAAH///////4AAAAAAAAAAH/A3+Hn///g///////////78C4AAAAAAAAAAAAAAAD///////4AAAAAAAAAAH8//MHH///w///////////48D4AAAAAAAAAAAAAAAB///////4AAAAAAAAAAB//+AB4P//////////////A8/4AAAAAAAAAAAAAAAB///////wAAAAAAAAAAB//+AAgP//////////////g7/gAAAAAAAAAAAAAAAAf//////AAAAAAAAAAAH///AAAB//////////////gH8AAAAAAAAAAAAAAAAAP/////8AAAAAAAAAAAP///8PAD//////////////wHwAAAAAAAAAAAAAAAAAH/////4AAAAAAAAAAAP///+f/7//////////////wDAAAAAAAAAAAAAAAAAAH/////4AAAAAAAAAAAP/////////////////////wAAAAAAAAAAAAAAAAAAAD////i8AAAAAAAAAAAf/////////////////////4AAAAAAAAAAAAAAAAAAAB///gAcAAAAAAAAAAB//////////v///////////wAAAAAAAAAAAAAAAAAAAD//+AAcgAAAAAAAAAD//////////3///////////gAAAAAAAAAAAAAAAAAAAA7/+AAdwAAAAAAAAAH///////+//9///////////AAAAAAAAAAAAAAAAAAAAAf/+AANgAAAAAAAAAH///////+//8f//////////QAAAAAAAAAAAAAAAAAAAAc/+AABgAAAAAAAAAP///////+f//4Af///////+wAAAAAAAAAAAAAAAAAAAAGf+AAcgAAAAAAAAAf////////P//+Af///////8wAAAAAAAAAAAAIAAAAAAAGf+AB/gAAAAAAAAAf////////n///AH///////wwAAAAAAAAAAAAPAAAAAAAAP+A9H4AAAAAAAAA/////////3///AD///v//8AgAAAAAAAAAAAABgAAAAAAAP+B8B8AAAAAAAAA/////////n//+AD//8P/+YAAAAAAAAAAAAAABwAAAAAAAP/B4A/4AAAAAAAAf////////z//8AA//wH/88AAAAAAAAAAAAAAAgAAAAAAAD//4B3/gAAAAAAAf////////x//8AAf/AD/+4A4AAAAAAAAAAAAAAAAAAAAAB//wAwjgAAAAAAAf////////5//4AAf/AD/+AA4AAAAAAAAAAAAAAAAAAAAAAP/0AAAAAAAAAAAf////////4//gAAf+AD//gB4AAAAAAAAAAAAAAAAAAAAAADP/gAAAAAAAAAAf////////8/+AAAf4ADf/gBwAAAAAAAAAAAAAAAAAAAAAAAH/gAAAAAAAAAA///////////wAAAP4AAf/gA4AAAAAAAAAAAAAAAAAAAAAAAD/gAAAAAAAAAAf//////////gAAAP4AAP/wA8AAAAAAAAAAAAAAAAAAAAAAAAPgAoAAAAAAAAf/////////8MAAAPwAAP/wAzAAAAAAAAAAAAAAAAAAAAAAAAHgH8AAAAAAAAf/////////x8AAAHwAAMfwBfAAAAAAAAAAAAAAAAAAAAAAAADgP//AAAAAAAH//////////8AAADwAAMfADfAAAAAAAAAAAAAAAAAAAAAAAAD/f//AAAAAAAH//////////4AAAD4AAMOAGNgAAAAAAAAAAAAAAAAAAAAAAAA////gAAAAAAD//////////4AAAD8AAOEAEPgAAAAAAAAAAAAAAAAAAAAAAAAN///wAAAAAAB//////////wAAABcAAOAAAfgAAAAAAAAAAAAAAAAAAAAAAAAA///6AAAAAAA//////////wAAAAcAAHgAMPgAAAAAAAAAAAAAAAAAAAAAAAAA////wAAAAAAP/x///////gAAAAIABzgAfBAAAAAAAAAAAAAAAAAAAAAAAAAA////4AAAAAAPuB///////AAAAAAAB7wA+AAAAAAAAAAAAAAAAAAAAAAAAAAA////4AAAAAAAAAP/////+AAAAAAAA/wD8AAAAAAAAAAAAAAAAAAAAAAAAAAB////4AAAAAAAAAH/////+AAAAAAAAfwX+AQAAAAAAAAAAAAAAAAAAAAAAAAB////+AAAAAAAAAH/////4AAAAAAAAP4f8xYAAAAAAAAAAAAAAAAAAAAAAAAH////8AAAAAAAAAH/////wAAAAAAAAHw//+YAAAAAAAAAAAAAAAAAAAAAAAAH/////wAAAAAAAAP/////gAAAAAAAADwf98bwAAAAAAAAAAAAAAAAAAAAAAAH/////8AAAAAAAAP/////AAAAAAAAAD4f58D5gAAAAAAAAAAAAAAAAAAAAAAH//////4AAAAAAAH////+AAAAAAAAAD8P7wN78AwAAAAAAAAAAAAAAAAAAAAH//////8AAAAAAAB////+AAAAAAAAAA+H55+//gcAAAAAAAAAAAAAAAAAAAAP//////+AAAAAAAB////8AAAAAAAAAA8Ap8A3/wcAAAAAAAAAAAAAAAAAAAAH///////gAAAAAAB////4AAAAAAAAAAfABsAJ/zzAAAAAAAAAAAAAAAAAAAAP///////wAAAAAAA////8AAAAAAAAAAH+AAAI//hgAAAAAAAAAAAAAAAAAAAD///////wAAAAAAA////8AAAAAAAAAAD/gAAA/8A4AAAAAAAAAAAAAAAAAAAD///////gAAAAAAA////8AAAAAAAAAAAP37wB/OAGAAAAAAAAAAAAAAAAAAAB///////gAAAAAAA////8AAAAAAAAAAAAPnAAGHgHAAAAAAAAAAAAAAAAAAAB///////AAAAAAAAf///+AAAAAAAAAAAAAmAACHgBgAAAAAAAAAAAAAAAAAAA//////+AAAAAAAAf///+AAAAAAAAAAAAAAB+HAAAAAAAAAAAAAAAAAAAAAAA//////+AAAAAAAAf///+AwAAAAAAAAAAAAD+HAAAAAAAAAAAAAAAAAAAAAAAf/////8AAAAAAAA////+B4AAAAAAAAAAAA3+HAAAAAAAAAAAAAAAAAAAAAAAf/////8AAAAAAAA////+B4AAAAAAAAAAAB/8HwAADAAAAAAAAAAAAAAAAAAAP/////8AAAAAAAB////+H4AAAAAAAAAAAD//HwAADAAgAAAAAAAAAAAAAAAAD/////4AAAAAAAB////+P4AAAAAAAAAAAH//nwAABADAAAAAAAAAAAAAAAAAA/////4AAAAAAAB////4fwAAAAAAAAAAAP///4AAAAGAAAAAAAAAAAAAAAAAAf////4AAAAAAAB////gPwAAAAAAAAAAAf///4AAAAGAAAAAAAAAAAAAAAAAAf////4AAAAAAAA////APwAAAAAAAAAAB////+AAAAAAAAAAAAAAAAAAAAAAAf////wAAAAAAAAf//+AfgAAAAAAAAAAP////+AAMAAAAAAAAAAAAAAAAAAAAf////wAAAAAAAAf///AfAAAAAAAAAAA//////AAOAAAAAAAAAAAAAAAAAAAAf////gAAAAAAAAP///AfAAAAAAAAAAB//////gADAAAAAAAAAAAAAAAAAAAAf///8AAAAAAAAAP///AfAAAAAAAAAAB//////gAAAAAAAAAAAAAAAAAAAAAAf///wAAAAAAAAAP///AfAAAAAAAAAAB//////4AAAAAAAAAAAAAAAAAAAAAAf///AAAAAAAAAAP//8AOAAAAAAAAAAB//////4AAAAAAAAAAAAAAAAAAAAAAf///AAAAAAAAAAP//4AAAAAAAAAAAAB//////8AAAAAAAAAAAAAAAAAAAAAAf///AAAAAAAAAAH//4AAAAAAAAAAAAA//////8AAAAAAAAAAAAAAAAAAAAAA////AAAAAAAAAAD//4AAAAAAAAAAAAA//////8AAAAAAAAAAAAAAAAAAAAAA///+AAAAAAAAAAB//wAAAAAAAAAAAAAf/////8AAAAAAAAAAAAAAAAAAAAAA///8AAAAAAAAAAB//gAAAAAAAAAAAAA//////8AAAAAAAAAAAAAAAAAAAAAA///4AAAAAAAAAAA//gAAAAAAAAAAAAAf/////4AAAAAAAAAAAAAAAAAAAAAA///wAAAAAAAAAAB/+AAAAAAAAAAAAAAf/w///4AAAAAAAAAAAAAAAAAAAAAA///wAAAAAAAAAAA/8AAAAAAAAAAAAAAf+AP//wAAAAAAAAAAAAAAAAAAAAAA///gAAAAAAAAAAA8AAAAAAAAAAAAAAAfIAH//wAADAAAAAAAAAAAAAAAAAAB//4AAAAAAAAAAAAAAAAAAAAAAAAAAAAOAAD//gAABgAAAAAAAAAAAAAAAAAB//8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAf/gAABwAAAAAAAAAAAAAAAAAD//4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAf/AAAA+AAAAAAAAAAAAAAAAAD//4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAA+AAAAAAAAAAAAAAAAAD/8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAB8AAAAAAAAAAAAAAAAAD/8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA2AAADYAAAAAAAAAAAAAAAAAH/sAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA+AAAH4AAAAAAAAAAAAAAAAAH/4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAeAAAHAAAAAAAAAAAAAAAAAAH/gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAAA/AAAAAAAAAAAAAAAAAAH/gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAAAAAH/gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4AAAAAAAAAAAAAAAAAAP+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwAAAAAAAAAAAAAAAAAAP/gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP/gAAAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP+AAAAAAAAAAAAAAAAAAAAAAOAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8D4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH8BgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB/gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAAAAAB4AAAAAAA4BAAAEAAAAAAAAAAAAAAAAAAAAAAAAAD8AAAAAAAAAAAAAAAAAAP8AAAAGAD//8f///wAAAAAAAAAAAAAAAAAAAAAAADwAAAAAAAAAAAAAAAAAH//34AP//////////4AAAAAAAAAAAAAAAAAAAAAAAT4AAAAAAAAAAAAAAAGD////8A/////////////AAAAAAAAAAAAAAAAAAAAAA/8AAAAAAAAAAAQRwA//////8f/////////////8AAAAAAAAAAAAAAAAAAAAA/+AAAAAAAABAH//////////8f///////////////gAAAAAAAAAAAAAB9AAAP/+AAAAAAAA/////////////5////////////////8AAAAAAAAAAAAAD/AgAH/+AAAAAAAH//////////////////////////////8AAAAAAAAAD3wgD///////AAAAAAAf//////////////////////////////wAAAAAAAB/////H//////+AAAAAAAf//////////////////////////////AAAAAAAH/////////////wAAAAAAP//////////////////////////////4AAAAAGAf////////////8AAAAAAf///////////////////////////////wAAAAAH/////////////+AAAAQAP////////////////////////////////4AAAAD3/////////////8AAAD+A/////////////////////////////////+AAAAB4/////////////wADAP+A/////////////////////////////////wAAAAAAAP////////////h/h/+Af///////////////////////////////+AAAAAAB///////////////5AH9//////////////////////////////////AAAAAAAP////////////////////////////////////////////////////8AAACAAP/////////////////////////////////////////////////////wA//8AB///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////";
+  const MW = 360, MH = 180;
+  const bin = atob(MASK);
+  const bytes = new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++) bytes[i] = bin.charCodeAt(i);
+
+  function land(lon, lat){
+    let x = Math.floor((lon + 180) / 360 * MW);
+    let y = Math.floor((90 - lat) / 180 * MH);
+    if(x < 0) x += MW; if(x >= MW) x -= MW;
+    if(y < 0) y = 0; if(y >= MH) y = MH - 1;
+    const i = y * MW + x;
+    return (bytes[i >> 3] >> (7 - (i & 7))) & 1;
+  }
+
+  const OCEAN = " ..:", LAND = "+*#@";
+  const COLS = 56, ROWS = 26;
+  const cx = (COLS-1)/2, cy = (ROWS-1)/2, RAD = Math.min(cx, cy), ASP = 0.5;
+  const LX = -0.4, LY = 0.35, LZ = 0.85;
+
+  let spin = 0.15, tilt = 0.3, vel = 0.0035;
+
+  function draw(){
+    const st = Math.sin(tilt), ct = Math.cos(tilt);
+    const ss = Math.sin(spin), cs = Math.cos(spin);
+    let out = "";
+    for(let Y=0; Y<ROWS; Y++){
+      for(let X=0; X<COLS; X++){
+        const x = (X-cx)/RAD*ASP, y = (cy-Y)/RAD, d = x*x + y*y;
+        if(d > 1){ out += " "; continue; }
+        const z = Math.sqrt(1-d);
+        const li = Math.max(0, x*LX + y*LY + z*LZ);
+        const y1 = y*ct - z*st, z1 = y*st + z*ct;
+        const x2 = x*cs + z1*ss, z2 = -x*ss + z1*cs;
+        const lat = Math.asin(Math.max(-1, Math.min(1, y1))) * 57.29578;
+        const lon = Math.atan2(x2, z2) * 57.29578;
+        const ramp = land(lon, lat) ? LAND : OCEAN;
+        let i = Math.floor(Math.sqrt(li) * ramp.length);
+        if(i >= ramp.length) i = ramp.length - 1;
+        out += ramp[i];
+      }
+      out += "\n";
+    }
+    el.textContent = out;
+  }
+
+  /* dra for å snurre */
+  let dragging = false, lastX = 0, lastY = 0;
+  const down = e => {
+    dragging = true;
+    const p = e.touches ? e.touches[0] : e;
+    lastX = p.clientX; lastY = p.clientY;
+  };
+  const move = e => {
+    if(!dragging) return;
+    const p = e.touches ? e.touches[0] : e;
+    spin -= (p.clientX - lastX) * 0.006;
+    tilt = Math.max(-1.2, Math.min(1.2, tilt + (p.clientY - lastY) * 0.006));
+    lastX = p.clientX; lastY = p.clientY;
+    if(e.cancelable) e.preventDefault();
+    draw();
+  };
+  const up = () => { dragging = false; };
+
+  el.addEventListener('mousedown', down);
+  window.addEventListener('mousemove', move);
+  window.addEventListener('mouseup', up);
+  el.addEventListener('touchstart', down, {passive:true});
+  el.addEventListener('touchmove', move, {passive:false});
+  el.addEventListener('touchend', up);
+
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  draw();
+  if(!still){
+    setInterval(() => { if(!dragging){ spin += vel; draw(); } }, 66);
+  }
+})();
 
 let lang = "no";
+
+/* ---------- posisjon, med vær som påskeegg ----------
+   Trykk én gang for koordinater, én gang til for været.
+   Data fra Open-Meteo (åpne data, ingen nøkkel).          */
+(function(){
+  const el = document.getElementById('coords');
+  if(!el) return;
+
+  let pos = null, stage = 0;
+
+  const dms = (v, pos_, neg) => {
+    const hemi = v >= 0 ? pos_ : neg;
+    const a = Math.abs(v), d = Math.floor(a), m = Math.round((a - d) * 60);
+    return `${d}\u00b0${String(m).padStart(2,'0')}\u2032${hemi}`;
+  };
+  const coordText = () => dms(pos.lat, "N", "S") + "  " +
+    dms(pos.lon, lang === "no" ? "\u00d8" : "E", "W");
+
+  const T = {
+    no:{ ask:"vis posisjon", deny:"posisjon ikke delt", wait:"...", fail:"fikk ikke v\u00e6ret" },
+    en:{ ask:"show position", deny:"position not shared", wait:"...", fail:"weather unavailable" },
+  };
+  const t2 = k => T[lang === "no" ? "no" : "en"][k];
+
+  /* WMO-koder til enkle tegn */
+  const SYM = c =>
+    c === 0 ? "\u2600" :
+    c <= 2  ? "\u25d1" :
+    c === 3 ? "\u2601" :
+    c <= 48 ? "\u2592" :
+    c <= 67 ? "\u2614" :
+    c <= 77 ? "\u2744" :
+    c <= 82 ? "\u2614" :
+    c <= 86 ? "\u2744" : "\u26a1";
+
+  el.textContent = t2('ask');
+  el._reset = () => {
+    if(stage === 0) el.textContent = t2('ask');
+    else if(pos) el.textContent = coordText() + (el._w || "");
+  };
+
+  el.onclick = () => {
+    if(stage === 0){
+      if(!navigator.geolocation){ el.textContent = t2('deny'); return; }
+      el.textContent = t2('wait');
+      navigator.geolocation.getCurrentPosition(
+        p => {
+          pos = { lat:p.coords.latitude, lon:p.coords.longitude };
+          stage = 1;
+          el.textContent = coordText();
+          el.title = lang === "no" ? "trykk igjen" : "click again";
+        },
+        () => { el.textContent = t2('deny'); setTimeout(() => { el.textContent = t2('ask'); }, 2500); },
+        { timeout: 8000, maximumAge: 600000 }
+      );
+      return;
+    }
+    if(stage === 1 && pos){
+      stage = 2;
+      el.textContent = coordText() + "  " + t2('wait');
+      const u = "https://api.open-meteo.com/v1/forecast?latitude=" + pos.lat.toFixed(3) +
+                "&longitude=" + pos.lon.toFixed(3) + "&current=temperature_2m,weather_code";
+      fetch(u).then(r => r.json()).then(j => {
+        const c = j.current;
+        el._w = "  \u00b7  " + Math.round(c.temperature_2m) + "\u00b0C " + SYM(c.weather_code);
+        el.textContent = coordText() + el._w;
+        el.title = "Open-Meteo";
+        el.classList.add('set');
+      }).catch(() => {
+        el.textContent = coordText() + "  \u00b7  " + t2('fail');
+        stage = 1;
+      });
+    }
+  };
+})();
+
 let place = "no", theme = null;
 
 const placeEl  = document.getElementById('place');
@@ -700,13 +1049,13 @@ const PHRASE = {
     holds:(th,pl) => `Holds ${th.toLowerCase()} for ${pl}`,
     single:(th,pl) => `Covers every theme in one portal \u2014 the entry point for ${th.toLowerCase()} too`,
     nat:(th,pl) => `National open data portal for ${pl}`,
-    caveat:(th,pl) => `Pharos has not mapped specialist sources for ${pl} yet. The national portal is the right way in, but there is probably a more specialised agency for ${th.toLowerCase()} that is not listed here.`,
+    caveat:(th,pl) => `Varde has not mapped specialist sources for ${pl} yet. The national portal is the right way in, but there is probably a more specialised agency for ${th.toLowerCase()} that is not listed here.`,
   },
   no:{
     holds:(th,pl) => `Forvalter ${th.toLowerCase()} i ${pl}`,
     single:(th,pl) => `Samler alle tema i \u00e9n portal \u2014 inngangen ogs\u00e5 for ${th.toLowerCase()}`,
     nat:(th,pl) => `Nasjonal portal for \u00e5pne data i ${pl}`,
-    caveat:(th,pl) => `Pharos har ikke kartlagt spesialkilder for ${pl} enn\u00e5. Nasjonalportalen er riktig inngang, men det finnes trolig en mer spesialisert etat for ${th.toLowerCase()} som ikke er registrert her.`,
+    caveat:(th,pl) => `Varde har ikke kartlagt spesialkilder for ${pl} enn\u00e5. Nasjonalportalen er riktig inngang, men det finnes trolig en mer spesialisert etat for ${th.toLowerCase()} som ikke er registrert her.`,
   },
 };
 
@@ -718,9 +1067,16 @@ function applyLang(){
   document.getElementById('foot1').textContent     = t('foot1');
   document.getElementById('footLabel').textContent = t('footLabel');
   document.getElementById('madeBy').textContent    = t('madeBy');
+  document.getElementById('licenseTxt').textContent= t('license');
+  document.getElementById('weatherNote').textContent= t('weatherNote');
   document.getElementById('toolsTitle').textContent= t('tools');
   document.getElementById('toolsNote').textContent = t('toolsNote');
+  document.getElementById('orgsTitle').textContent = t('orgs');
+  document.getElementById('orgsNote').textContent  = t('orgsNote');
+  const co = document.getElementById('coords');
+  if(co && co._reset) co._reset();
   buildTools();
+  buildOrgs();
   document.getElementById('foot2').textContent     = ' ' + t('foot2');
   placeEl.setAttribute('aria-label', t('selectLabel'));
   buildPlaces();
@@ -736,6 +1092,19 @@ document.querySelectorAll('.langs button').forEach(b => {
     applyLang();
   };
 });
+
+function buildOrgs(){
+  document.getElementById('orgsBody').innerHTML = ORGS.map(g => `
+    <div class="tool-group">
+      <h3>${esc(g.g[lang])}</h3>
+      ${g.items.map(i => `
+        <a class="tool" href="${esc(i.u)}" target="_blank" rel="noopener">
+          <span class="tool-n">${esc(i.n)}</span>
+          <span class="tool-c">${esc(lang === "no" ? i.cno : i.cen)}</span>
+          <p class="tool-d">${esc(i[lang])}</p>
+        </a>`).join('')}
+    </div>`).join('');
+}
 
 function buildTools(){
   document.getElementById('toolsBody').innerHTML = TOOLS.map(g => `
