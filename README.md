@@ -1,2 +1,2 @@
 # varde
-Portal to open datasets with thematic options
+Catalogue of sources to open datasets in EU
