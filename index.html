@@ -3,21 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Varde — katalog over åpne data i Europa</title>
+<title>varde</title>
 <meta name="description" content="Katalog over kilder til åpne data i Europa">
 <link rel="canonical" href="https://u9ts.github.io/">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Varde">
+<meta property="og:site_name" content="varde">
 <meta property="og:url" content="https://u9ts.github.io/">
-<meta property="og:title" content="Varde — katalog over åpne data i Europa">
+<meta property="og:title" content="varde — katalog over åpne data i Europa">
 <meta property="og:description" content="Katalog over kilder til åpne data i Europa">
 <meta property="og:image" content="https://u9ts.github.io/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="VARDE skrevet i ASCII mot svart bakgrunn">
+<meta property="og:image:alt" content="varde skrevet i ASCII mot svart bakgrunn">
 <meta property="og:locale" content="nb_NO">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Varde — katalog over åpne data i Europa">
+<meta name="twitter:title" content="varde — katalog over åpne data i Europa">
 <meta name="twitter:description" content="Katalog over kilder til åpne data i Europa">
 <meta name="twitter:image" content="https://u9ts.github.io/og-image.png">
 <meta name="theme-color" content="#0b0b0b">
@@ -208,7 +208,9 @@
     background:rgba(255,255,255,0.09); border:1px solid rgba(255,255,255,0.38);
     border-radius:3px; padding:20px 22px; margin-bottom:20px;
   }
-  .primary:hover{ background:rgba(255,255,255,0.16); border-color:var(--brass); }
+  .primary:hover{ background:rgba(169,211,227,0.10); border-color:var(--ice); }
+  .primary:hover .name{ color:var(--ice); }
+  .primary:hover .go{ color:var(--ice); }
   .primary:focus-visible{ outline:2px solid var(--brass); outline-offset:2px; }
   .primary .name{ font-size:1.35rem; font-weight:600; color:var(--brass); margin:0 0 3px; }
   .primary .org{ font-size:0.84rem; color:var(--text-faint); margin:0; }
@@ -234,7 +236,7 @@
     border-bottom:1px solid var(--line); text-decoration:none; color:inherit;
   }
   .alt:last-of-type{ border-bottom:none; }
-  .alt:hover .alt-n{ color:var(--glow); }
+  .alt:hover .alt-n{ color:var(--ice); }
   .alt-n{ font-weight:600; font-size:0.96rem; color:var(--brass); }
   .alt-o{ font-size:0.8rem; color:var(--text-faint); }
   .alt-x{ margin-left:auto; padding-left:8px; font-size:0.8rem; color:var(--text-faint); }
@@ -272,7 +274,7 @@
   }
   .tool{ display:block; text-decoration:none; color:inherit; padding:9px 0; border-bottom:1px solid var(--line); }
   .tool:last-child{ border-bottom:none; }
-  .tool:hover .tool-n{ color:var(--glow); }
+  .tool:hover .tool-n{ color:var(--ice); }
   .tool-n{ font-weight:600; font-size:0.94rem; color:var(--brass); }
   .tool-d{ font-size:0.85rem; color:var(--text-soft); margin:2px 0 0; }
   .tool-c{
@@ -290,7 +292,8 @@
     font-size:0.78rem; color:var(--text-faint);
   }
   .made-by .sep{ margin:0 8px; opacity:0.5; }
-  footer b{ color:var(--text-soft); }
+  .brand{ color:var(--ice); }
+  footer b{ color:inherit; font-weight:600; }
 
   @media (max-width:640px){
     .panel{ margin:0 12px 40px; }
@@ -303,7 +306,7 @@
 <header class="hero">
   <div class="wrap">
 <pre class="globe" id="globe" aria-hidden="true"></pre>
-<pre class="wordmark slant" role="img" aria-label="Varde">    _    __ ___    ____   ____   ______
+<pre class="wordmark slant" role="img" aria-label="varde">    _    __ ___    ____   ____   ______
    | |  / //   |  / __ \ / __ \ / ____/
    | | / // /| | / /_/ // / / // __/   
    | |/ // ___ |/ _, _// /_/ // /___   
@@ -868,7 +871,7 @@ const ORGS = [
 
 const CAP = {"EU": ["Brussel", "Brussels", 50.85, 4.35, "Europe/Brussels"], "NORDIC": ["Oslo", "Oslo", 59.91, 10.75, "Europe/Oslo"], "al": ["Tirana", "Tirana", 41.33, 19.82, "Europe/Tirane"], "at": ["Wien", "Vienna", 48.21, 16.37, "Europe/Vienna"], "be": ["Brussel", "Brussels", 50.85, 4.35, "Europe/Brussels"], "bg": ["Sofia", "Sofia", 42.7, 23.32, "Europe/Sofia"], "ch": ["Bern", "Bern", 46.95, 7.45, "Europe/Zurich"], "cy": ["Nikosia", "Nicosia", 35.17, 33.36, "Asia/Nicosia"], "cz": ["Praha", "Prague", 50.09, 14.42, "Europe/Prague"], "de": ["Berlin", "Berlin", 52.52, 13.4, "Europe/Berlin"], "dk": ["København", "Copenhagen", 55.68, 12.57, "Europe/Copenhagen"], "ee": ["Tallinn", "Tallinn", 59.44, 24.75, "Europe/Tallinn"], "es": ["Madrid", "Madrid", 40.42, -3.7, "Europe/Madrid"], "fi": ["Helsingfors", "Helsinki", 60.17, 24.94, "Europe/Helsinki"], "fr": ["Paris", "Paris", 48.86, 2.35, "Europe/Paris"], "gr": ["Athen", "Athens", 37.98, 23.73, "Europe/Athens"], "hr": ["Zagreb", "Zagreb", 45.81, 15.98, "Europe/Zagreb"], "hu": ["Budapest", "Budapest", 47.5, 19.04, "Europe/Budapest"], "ie": ["Dublin", "Dublin", 53.35, -6.26, "Europe/Dublin"], "is": ["Reykjavík", "Reykjavik", 64.15, -21.94, "Atlantic/Reykjavik"], "it": ["Roma", "Rome", 41.9, 12.5, "Europe/Rome"], "lt": ["Vilnius", "Vilnius", 54.69, 25.28, "Europe/Vilnius"], "lu": ["Luxembourg", "Luxembourg", 49.61, 6.13, "Europe/Luxembourg"], "lv": ["Riga", "Riga", 56.95, 24.11, "Europe/Riga"], "md": ["Chișinău", "Chisinau", 47.01, 28.86, "Europe/Chisinau"], "me": ["Podgorica", "Podgorica", 42.44, 19.26, "Europe/Podgorica"], "mk": ["Skopje", "Skopje", 41.996, 21.43, "Europe/Skopje"], "mt": ["Valletta", "Valletta", 35.9, 14.51, "Europe/Malta"], "nl": ["Amsterdam", "Amsterdam", 52.37, 4.9, "Europe/Amsterdam"], "no": ["Oslo", "Oslo", 59.91, 10.75, "Europe/Oslo"], "pl": ["Warszawa", "Warsaw", 52.23, 21.01, "Europe/Warsaw"], "pt": ["Lisboa", "Lisbon", 38.72, -9.14, "Europe/Lisbon"], "ro": ["Bucuresti", "Bucharest", 44.43, 26.1, "Europe/Bucharest"], "rs": ["Beograd", "Belgrade", 44.79, 20.45, "Europe/Belgrade"], "se": ["Stockholm", "Stockholm", 59.33, 18.07, "Europe/Stockholm"], "si": ["Ljubljana", "Ljubljana", 46.06, 14.51, "Europe/Ljubljana"], "sk": ["Bratislava", "Bratislava", 48.15, 17.11, "Europe/Bratislava"], "ua": ["Kyiv", "Kyiv", 50.45, 30.52, "Europe/Kyiv"], "uk": ["London", "London", 51.51, -0.13, "Europe/London"]};
 
-const UI = {"en": {"lede": "Catalogue of open data sources across Europe", "step1": "1 — Country or region", "step2": "2 — Choose theme", "selectLabel": "Choose a country or region", "regions": "Regions", "countries": "Countries", "intro": "Pick a theme below and Varde will point you to the right portal.", "special": "Specialist source", "single": "Held in the national portal", "unmapped": "Not mapped in detail", "confirmed": "✓ confirmed", "unconfirmed": "unconfirmed", "confirmedTitle": "Address checked against an independent source", "unconfirmedTitle": "Agency is probably right, address unconfirmed", "go": "Go to the portal ↗", "other": "Other sources", "foot1": "A curated catalogue of official open data sources in Europe. All 37 countries have a national portal; 55 of about 100 sources have been confirmed against an independent source; the rest are marked unconfirmed.", "orgs": "Professional bodies", "orgsNote": "Member organisations for people working with geographic information.", "tools": "Other useful sites", "toolsNote": "Tools for making and reading maps. Not data sources.", "license": "Open source under the", "madeBy": "Developed by", "footLabel": "On the labels:", "foot2": "“Confirmed” means the address has been checked against an independent source as the right entry point to that agency’s data. “Unconfirmed” means the agency is probably right, but the address may lead to a front page rather than to the datasets. Links point to each source’s own site; Varde stores no data itself."}, "no": {"lede": "Katalog over kilder til åpne data i Europa", "step1": "1 — Land eller region", "step2": "2 — Velg tema", "selectLabel": "Velg land eller region", "regions": "Regioner", "countries": "Land", "intro": "Velg et tema under, så peker Varde deg til riktig portal.", "special": "Spesialkilde", "single": "Samlet i nasjonalportalen", "unmapped": "Ikke kartlagt i detalj", "confirmed": "✓ bekreftet", "unconfirmed": "ikke bekreftet", "confirmedTitle": "Adressen er bekreftet mot en uavhengig kilde", "unconfirmedTitle": "Etaten er trolig riktig, adressen er ikke bekreftet", "go": "Gå til portalen ↗", "other": "Andre kilder", "foot1": "Kuratert katalog over offisielle kilder til åpne data i Europa. Alle 37 land har nasjonalportal; 55 av rundt 100 kilder er bekreftet mot en uavhengig kilde; resten er merket ubekreftet.", "orgs": "Fagmiljøer og foreninger", "orgsNote": "Interesseorganisasjoner for folk som jobber med geografisk informasjon.", "tools": "Andre nyttige nettsider", "toolsNote": "Verktøy for å lage og lese kart. Ikke datakilder.", "license": "Åpen kildekode under", "madeBy": "Utviklet av", "footLabel": "Om merkingen:", "foot2": "«Bekreftet» betyr at adressen er kontrollert mot en uavhengig kilde som riktig inngang til etatens data. «Ikke bekreftet» betyr at etaten trolig er riktig, men at adressen kan peke til en forside i stedet for til datasettene. Lenkene peker til kildens egne sider; Varde lagrer ingen data selv."}};
+const UI = {"en": {"lede": "Catalogue of open data sources across Europe", "step1": "1 — Country or region", "step2": "2 — Choose theme", "selectLabel": "Choose a country or region", "regions": "Regions", "countries": "Countries", "intro": "Pick a theme below and varde will point you to the right portal.", "special": "Specialist source", "single": "Held in the national portal", "unmapped": "Not mapped in detail", "confirmed": "✓ confirmed", "unconfirmed": "unconfirmed", "confirmedTitle": "Address checked against an independent source", "unconfirmedTitle": "Agency is probably right, address unconfirmed", "go": "Go to the portal ↗", "other": "Other sources", "foot1": "A curated catalogue of official open data sources in Europe. All 37 countries have a national portal; 55 of about 100 sources have been confirmed against an independent source; the rest are marked unconfirmed.", "orgs": "Professional bodies", "orgsNote": "Member organisations for people working with geographic information.", "tools": "Other useful sites", "toolsNote": "Tools for making and reading maps. Not data sources.", "license": "Open source under the", "madeBy": "Developed by", "footLabel": "On the labels:", "foot2": "“Confirmed” means the address has been checked against an independent source as the right entry point to that agency’s data. “Unconfirmed” means the agency is probably right, but the address may lead to a front page rather than to the datasets. Links point to each source’s own site; varde stores no data itself."}, "no": {"lede": "Katalog over kilder til åpne data i Europa", "step1": "1 — Land eller region", "step2": "2 — Velg tema", "selectLabel": "Velg land eller region", "regions": "Regioner", "countries": "Land", "intro": "Velg et tema under, så peker varde deg til riktig portal.", "special": "Spesialkilde", "single": "Samlet i nasjonalportalen", "unmapped": "Ikke kartlagt i detalj", "confirmed": "✓ bekreftet", "unconfirmed": "ikke bekreftet", "confirmedTitle": "Adressen er bekreftet mot en uavhengig kilde", "unconfirmedTitle": "Etaten er trolig riktig, adressen er ikke bekreftet", "go": "Gå til portalen ↗", "other": "Andre kilder", "foot1": "Kuratert katalog over offisielle kilder til åpne data i Europa. Alle 37 land har nasjonalportal; 55 av rundt 100 kilder er bekreftet mot en uavhengig kilde; resten er merket ubekreftet.", "orgs": "Fagmiljøer og foreninger", "orgsNote": "Interesseorganisasjoner for folk som jobber med geografisk informasjon.", "tools": "Andre nyttige nettsider", "toolsNote": "Verktøy for å lage og lese kart. Ikke datakilder.", "license": "Åpen kildekode under", "madeBy": "Utviklet av", "footLabel": "Om merkingen:", "foot2": "«Bekreftet» betyr at adressen er kontrollert mot en uavhengig kilde som riktig inngang til etatens data. «Ikke bekreftet» betyr at etaten trolig er riktig, men at adressen kan peke til en forside i stedet for til datasettene. Lenkene peker til kildens egne sider; varde lagrer ingen data selv."}};
 
 /* ---------- ASCII-klode ----------
    Strålekast mot kule, oppslag i pakket landmaske (1 bit per grad),
@@ -1037,6 +1040,7 @@ const resEl    = document.getElementById('result');
 
 /* ---------- språk ---------- */
 function t(key){ return UI[lang][key]; }
+function brand(s){ return s.replace(/\bvarde\b/g, '<span class="brand">varde</span>'); }
 function themeName(th){ return lang === "no" ? NO_THEMES[th.id].name : th.name; }
 function themeHint(th){ return lang === "no" ? NO_THEMES[th.id].hint : th.hint; }
 function orgName(s){ return lang === "no" ? (ORG_NO[s] || s) : s; }
@@ -1048,13 +1052,13 @@ const PHRASE = {
     holds:(th,pl) => `Holds ${th.toLowerCase()} for ${pl}`,
     single:(th,pl) => `Covers every theme in one portal \u2014 the entry point for ${th.toLowerCase()} too`,
     nat:(th,pl) => `National open data portal for ${pl}`,
-    caveat:(th,pl) => `Varde has not mapped specialist sources for ${pl} yet. The national portal is the right way in, but there is probably a more specialised agency for ${th.toLowerCase()} that is not listed here.`,
+    caveat:(th,pl) => `varde has not mapped specialist sources for ${pl} yet. The national portal is the right way in, but there is probably a more specialised agency for ${th.toLowerCase()} that is not listed here.`,
   },
   no:{
     holds:(th,pl) => `Forvalter ${th.toLowerCase()} i ${pl}`,
     single:(th,pl) => `Samler alle tema i \u00e9n portal \u2014 inngangen ogs\u00e5 for ${th.toLowerCase()}`,
     nat:(th,pl) => `Nasjonal portal for \u00e5pne data i ${pl}`,
-    caveat:(th,pl) => `Varde har ikke kartlagt spesialkilder for ${pl} enn\u00e5. Nasjonalportalen er riktig inngang, men det finnes trolig en mer spesialisert etat for ${th.toLowerCase()} som ikke er registrert her.`,
+    caveat:(th,pl) => `varde har ikke kartlagt spesialkilder for ${pl} enn\u00e5. Nasjonalportalen er riktig inngang, men det finnes trolig en mer spesialisert etat for ${th.toLowerCase()} som ikke er registrert her.`,
   },
 };
 
@@ -1074,7 +1078,7 @@ function applyLang(){
   loadWeather();
   buildTools();
   buildOrgs();
-  document.getElementById('foot2').textContent     = ' ' + t('foot2');
+  document.getElementById('foot2').innerHTML       = ' ' + brand(t('foot2'));
   placeEl.setAttribute('aria-label', t('selectLabel'));
   buildPlaces();
   buildThemes();
@@ -1189,7 +1193,7 @@ function render(){
     : `<span class="v no" title="${esc(t('unconfirmedTitle'))}">${t('unconfirmed')}</span>`;
 
   const caveat = state === "unmapped"
-    ? `<p class="caveat">${esc(ph.caveat(tn, pn))}</p>` : '';
+    ? `<p class="caveat">${brand(esc(ph.caveat(tn, pn)))}</p>` : '';
 
   const alts = rest.map(([n,o,u,v]) => `
     <a class="alt" href="${esc(u)}" target="_blank" rel="noopener">
