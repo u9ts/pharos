@@ -111,8 +111,6 @@
     pointer-events:none;
   }
   pre.wordmark.slant{ display:block; width:max-content; margin:0 auto; font-size:clamp(9px, 3.5vw, 16px); }
-  @media (max-width:620px){
-  }
   .lede{
     font-family:"Chakra Petch",-apple-system,"Segoe UI",sans-serif;
     font-style:italic;
@@ -192,7 +190,7 @@
   .theme span{ font-size:0.75rem; color:var(--text-faint); }
 
   /* ---------- result ---------- */
-  .result{ padding:26px; }
+  .result{ padding:26px; scroll-margin-top:14px; }
   .result-head{
     display:flex; align-items:center; gap:10px; flex-wrap:wrap;
     font-family:"JetBrains Mono",monospace;
@@ -266,6 +264,13 @@
   .tools summary:hover{ color:var(--ice); }
   .tools summary:focus-visible{ outline:2px solid var(--brass); outline-offset:2px; }
   .tools-note{ font-size:0.84rem; color:var(--text-faint); margin:0 0 18px; }
+  .tools.muted{ padding:0; border-top:none; }
+  .tools.muted summary{ color:var(--text-faint); padding:12px 0; }
+  .tools.muted summary::before{ color:var(--text-faint); }
+  .tools.muted summary:hover{ color:var(--text-soft); }
+  .tools.muted summary:hover::before{ color:var(--text-soft); }
+  .tools.muted[open]{ padding-bottom:6px; }
+  footer .tools.muted + .tools.muted{ border-top:1px solid var(--line); }
   .tool-group{ margin-bottom:20px; }
   .tool-group h3{
     font-family:"JetBrains Mono","SF Mono",Menlo,Consolas,monospace;
@@ -287,17 +292,55 @@
   footer{ border-top:1px solid var(--line); padding:20px 26px 28px; font-size:0.8rem; color:var(--text-faint); }
   footer a{ color:var(--brass); }
   .made-by{
-    margin:18px 0 0; padding-top:14px;
+    margin:18px 0 0; padding-top:16px; line-height:2;
     border-top:1px solid var(--line);
     font-size:0.78rem; color:var(--text-faint);
   }
   .made-by .sep{ margin:0 8px; opacity:0.5; }
   .brand{ color:var(--ice); }
+  .made-by{ text-align:center; }
+  .made-by img{ height:30px; width:auto; opacity:0.9; margin-left:9px; vertical-align:middle; }
+  .sponsor-link{ display:inline-block; line-height:0; }
+  .sponsor-link:hover img{ opacity:1; }
+  .sponsor-link:focus-visible{ outline:2px solid var(--ice); outline-offset:3px; }
+  .sponsor{
+    display:flex; align-items:center; justify-content:center; gap:14px;
+    flex-wrap:wrap;
+    margin:22px 0 0; padding-top:18px;
+    border-top:1px solid var(--line);
+    font-size:0.76rem; color:var(--text-faint);
+  }
+  .sponsor img{ height:26px; width:auto; opacity:0.85; display:block; }
   footer b{ color:inherit; font-weight:600; }
 
   @media (max-width:640px){
     .panel{ margin:0 12px 40px; }
     header.hero{ padding:24px 0 18px; }
+  }
+
+  /* ---------- mobil ---------- */
+  @media (max-width:640px){
+    .panel{ margin:0 10px 36px; }
+    .step, .result, .tools, footer{ padding-left:16px; padding-right:16px; }
+    .info{ padding:14px 16px; }
+
+    /* to kolonner i stedet for én lang stabel */
+    .themes{ grid-template-columns:repeat(2, 1fr); gap:7px; }
+    .theme{ padding:11px 12px; }
+    .theme strong{ font-size:0.84rem; }
+    .theme span{ font-size:0.7rem; line-height:1.35; }
+
+    .place-row{ grid-template-columns:1fr; gap:10px; }
+    select{ grid-column:1 / -1; }
+    .coords{ grid-column:1 / -1; justify-self:start; }
+
+    pre.globe{ font-size:7px; margin:0 auto -3.4em; }
+    header.hero{ padding:22px 0 16px; }
+
+    .clock{ gap:3px 14px; font-size:0.68rem; }
+    .primary{ padding:16px 16px; }
+    .primary .name{ font-size:1.16rem; }
+    .entry, .alt, .tool{ padding-top:12px; padding-bottom:12px; }
   }
 </style>
 </head>
@@ -354,14 +397,23 @@
   </details>
 
   <footer>
-    <p id="foot1"></p>
-    <p style="margin-top:10px"><b id="footLabel"></b><span id="foot2"></span></p>
+    <details class="tools muted">
+      <summary><span id="aboutTitle">Om varde</span></summary>
+      <p class="tools-note" id="foot1"></p>
+    </details>
+    <details class="tools muted">
+      <summary><span id="footLabel"></span></summary>
+      <p class="tools-note" id="foot2"></p>
+    </details>
     <div class="clock" id="clock" aria-hidden="true"></div>
     <p class="made-by"><span id="madeBy">Utviklet av</span>
     <a href="https://github.com/u9ts" target="_blank" rel="noopener">u9ts</a>
     <span class="sep">·</span>
     <span id="licenseTxt">Åpen kildekode under</span>
-    <a href="https://github.com/u9ts/u9ts.github.io/blob/main/LICENSE" target="_blank" rel="noopener">MIT-lisens</a></p>
+    <a href="https://github.com/u9ts/u9ts.github.io/blob/main/LICENSE" target="_blank" rel="noopener">MIT-lisens</a>
+    <span class="sep">·</span>
+    <span id="sponsorTxt">Domene støttet av</span>
+    <a class="sponsor-link" href="https://www.geoforum.no" target="_blank" rel="noopener"><img src="data:image/png;base64,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" alt="GeoForum" width="175" height="68"></a></p>
   </footer>
 </div>
 
@@ -871,7 +923,7 @@ const ORGS = [
 
 const CAP = {"EU": ["Brussel", "Brussels", 50.85, 4.35, "Europe/Brussels"], "NORDIC": ["Oslo", "Oslo", 59.91, 10.75, "Europe/Oslo"], "al": ["Tirana", "Tirana", 41.33, 19.82, "Europe/Tirane"], "at": ["Wien", "Vienna", 48.21, 16.37, "Europe/Vienna"], "be": ["Brussel", "Brussels", 50.85, 4.35, "Europe/Brussels"], "bg": ["Sofia", "Sofia", 42.7, 23.32, "Europe/Sofia"], "ch": ["Bern", "Bern", 46.95, 7.45, "Europe/Zurich"], "cy": ["Nikosia", "Nicosia", 35.17, 33.36, "Asia/Nicosia"], "cz": ["Praha", "Prague", 50.09, 14.42, "Europe/Prague"], "de": ["Berlin", "Berlin", 52.52, 13.4, "Europe/Berlin"], "dk": ["København", "Copenhagen", 55.68, 12.57, "Europe/Copenhagen"], "ee": ["Tallinn", "Tallinn", 59.44, 24.75, "Europe/Tallinn"], "es": ["Madrid", "Madrid", 40.42, -3.7, "Europe/Madrid"], "fi": ["Helsingfors", "Helsinki", 60.17, 24.94, "Europe/Helsinki"], "fr": ["Paris", "Paris", 48.86, 2.35, "Europe/Paris"], "gr": ["Athen", "Athens", 37.98, 23.73, "Europe/Athens"], "hr": ["Zagreb", "Zagreb", 45.81, 15.98, "Europe/Zagreb"], "hu": ["Budapest", "Budapest", 47.5, 19.04, "Europe/Budapest"], "ie": ["Dublin", "Dublin", 53.35, -6.26, "Europe/Dublin"], "is": ["Reykjavík", "Reykjavik", 64.15, -21.94, "Atlantic/Reykjavik"], "it": ["Roma", "Rome", 41.9, 12.5, "Europe/Rome"], "lt": ["Vilnius", "Vilnius", 54.69, 25.28, "Europe/Vilnius"], "lu": ["Luxembourg", "Luxembourg", 49.61, 6.13, "Europe/Luxembourg"], "lv": ["Riga", "Riga", 56.95, 24.11, "Europe/Riga"], "md": ["Chișinău", "Chisinau", 47.01, 28.86, "Europe/Chisinau"], "me": ["Podgorica", "Podgorica", 42.44, 19.26, "Europe/Podgorica"], "mk": ["Skopje", "Skopje", 41.996, 21.43, "Europe/Skopje"], "mt": ["Valletta", "Valletta", 35.9, 14.51, "Europe/Malta"], "nl": ["Amsterdam", "Amsterdam", 52.37, 4.9, "Europe/Amsterdam"], "no": ["Oslo", "Oslo", 59.91, 10.75, "Europe/Oslo"], "pl": ["Warszawa", "Warsaw", 52.23, 21.01, "Europe/Warsaw"], "pt": ["Lisboa", "Lisbon", 38.72, -9.14, "Europe/Lisbon"], "ro": ["Bucuresti", "Bucharest", 44.43, 26.1, "Europe/Bucharest"], "rs": ["Beograd", "Belgrade", 44.79, 20.45, "Europe/Belgrade"], "se": ["Stockholm", "Stockholm", 59.33, 18.07, "Europe/Stockholm"], "si": ["Ljubljana", "Ljubljana", 46.06, 14.51, "Europe/Ljubljana"], "sk": ["Bratislava", "Bratislava", 48.15, 17.11, "Europe/Bratislava"], "ua": ["Kyiv", "Kyiv", 50.45, 30.52, "Europe/Kyiv"], "uk": ["London", "London", 51.51, -0.13, "Europe/London"]};
 
-const UI = {"en": {"lede": "Catalogue of open data sources across Europe", "step1": "1 — Country or region", "step2": "2 — Choose theme", "selectLabel": "Choose a country or region", "regions": "Regions", "countries": "Countries", "intro": "Pick a theme below and varde will point you to the right portal.", "special": "Specialist source", "single": "Held in the national portal", "unmapped": "Not mapped in detail", "confirmed": "✓ confirmed", "unconfirmed": "unconfirmed", "confirmedTitle": "Address checked against an independent source", "unconfirmedTitle": "Agency is probably right, address unconfirmed", "go": "Go to the portal ↗", "other": "Other sources", "foot1": "A curated catalogue of official open data sources in Europe. All 37 countries have a national portal; 55 of about 100 sources have been confirmed against an independent source; the rest are marked unconfirmed.", "orgs": "Professional bodies", "orgsNote": "Member organisations for people working with geographic information.", "tools": "Other useful sites", "toolsNote": "Tools for making and reading maps. Not data sources.", "license": "Open source under the", "madeBy": "Developed by", "footLabel": "On the labels:", "foot2": "“Confirmed” means the address has been checked against an independent source as the right entry point to that agency’s data. “Unconfirmed” means the agency is probably right, but the address may lead to a front page rather than to the datasets. Links point to each source’s own site; varde stores no data itself."}, "no": {"lede": "Katalog over kilder til åpne data i Europa", "step1": "1 — Land eller region", "step2": "2 — Velg tema", "selectLabel": "Velg land eller region", "regions": "Regioner", "countries": "Land", "intro": "Velg et tema under, så peker varde deg til riktig portal.", "special": "Spesialkilde", "single": "Samlet i nasjonalportalen", "unmapped": "Ikke kartlagt i detalj", "confirmed": "✓ bekreftet", "unconfirmed": "ikke bekreftet", "confirmedTitle": "Adressen er bekreftet mot en uavhengig kilde", "unconfirmedTitle": "Etaten er trolig riktig, adressen er ikke bekreftet", "go": "Gå til portalen ↗", "other": "Andre kilder", "foot1": "Kuratert katalog over offisielle kilder til åpne data i Europa. Alle 37 land har nasjonalportal; 55 av rundt 100 kilder er bekreftet mot en uavhengig kilde; resten er merket ubekreftet.", "orgs": "Fagmiljøer og foreninger", "orgsNote": "Interesseorganisasjoner for folk som jobber med geografisk informasjon.", "tools": "Andre nyttige nettsider", "toolsNote": "Verktøy for å lage og lese kart. Ikke datakilder.", "license": "Åpen kildekode under", "madeBy": "Utviklet av", "footLabel": "Om merkingen:", "foot2": "«Bekreftet» betyr at adressen er kontrollert mot en uavhengig kilde som riktig inngang til etatens data. «Ikke bekreftet» betyr at etaten trolig er riktig, men at adressen kan peke til en forside i stedet for til datasettene. Lenkene peker til kildens egne sider; varde lagrer ingen data selv."}};
+const UI = {"en": {"lede": "Catalogue of open data sources across Europe", "step1": "1 — Country or region", "step2": "2 — Choose theme", "selectLabel": "Choose a country or region", "regions": "Regions", "countries": "Countries", "intro": "Pick a theme below and varde will point you to the right portal.", "special": "Specialist source", "single": "Held in the national portal", "unmapped": "Not mapped in detail", "confirmed": "✓ confirmed", "unconfirmed": "unconfirmed", "confirmedTitle": "Address checked against an independent source", "unconfirmedTitle": "Agency is probably right, address unconfirmed", "go": "Go to the portal ↗", "other": "Other sources", "foot1": "A curated catalogue of official open data sources in Europe. All 37 countries have a national portal; 55 of about 100 sources have been confirmed against an independent source; the rest are marked unconfirmed.", "orgs": "Professional bodies", "orgsNote": "Member organisations for people working with geographic information.", "tools": "Other useful sites", "toolsNote": "Tools for making and reading maps. Not data sources.", "license": "Open source under the", "madeBy": "Developed by", "sponsor": "Domain supported by", "aboutTitle": "About varde", "footLabel": "On the labels", "foot2": "“Confirmed” means the address has been checked against an independent source as the right entry point to that agency’s data. “Unconfirmed” means the agency is probably right, but the address may lead to a front page rather than to the datasets. Links point to each source’s own site; varde stores no data itself."}, "no": {"lede": "Katalog over kilder til åpne data i Europa", "step1": "1 — Land eller region", "step2": "2 — Velg tema", "selectLabel": "Velg land eller region", "regions": "Regioner", "countries": "Land", "intro": "Velg et tema under, så peker varde deg til riktig portal.", "special": "Spesialkilde", "single": "Samlet i nasjonalportalen", "unmapped": "Ikke kartlagt i detalj", "confirmed": "✓ bekreftet", "unconfirmed": "ikke bekreftet", "confirmedTitle": "Adressen er bekreftet mot en uavhengig kilde", "unconfirmedTitle": "Etaten er trolig riktig, adressen er ikke bekreftet", "go": "Gå til portalen ↗", "other": "Andre kilder", "foot1": "Kuratert katalog over offisielle kilder til åpne data i Europa. Alle 37 land har nasjonalportal; 55 av rundt 100 kilder er bekreftet mot en uavhengig kilde; resten er merket ubekreftet.", "orgs": "Fagmiljøer og foreninger", "orgsNote": "Interesseorganisasjoner for folk som jobber med geografisk informasjon.", "tools": "Andre nyttige nettsider", "toolsNote": "Verktøy for å lage og lese kart. Ikke datakilder.", "license": "Åpen kildekode under", "madeBy": "Utviklet av", "sponsor": "Domene støttet av", "aboutTitle": "Om varde", "footLabel": "Om merkingen", "foot2": "«Bekreftet» betyr at adressen er kontrollert mot en uavhengig kilde som riktig inngang til etatens data. «Ikke bekreftet» betyr at etaten trolig er riktig, men at adressen kan peke til en forside i stedet for til datasettene. Lenkene peker til kildens egne sider; varde lagrer ingen data selv."}};
 
 /* ---------- ASCII-klode ----------
    Strålekast mot kule, oppslag i pakket landmaske (1 bit per grad),
@@ -1069,6 +1121,8 @@ function applyLang(){
   document.getElementById('lbl-step2').textContent = t('step2');
   document.getElementById('foot1').textContent     = t('foot1');
   document.getElementById('footLabel').textContent = t('footLabel');
+  document.getElementById('aboutTitle').textContent= t('aboutTitle');
+  document.getElementById('sponsorTxt').textContent = t('sponsor');
   document.getElementById('madeBy').textContent    = t('madeBy');
   document.getElementById('licenseTxt').textContent= t('license');
   document.getElementById('toolsTitle').textContent= t('tools');
@@ -1078,7 +1132,7 @@ function applyLang(){
   loadWeather();
   buildTools();
   buildOrgs();
-  document.getElementById('foot2').innerHTML       = ' ' + brand(t('foot2'));
+  document.getElementById('foot2').innerHTML       = brand(t('foot2'));
   placeEl.setAttribute('aria-label', t('selectLabel'));
   buildPlaces();
   buildThemes();
@@ -1157,8 +1211,19 @@ function buildThemes(){
       theme = th;
       [...themesEl.children].forEach(c => c.setAttribute('aria-pressed', c === b ? 'true' : 'false'));
       render();
+      revealResult();
     };
     themesEl.appendChild(b);
+  });
+}
+
+function revealResult(){
+  if(window.innerWidth > 640) return;
+  const el = document.getElementById('result');
+  if(!el) return;
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  requestAnimationFrame(() => {
+    el.scrollIntoView({ behavior: still ? 'auto' : 'smooth', block: 'start' });
   });
 }
 
@@ -1216,7 +1281,7 @@ function render(){
     ${rest.length ? `<p class="also">${esc(t('other'))}</p>${alts}` : ''}`;
 }
 
-placeEl.onchange = () => { place = placeEl.value; loadWeather(); if(theme) render(); };
+placeEl.onchange = () => { place = placeEl.value; loadWeather(); if(theme){ render(); revealResult(); } };
 
 applyLang();
 </script>
