@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pharos — hvor finner du åpne data?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Uncial+Antiqua&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night:#0a2333; --night-deep:#051620;
+    --panel:#0f2c3e; --panel-lift:#17394c;
+    --text:#f4f8fa; --text-soft:#c3d3dc; --text-faint:#93a9b5;
+    --brass:#ffd7a8; --brass-dim:#fdae6b; --flame:#e6550d; --glow:#fee6ce;
+    --line:rgba(195,211,220,0.16); --line-strong:rgba(195,211,220,0.32);
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:linear-gradient(180deg,var(--night-deep) 0%,var(--night) 45%,var(--night-deep) 100%);
+    background-attachment:fixed;
+    font-family:"Archivo",-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+    color:var(--text); line-height:1.55;
+  }
+  .wrap{ max-width:880px; margin:0 auto; padding:0 26px; }
+
+  header.hero{ padding:60px 0 28px; text-align:center; position:relative; overflow:hidden; }
+  header.hero::before{
+    content:""; position:absolute; top:-40px; left:50%;
+    width:620px; height:320px; transform:translateX(-50%);
+    background:radial-gradient(ellipse at 50% 30%,
+      rgba(254,230,206,0.24) 0%, rgba(253,174,107,0.14) 34%,
+      rgba(230,85,13,0.09) 52%, rgba(230,85,13,0) 72%);
+    pointer-events:none;
+  }
+  .hero .wrap{ position:relative; }
+  .brand{ display:flex; align-items:center; justify-content:center; gap:15px; margin-bottom:18px; }
+  .wordmark{
+    font-family:"Uncial Antiqua",Georgia,serif; font-size:2.8rem; font-weight:400;
+    letter-spacing:0.06em; text-indent:0.06em; line-height:1; margin:0; color:var(--glow);
+  }
+  .lede{ font-size:1rem; color:var(--text-soft); max-width:54ch; margin:0 auto; }
+
+  .panel{
+    max-width:880px; margin:0 auto 70px; background:var(--panel);
+    border:1px solid var(--line); border-radius:4px;
+    box-shadow:0 24px 60px -24px rgba(0,0,0,0.75);
+  }
+
+  /* --- steg 1: sted --- */
+  .step{ padding:24px 26px; border-bottom:1px solid var(--line); }
+  .step-label{
+    font-size:0.72rem; letter-spacing:0.10em; text-transform:uppercase;
+    color:var(--text-faint); margin:0 0 12px;
+  }
+  select{
+    font-family:inherit; font-size:1rem; width:100%; max-width:420px;
+    padding:11px 14px; color:var(--text);
+    background:rgba(0,0,0,0.22); border:1px solid rgba(195,211,220,0.26);
+    border-radius:2px; cursor:pointer;
+  }
+  select:focus{ outline:none; border-color:var(--brass); box-shadow:0 0 0 3px rgba(255,215,168,0.18); }
+  option{ background:var(--night); color:var(--text); }
+
+  /* --- steg 2: tema --- */
+  .themes{ display:grid; grid-template-columns:repeat(auto-fill,minmax(178px,1fr)); gap:8px; }
+  .theme{
+    font-family:inherit; text-align:left; cursor:pointer; padding:12px 14px;
+    background:rgba(253,174,107,0.06); color:var(--text);
+    border:1px solid rgba(253,174,107,0.28); border-radius:3px;
+  }
+  .theme:hover{ background:rgba(253,174,107,0.16); border-color:var(--brass-dim); }
+  .theme[aria-pressed="true"]{ background:var(--brass); color:var(--night-deep); border-color:var(--brass); }
+  .theme[aria-pressed="true"] span{ color:rgba(5,22,32,0.72); }
+  .theme:focus-visible{ outline:2px solid var(--brass); outline-offset:2px; }
+  .theme strong{ display:block; font-size:0.92rem; font-weight:600; }
+  .theme span{ font-size:0.75rem; color:var(--text-faint); }
+
+  /* --- resultat --- */
+  .result{ padding:26px; }
+  .result-head{ font-size:0.72rem; letter-spacing:0.10em; text-transform:uppercase; color:var(--text-faint); margin:0 0 14px; }
+
+  .primary{
+    display:block; text-decoration:none; color:inherit;
+    background:rgba(255,215,168,0.09); border:1px solid rgba(255,215,168,0.38);
+    border-radius:3px; padding:20px 22px; margin-bottom:20px;
+  }
+  .primary:hover{ background:rgba(255,215,168,0.16); border-color:var(--brass); }
+  .primary:focus-visible{ outline:2px solid var(--brass); outline-offset:2px; }
+  .primary .name{ font-size:1.35rem; font-weight:600; color:var(--brass); margin:0 0 3px; }
+  .primary .org{ font-size:0.84rem; color:var(--text-faint); margin:0; }
+  .primary .why{ font-size:0.9rem; color:var(--text-soft); margin:10px 0 0; }
+  .primary .go{ font-size:0.8rem; color:var(--brass); margin:12px 0 0; }
+
+
+  .result-head{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .badge{
+    font-size:0.64rem; letter-spacing:0.06em; padding:2px 9px; border-radius:999px;
+    text-transform:none;
+  }
+  .badge.ok{ border:1px solid rgba(255,215,168,0.40); color:var(--brass); background:rgba(255,215,168,0.08); }
+  .badge.warn{ border:1px solid rgba(230,85,13,0.55); color:var(--brass-dim); background:rgba(230,85,13,0.12); }
+  .caveat{
+    font-size:0.85rem; color:var(--text-soft); margin:0 0 20px;
+    border-left:2px solid rgba(230,85,13,0.55); padding-left:14px;
+  }
+
+  .v{ font-size:0.66rem; letter-spacing:0.03em; padding:1px 7px; border-radius:999px; white-space:nowrap; }
+  .v.ok{ color:var(--brass); border:1px solid rgba(255,215,168,0.35); }
+  .v.no{ color:var(--text-faint); border:1px solid rgba(195,211,220,0.22); }
+  .alt .v{ margin-left:6px; }
+  .also{ font-size:0.72rem; letter-spacing:0.10em; text-transform:uppercase; color:var(--text-faint); margin:0 0 8px; }
+  .alt{
+    display:flex; align-items:baseline; gap:12px; padding:11px 0;
+    border-bottom:1px solid var(--line); text-decoration:none; color:inherit;
+  }
+  .alt:last-of-type{ border-bottom:none; }
+  .alt:hover .alt-n{ color:var(--glow); }
+  .alt-n{ font-weight:600; font-size:0.96rem; color:var(--brass); }
+  .alt-o{ font-size:0.8rem; color:var(--text-faint); }
+  .alt{ flex-wrap:wrap; }
+  .alt-x{ margin-left:auto; padding-left:8px; font-size:0.8rem; color:var(--text-faint); }
+
+  .empty{ font-size:0.94rem; color:var(--text-faint); margin:0; }
+
+  footer{ border-top:1px solid var(--line); padding:20px 26px 28px; font-size:0.8rem; color:var(--text-faint); }
+  footer a{ color:var(--brass); }
+
+  @media (max-width:640px){
+    .panel{ margin:0 12px 40px; }
+    .wordmark{ font-size:2.1rem; }
+    select{ max-width:none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="brand">
+      <svg width="30" height="46" viewBox="0 0 26 40" aria-hidden="true">
+        <path d="M8 38 L10.5 14 L15.5 14 L18 38 Z" fill="none" stroke="var(--glow)" stroke-width="1.4"/>
+        <path d="M9.6 24 H16.4" stroke="var(--glow)" stroke-width="1.1"/>
+        <rect x="10" y="7" width="6" height="7" fill="none" stroke="var(--glow)" stroke-width="1.4"/>
+        <path d="M13 3.5 L13 7" stroke="var(--glow)" stroke-width="1.4"/>
+        <path d="M17 8 L25 5.5 M17 13 L25 15.5" stroke="var(--flame)" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M9 8 L1 5.5 M9 13 L1 15.5" stroke="var(--flame)" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+      <p class="wordmark">PHAROS</p>
+    </div>
+    <p class="lede">Velg tema og land. Pharos peker deg rett til portalen som forvalter dataene.</p>
+  </div>
+</header>
+
+<div class="panel">
+  <div class="step">
+    <p class="step-label">1 — Sted</p>
+    <select id="place" aria-label="Velg land eller region"></select>
+  </div>
+
+  <div class="step">
+    <p class="step-label">2 — Tema</p>
+    <div class="themes" id="themes"></div>
+  </div>
+
+  <div class="result" id="result">
+    <p class="empty">Velg et tema over, så viser Pharos hvor du skal.</p>
+  </div>
+
+  <footer>
+    <p>Kuratert oversikt over offisielle portaler for åpne data i Europa.
+    Alle 37 land har nasjonalportal. Geodatakilder er kontrollert for 31 land;
+    øvrige tema er i hovedsak ukontrollerte.</p>
+    <p style="margin-top:10px"><b style="color:var(--text-soft)">Om «ikke kontrollert»:</b>
+    de fleste lenkene her er ført opp fra kjennskap til hvilken etat som forvalter feltet,
+    uten at adressen er åpnet og sjekket. Etaten stemmer som regel, men adressen kan peke
+    til en forside i stedet for til datasettene. Lenker merket «kontrollert» er åpnet og bekreftet.</p>
+  </footer>
+</div>
+
+<script>
+/* ============================================================
+   PHAROS — datagrunnlag
+   Alt innhold ligger her. Ingen API-kall, ingen server.
+   Redigér denne blokken for å legge til eller rette kilder.
+   ============================================================ */
+
+const THEMES = [
+  { id:"REGI", name:"Kart og geodata",        hint:"terreng, eiendom, arealbruk" },
+  { id:"ENVI", name:"Miljø og klima",         hint:"natur, vær, forurensning" },
+  { id:"SOCI", name:"Befolkning og samfunn",  hint:"demografi, levekår" },
+  { id:"ECON", name:"Økonomi og næring",      hint:"foretak, handel, priser" },
+  { id:"GOVE", name:"Forvaltning",            hint:"registre, budsjett, valg" },
+  { id:"TRAN", name:"Transport",              hint:"veg, kollektiv, sjøfart" },
+  { id:"HEAL", name:"Helse",                  hint:"folkehelse, sykdom" },
+  { id:"ENER", name:"Energi",                 hint:"kraft, forbruk, nett" },
+  { id:"AGRI", name:"Landbruk og fiskeri",    hint:"jord, skog, hav" },
+  { id:"EDUC", name:"Utdanning",              hint:"skole, forskning" },
+  { id:"JUST", name:"Justis",                 hint:"lover, rettsvesen" },
+  { id:"TECH", name:"Forskningsdata",         hint:"publikasjoner, datasett" },
+  { id:"INTR", name:"Internasjonalt",         hint:"bistand, samarbeid" },
+];
+
+/* Regioner og land. "portal" er den klare anbefalingen. */
+const PLACES = {
+  /* --- regioner --- */
+  EU: { name:"Europa (samlet)", group:"Regioner",
+        portal:{ n:"data.europa.eu", o:"EU-kommisjonen", u:"https://data.europa.eu",
+                 d:"Høster alle nasjonale portaler i Europa" } },
+  NORDIC:{ name:"Norden", group:"Regioner",
+        portal:{ n:"Nordic Statistics", o:"Nordisk ministerråd", u:"https://www.nordicstatistics.org",
+                 d:"Sammenlignbar statistikk for de nordiske landene" } },
+
+  /* --- land --- */
+  al:{ name:"Albania", portal:{ n:"Open Data Albania", o:"AKSHI", u:"https://opendata.gov.al" } },
+  at:{ name:"Østerrike", portal:{ n:"data.gv.at", o:"Forbundskanselliet", u:"https://www.data.gv.at" } },
+  be:{ name:"Belgia", portal:{ n:"data.gov.be", o:"BOSA", u:"https://data.gov.be" } },
+  bg:{ name:"Bulgaria", portal:{ n:"data.egov.bg", o:"Statsforvaltningen", u:"https://data.egov.bg" } },
+  ch:{ name:"Sveits", portal:{ n:"opendata.swiss", o:"Bundesamt für Statistik", u:"https://opendata.swiss", v:1 } },
+  cy:{ name:"Kypros", portal:{ n:"data.gov.cy", o:"DMRID", u:"https://www.data.gov.cy" } },
+  cz:{ name:"Tsjekkia", portal:{ n:"data.gov.cz", o:"Innenriksdepartementet", u:"https://data.gov.cz" } },
+  de:{ name:"Tyskland", portal:{ n:"GovData", o:"Forbundsstaten og delstatene", u:"https://www.govdata.de" } },
+  dk:{ name:"Danmark", portal:{ n:"Open Data DK", o:"Kommuner og regioner", u:"https://www.opendata.dk" } },
+  ee:{ name:"Estland", portal:{ n:"avaandmed.eesti.ee", o:"Statsforvaltningen", u:"https://avaandmed.eesti.ee" } },
+  es:{ name:"Spania", portal:{ n:"datos.gob.es", o:"Red.es", u:"https://datos.gob.es" } },
+  fi:{ name:"Finland", portal:{ n:"avoindata.fi", o:"Digi- ja väestötietovirasto", u:"https://www.avoindata.fi" } },
+  fr:{ name:"Frankrike", portal:{ n:"data.gouv.fr", o:"Etalab", u:"https://www.data.gouv.fr" } },
+  gr:{ name:"Hellas", portal:{ n:"data.gov.gr", o:"Digitaliseringsdept.", u:"https://data.gov.gr" } },
+  hr:{ name:"Kroatia", portal:{ n:"data.gov.hr", o:"Digitaliseringsbyrået", u:"https://data.gov.hr" } },
+  hu:{ name:"Ungarn", portal:{ n:"Nemzeti Adatvagyon", o:"Statsforvaltningen", u:"https://adat.gov.hu" } },
+  ie:{ name:"Irland", portal:{ n:"data.gov.ie", o:"Dept. of Public Expenditure", u:"https://data.gov.ie" } },
+  is:{ name:"Island", portal:{ n:"Opin gögn", o:"Stafrænt Ísland", u:"https://opingogn.is" } },
+  it:{ name:"Italia", portal:{ n:"dati.gov.it", o:"AgID", u:"https://www.dati.gov.it" } },
+  lt:{ name:"Litauen", portal:{ n:"data.gov.lt", o:"Informatikkbyrået", u:"https://data.gov.lt" } },
+  lu:{ name:"Luxembourg", portal:{ n:"data.public.lu", o:"CTIE", u:"https://data.public.lu" } },
+  lv:{ name:"Latvia", portal:{ n:"data.gov.lv", o:"VARAM", u:"https://data.gov.lv" } },
+  md:{ name:"Moldova", portal:{ n:"date.gov.md", o:"e-Government Agency", u:"https://date.gov.md" } },
+  me:{ name:"Montenegro", portal:{ n:"data.gov.me", o:"Statsforvaltningen", u:"https://data.gov.me" } },
+  mk:{ name:"Nord-Makedonia", portal:{ n:"data.gov.mk", o:"Digitaliseringsdept.", u:"https://data.gov.mk" } },
+  mt:{ name:"Malta", portal:{ n:"data.gov.mt", o:"MITA", u:"https://data.gov.mt" } },
+  nl:{ name:"Nederland", portal:{ n:"data.overheid.nl", o:"Innenriksdept.", u:"https://data.overheid.nl" } },
+  no:{ name:"Norge", portal:{ n:"data.norge.no", o:"Digitaliseringsdirektoratet", u:"https://data.norge.no" } },
+  pl:{ name:"Polen", portal:{ n:"dane.gov.pl", o:"Digitaliseringsdept.", u:"https://dane.gov.pl" } },
+  pt:{ name:"Portugal", portal:{ n:"dados.gov.pt", o:"AMA", u:"https://dados.gov.pt" } },
+  ro:{ name:"Romania", portal:{ n:"data.gov.ro", o:"Statsforvaltningen", u:"https://data.gov.ro" } },
+  rs:{ name:"Serbia", portal:{ n:"data.gov.rs", o:"Kontoret for IT og e-forvaltning", u:"https://data.gov.rs" } },
+  se:{ name:"Sverige", portal:{ n:"Sveriges dataportal", o:"DIGG", u:"https://www.dataportal.se" } },
+  si:{ name:"Slovenia", portal:{ n:"OPSI", o:"Offentlig forvaltning", u:"https://podatki.gov.si" } },
+  sk:{ name:"Slovakia", portal:{ n:"data.slovensko.sk", o:"MIRRI", u:"https://data.slovensko.sk" } },
+  ua:{ name:"Ukraina", portal:{ n:"data.gov.ua", o:"Digitaliseringsdept.", u:"https://data.gov.ua" } },
+  uk:{ name:"Storbritannia", portal:{ n:"data.gov.uk", o:"Cabinet Office", u:"https://www.data.gov.uk" } },
+};
+
+/* Spesialkilder på europeisk nivå — gjelder alle land. */
+const EU_SPECIAL = {
+  REGI:[["data.europa.eu","EU-kommisjonen — erstattet INSPIRE Geoportal i juli 2026","https://data.europa.eu",1],
+        ["Copernicus Land","ESA og EU","https://land.copernicus.eu"],
+        ["GISCO","Eurostat","https://ec.europa.eu/eurostat/web/gisco"]],
+  ENVI:[["EEA Datahub","Det europeiske miljøbyrået","https://www.eea.europa.eu/en/datahub"],
+        ["Copernicus Climate","ECMWF","https://climate.copernicus.eu"]],
+  SOCI:[["Eurostat","EU-kommisjonen","https://ec.europa.eu/eurostat"]],
+  ECON:[["Eurostat","EU-kommisjonen","https://ec.europa.eu/eurostat"],
+        ["ECB Data Portal","Den europeiske sentralbanken","https://data.ecb.europa.eu"]],
+  GOVE:[["data.europa.eu","EU-kommisjonen","https://data.europa.eu"]],
+  TRAN:[["Eurostat transport","EU-kommisjonen","https://ec.europa.eu/eurostat/web/transport"]],
+  HEAL:[["ECDC","Smittevernbyrået","https://www.ecdc.europa.eu/en/data"],
+        ["Eurostat helse","EU-kommisjonen","https://ec.europa.eu/eurostat/web/health"]],
+  ENER:[["ENTSO-E Transparency","Nettoperatørene","https://transparency.entsoe.eu"],
+        ["Eurostat energi","EU-kommisjonen","https://ec.europa.eu/eurostat/web/energy"]],
+  AGRI:[["EU Agri-food data","EU-kommisjonen","https://agridata.ec.europa.eu"],
+        ["EMODnet","Havdata","https://emodnet.ec.europa.eu"]],
+  EDUC:[["Eurydice","EU-kommisjonen","https://eurydice.eacea.ec.europa.eu"]],
+  JUST:[["EUR-Lex","EU-kommisjonen","https://eur-lex.europa.eu"]],
+  TECH:[["OpenAIRE","OpenAIRE","https://www.openaire.eu"],
+        ["Zenodo","CERN","https://zenodo.org"],
+        ["CORDIS","EU-kommisjonen","https://cordis.europa.eu"]],
+  INTR:[["IATI Registry","IATI","https://iatiregistry.org"]],
+};
+
+/* Nasjonale spesialkilder. Vises før de europeiske. */
+const NAT_SPECIAL = {
+  no:{ REGI:[["Geonorge","Kartverket","https://www.geonorge.no"],
+             ["Kilden","NIBIO","https://kilden.nibio.no"]],
+       ENVI:[["Frost","Meteorologisk institutt","https://frost.met.no"],
+             ["Miljøstatus","Miljødirektoratet","https://miljostatus.miljodirektoratet.no"]],
+       SOCI:[["Statistikkbanken","SSB","https://www.ssb.no/api"]],
+       ECON:[["Enhetsregisteret","Brønnøysundregistrene","https://data.brreg.no"]],
+       GOVE:[["Enhetsregisteret","Brønnøysundregistrene","https://data.brreg.no"]],
+       TRAN:[["NVDB","Statens vegvesen","https://www.vegvesen.no/nvdb/"],
+             ["Entur","Entur","https://developer.entur.org"]],
+       HEAL:[["Statistikkbank","Folkehelseinstituttet","https://www.fhi.no/hn/helseregistre-og-registre/statistikkbank/"]],
+       ENER:[["NVE karttjenester","NVE","https://www.nve.no/karttjenester"]],
+       AGRI:[["Kilden","NIBIO","https://kilden.nibio.no"],
+             ["Havforskningsinstituttet","HI","https://www.hi.no"]],
+       TECH:[["Norsk Polarinstitutt","NPI","https://data.npolar.no"]] },
+  se:{ REGI:[["Geodata.se","Lantmäteriet","https://www.geodata.se",1]],
+       ENVI:[["SMHI Öppna data","SMHI","https://www.smhi.se/data"]],
+       SOCI:[["Statistikdatabasen","SCB","https://www.scb.se"]],
+       TRAN:[["Trafiklab","Samtrafiken","https://www.trafiklab.se"]] },
+  dk:{ REGI:[["Dataforsyningen","Klimadatastyrelsen","https://dataforsyningen.dk",1]],
+       ENVI:[["DMI Open Data","DMI","https://opendatadocs.dmi.govcloud.dk"]],
+       SOCI:[["Statistikbanken","Danmarks Statistik","https://www.statistikbanken.dk"]] },
+  fi:{ REGI:[["Paikkatietoikkuna","Maanmittauslaitos","https://www.paikkatietoikkuna.fi",1]],
+       ENVI:[["FMI Open Data","Ilmatieteen laitos","https://en.ilmatieteenlaitos.fi/open-data"]],
+       SOCI:[["StatFin","Tilastokeskus","https://stat.fi"]] },
+  is:{ REGI:[["Landmælingar Íslands","LMÍ","https://www.lmi.is",1]],
+       ENVI:[["Veðurstofa Íslands","Met Office","https://www.vedur.is"]] },
+  de:{ REGI:[["Geoportal.de","GDI-DE","https://www.geoportal.de",1]],
+       ENVI:[["DWD Open Data","Deutscher Wetterdienst","https://opendata.dwd.de"],
+             ["Umweltbundesamt","UBA","https://www.umweltbundesamt.de"]],
+       SOCI:[["GENESIS","Destatis","https://www-genesis.destatis.de"]] },
+  fr:{ REGI:[["Géoportail","IGN","https://www.geoportail.gouv.fr",1]],
+       ENVI:[["Météo-France données","Météo-France","https://meteo.data.gouv.fr"]],
+       SOCI:[["INSEE","INSEE","https://www.insee.fr"]] },
+  uk:{ REGI:[["OS Data Hub","Ordnance Survey","https://osdatahub.os.uk"]],
+       ENVI:[["Met Office DataPoint","Met Office","https://www.metoffice.gov.uk/services/data"],
+             ["DEFRA Data Services","DEFRA","https://environment.data.gov.uk"]],
+       SOCI:[["ONS","Office for National Statistics","https://www.ons.gov.uk"]] },
+  nl:{ REGI:[["PDOK","Kadaster","https://www.pdok.nl",1]],
+       ENVI:[["KNMI Data Platform","KNMI","https://dataplatform.knmi.nl"]],
+       SOCI:[["StatLine","CBS","https://opendata.cbs.nl"]] },
+  es:{ REGI:[["IDEE","Infraestructura de Datos Espaciales","https://www.idee.es",1]],
+       ENVI:[["AEMET OpenData","AEMET","https://opendata.aemet.es"]],
+       SOCI:[["INEbase","INE","https://www.ine.es"]] },
+  it:{ REGI:[["Geoportale Nazionale","Miljødepartementet","https://gn.mase.gov.it",1],
+             ["geodati.gov.it","Nasjonalt geodataregister","https://geodati.gov.it",1]],
+       ENVI:[["Geoportale ISPRA","ISPRA","https://geoportale.isprambiente.gov.it",1]],
+       SOCI:[["I.Stat","ISTAT","https://www.istat.it"]] },
+  pl:{ REGI:[["Geoportal","GUGiK","https://www.geoportal.gov.pl",1]],
+       SOCI:[["Bank Danych Lokalnych","GUS","https://bdl.stat.gov.pl"]] },
+  ch:{ REGI:[["data.geo.admin.ch","swisstopo","https://data.geo.admin.ch",1]],
+       ENVI:[["MeteoSwiss Open Data","MeteoSchweiz","https://opendatadocs.meteoswiss.ch",1]],
+       SOCI:[["BFS","Bundesamt für Statistik","https://www.bfs.admin.ch"]] },
+  at:{ REGI:[["geoportal.at","Nasjonal geoportal","https://www.geoportal.at",1]],
+       ENVI:[["GeoSphere Austria","GeoSphere","https://data.hub.geosphere.at"]],
+       SOCI:[["Statistik Austria","Statistik Austria","https://www.statistik.at"]] },
+  ie:{ REGI:[["GeoHive","Tailte Éireann","https://www.geohive.ie",1]],
+       SOCI:[["CSO","Central Statistics Office","https://www.cso.ie"]] },
+  be:{ REGI:[["geo.be","Nationaal Geografisch Instituut","https://www.geo.be",1]],
+       SOCI:[["Statbel","Statbel","https://statbel.fgov.be"]] },
+  pt:{ REGI:[["SNIG","DGT","https://snig.dgterritorio.gov.pt",1]],
+       SOCI:[["INE","INE","https://www.ine.pt"]] },
+  cz:{ REGI:[["geoportal.gov.cz","Nasjonal geoportal","https://geoportal.gov.cz",1]],
+       SOCI:[["ČSÚ","Český statistický úřad","https://www.czso.cz"]] },
+  ee:{ REGI:[["Maa-amet geoportaal","Maa-amet","https://geoportaal.maaamet.ee",1]],
+       SOCI:[["Statistikaamet","Statistikaamet","https://www.stat.ee"]] },
+  bg:{ REGI:[["Kadastar","Agentur for geodesi og kartografi","https://www.cadastre.bg",1]] },
+  cy:{ REGI:[["data.gov.cy","DMRID","https://www.data.gov.cy",1]] },
+  gr:{ REGI:[["geodata.gov.gr","Greek Open Data Catalogue","https://geodata.gov.gr",1]] },
+  hr:{ REGI:[["Geoportal DGU","Državna geodetska uprava","https://geoportal.dgu.hr",1]] },
+  hu:{ REGI:[["Földhivatal","Nasjonal kartetat","https://www.foldhivatal.hu",1]] },
+  lt:{ REGI:[["geoportal.lt","Nasjonal geoportal","https://www.geoportal.lt",1]] },
+  lu:{ REGI:[["geoportal.lu","ACT","https://www.geoportal.lu",1]] },
+  lv:{ REGI:[["LGIA","Latvijas Ģeotelpiskās informācijas aģentūra","https://www.lgia.gov.lv",1]] },
+  mt:{ REGI:[["MSDI Geoportal","Malta Spatial Data Infrastructure","https://msdi.data.gov.mt/geoportal.html",1]] },
+  si:{ REGI:[["e-Prostor","Geodetska uprava","https://www.e-prostor.gov.si",1]] },
+  sk:{ REGI:[["geoportal.sk","Úrad geodézie","https://www.geoportal.sk",1]] },
+  ro:{ REGI:[["Geoportal ANCPI","ANCPI","https://geoportal.ancpi.ro"]] },
+};
+
+
+let place = "no", theme = null;
+
+const placeEl  = document.getElementById('place');
+const themesEl = document.getElementById('themes');
+const resEl    = document.getElementById('result');
+
+/* --- bygg nedtrekksmeny: regioner først, så land alfabetisk --- */
+const regions = Object.entries(PLACES).filter(([,v]) => v.group === "Regioner");
+const countries = Object.entries(PLACES).filter(([,v]) => v.group !== "Regioner")
+  .sort((a,b) => a[1].name.localeCompare(b[1].name, 'nb'));
+
+function addGroup(label, items){
+  const g = document.createElement('optgroup');
+  g.label = label;
+  items.forEach(([k,v]) => {
+    const o = document.createElement('option');
+    o.value = k; o.textContent = v.name;
+    if(k === place) o.selected = true;
+    g.appendChild(o);
+  });
+  placeEl.appendChild(g);
+}
+addGroup("Regioner", regions);
+addGroup("Land", countries);
+
+placeEl.onchange = () => { place = placeEl.value; if(theme) render(); };
+
+/* --- temaknapper --- */
+THEMES.forEach(t => {
+  const b = document.createElement('button');
+  b.type = 'button'; b.className = 'theme';
+  b.setAttribute('aria-pressed','false');
+  b.innerHTML = `<strong>${t.name}</strong><span>${t.hint}</span>`;
+  b.onclick = () => {
+    theme = t;
+    [...themesEl.children].forEach(c => c.setAttribute('aria-pressed', c === b ? 'true' : 'false'));
+    render();
+  };
+  themesEl.appendChild(b);
+});
+
+function esc(s){ return String(s).replace(/[<>&"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c])); }
+
+function render(){
+  const p = PLACES[place];
+  const nat = (NAT_SPECIAL[place] || {})[theme.id] || [];
+  const eu  = EU_SPECIAL[theme.id] || [];
+
+  const countryMapped = Boolean(NAT_SPECIAL[place]) || p.group === "Regioner";
+  const state = nat.length ? "spesial" : (countryMapped ? "samlet" : "ukjent");
+
+  let primary, rest;
+  if(state === "spesial"){
+    primary = { n:nat[0][0], o:nat[0][1], u:nat[0][2], v:nat[0][3],
+                d:`Forvalter ${theme.name.toLowerCase()} i ${p.name}` };
+    rest = [...nat.slice(1), [p.portal.n, p.portal.o, p.portal.u, p.portal.v], ...eu];
+  } else {
+    primary = { ...p.portal, d: p.portal.d ||
+      (state === "samlet"
+        ? `Samler alle tema i én portal — dette er inngangen også for ${theme.name.toLowerCase()}`
+        : `Nasjonal portal for åpne data i ${p.name}`) };
+    rest = eu;
+  }
+  rest = rest.slice(0,3);
+
+  const BADGE = {
+    spesial:["Spesialkilde","ok"],
+    samlet:["Samlet i nasjonalportalen","ok"],
+    ukjent:["Ikke kartlagt i detalj","warn"],
+  }[state];
+
+  /* Lenker vi ikke har sjekket merkes eksplisitt. Uverifisert betyr at etaten
+     nesten sikkert er riktig, men at adressen kan peke til en forside i stedet
+     for til selve datasettene. */
+  const vmark = v => v
+    ? '<span class="v ok" title="Adressen er kontrollert">\u2713 kontrollert</span>'
+    : '<span class="v no" title="Etaten er trolig riktig, men adressen er ikke kontrollert">ikke kontrollert</span>';
+
+  const caveat = state === "ukjent"
+    ? `<p class="caveat">Pharos har ikke kartlagt spesialkilder for ${esc(p.name)} ennå.
+       Nasjonalportalen er riktig inngang, men det finnes trolig en mer spesialisert
+       etat for ${esc(theme.name.toLowerCase())} som ikke er registrert her.</p>`
+    : '';
+
+  const alts = rest.map(([n,o,u,v]) => `
+    <a class="alt" href="${esc(u)}" target="_blank" rel="noopener">
+      <span class="alt-n">${esc(n)}</span>
+      <span class="alt-o">${esc(o)}</span>
+      ${vmark(v)}
+      <span class="alt-x">\u2197</span>
+    </a>`).join('');
+
+  resEl.innerHTML = `
+    <p class="result-head">${esc(theme.name)} \u00b7 ${esc(p.name)}
+      <span class="badge ${BADGE[1]}">${esc(BADGE[0])}</span></p>
+    <a class="primary" href="${esc(primary.u)}" target="_blank" rel="noopener">
+      <p class="name">${esc(primary.n)}</p>
+      <p class="org">${esc(primary.o)} ${vmark(primary.v)}</p>
+      <p class="why">${esc(primary.d)}</p>
+      <p class="go">G\u00e5 til portalen \u2197</p>
+    </a>
+    ${caveat}
+    ${rest.length ? `<p class="also">Andre kilder</p>${alts}` : ''}`;
+}
+</script>
+
+</body>
+</html>
