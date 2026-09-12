@@ -158,15 +158,12 @@
   }
   .coords{
     grid-column:-2 / -1; justify-self:end;
+    pointer-events:none;
     font-family:"JetBrains Mono","SF Mono",Menlo,Consolas,monospace;
-    font-size:0.76rem; letter-spacing:0.06em;
+    font-size:0.82rem; letter-spacing:0.05em;
     color:var(--ice); background:none; border:none; padding:4px 0;
-    cursor:pointer; white-space:nowrap;
+    white-space:nowrap;
   }
-  .coords:hover{ color:var(--glow); }
-  .coords:focus-visible{ outline:2px solid var(--ice); outline-offset:3px; }
-  .coords.set{ cursor:default; opacity:0.85; }
-  .coords.set:hover{ color:var(--ice); }
   @media (max-width:640px){ .coords{ grid-column:1 / -1; justify-self:start; } }
 
   select{
@@ -246,6 +243,17 @@
   .alt-x{ margin-left:auto; padding-left:8px; font-size:0.8rem; color:var(--text-faint); }
   .empty{ font-size:0.94rem; color:var(--text-faint); margin:0; }
 
+  .clock{
+    display:flex; flex-wrap:wrap; justify-content:center; gap:4px 22px;
+    margin:18px 0 0; padding:14px 0 0;
+    border-top:1px solid var(--line);
+    font-family:"JetBrains Mono","SF Mono",Menlo,Consolas,monospace;
+    font-size:0.72rem; letter-spacing:0.06em;
+    color:var(--text-faint);
+  }
+  .clock b{ color:var(--ice); font-weight:400; margin-right:7px; }
+  .clock span{ white-space:nowrap; }
+
   .tools{ border-top:1px solid var(--line); padding:0 26px; }
   .tools summary{
     cursor:pointer; list-style:none; padding:18px 0;
@@ -285,7 +293,6 @@
     font-size:0.78rem; color:var(--text-faint);
   }
   .made-by .sep{ margin:0 8px; opacity:0.5; }
-  .weather-note{ margin:12px 0 0; font-size:0.76rem; color:var(--text-faint); }
   footer b{ color:var(--text-soft); }
 
   @media (max-width:640px){
@@ -326,7 +333,7 @@
     </div>
     <div class="place-row">
       <select id="place" aria-label="Velg land eller region"></select>
-      <button type="button" class="coords" id="coords">— — —</button>
+      <span class="coords" id="coords"></span>
     </div>
   </div>
 
@@ -352,7 +359,7 @@
   <footer>
     <p id="foot1"></p>
     <p style="margin-top:10px"><b id="footLabel"></b><span id="foot2"></span></p>
-    <p class="weather-note" id="weatherNote"></p>
+    <div class="clock" id="clock" aria-hidden="true"></div>
     <p class="made-by"><span id="madeBy">Utviklet av</span>
     <a href="https://github.com/u9ts" target="_blank" rel="noopener">u9ts</a>
     <span class="sep">·</span>
@@ -865,7 +872,9 @@ const ORGS = [
 }
 ];
 
-const UI = {"en": {"lede": "Catalogue of open data sources across Europe", "step1": "1 — Country or region", "step2": "2 — Choose theme", "selectLabel": "Choose a country or region", "regions": "Regions", "countries": "Countries", "intro": "Pick a theme below and Varde will point you to the right portal.", "special": "Specialist source", "single": "Held in the national portal", "unmapped": "Not mapped in detail", "confirmed": "✓ confirmed", "unconfirmed": "unconfirmed", "confirmedTitle": "Address checked against an independent source", "unconfirmedTitle": "Agency is probably right, address unconfirmed", "go": "Go to the portal ↗", "other": "Other sources", "foot1": "A curated catalogue of official open data sources in Europe. All 37 countries have a national portal; 55 of about 100 sources have been confirmed against an independent source; the rest are marked unconfirmed.", "orgs": "Professional bodies", "orgsNote": "Member organisations for people working with geographic information.", "tools": "Other useful sites", "toolsNote": "Tools for making and reading maps. Not data sources.", "license": "Open source under the", "madeBy": "Developed by", "footLabel": "On the labels:", "weatherNote": "Position and weather are fetched only when you ask for it. Weather from Open-Meteo.", "foot2": "“Confirmed” means the address has been checked against an independent source as the right entry point to that agency’s data. “Unconfirmed” means the agency is probably right, but the address may lead to a front page rather than to the datasets. Links point to each source’s own site; Varde stores no data itself."}, "no": {"lede": "Katalog over kilder til åpne data i Europa", "step1": "1 — Land eller region", "step2": "2 — Velg tema", "selectLabel": "Velg land eller region", "regions": "Regioner", "countries": "Land", "intro": "Velg et tema under, så peker Varde deg til riktig portal.", "special": "Spesialkilde", "single": "Samlet i nasjonalportalen", "unmapped": "Ikke kartlagt i detalj", "confirmed": "✓ bekreftet", "unconfirmed": "ikke bekreftet", "confirmedTitle": "Adressen er bekreftet mot en uavhengig kilde", "unconfirmedTitle": "Etaten er trolig riktig, adressen er ikke bekreftet", "go": "Gå til portalen ↗", "other": "Andre kilder", "foot1": "Kuratert katalog over offisielle kilder til åpne data i Europa. Alle 37 land har nasjonalportal; 55 av rundt 100 kilder er bekreftet mot en uavhengig kilde; resten er merket ubekreftet.", "orgs": "Fagmiljøer og foreninger", "orgsNote": "Interesseorganisasjoner for folk som jobber med geografisk informasjon.", "tools": "Andre nyttige nettsider", "toolsNote": "Verktøy for å lage og lese kart. Ikke datakilder.", "license": "Åpen kildekode under", "madeBy": "Utviklet av", "footLabel": "Om merkingen:", "weatherNote": "Posisjon og vær hentes bare når du selv ber om det. Værdata fra Open-Meteo.", "foot2": "«Bekreftet» betyr at adressen er kontrollert mot en uavhengig kilde som riktig inngang til etatens data. «Ikke bekreftet» betyr at etaten trolig er riktig, men at adressen kan peke til en forside i stedet for til datasettene. Lenkene peker til kildens egne sider; Varde lagrer ingen data selv."}};
+const CAP = {"EU": ["Brussel", "Brussels", 50.85, 4.35, "Europe/Brussels"], "NORDIC": ["Oslo", "Oslo", 59.91, 10.75, "Europe/Oslo"], "al": ["Tirana", "Tirana", 41.33, 19.82, "Europe/Tirane"], "at": ["Wien", "Vienna", 48.21, 16.37, "Europe/Vienna"], "be": ["Brussel", "Brussels", 50.85, 4.35, "Europe/Brussels"], "bg": ["Sofia", "Sofia", 42.7, 23.32, "Europe/Sofia"], "ch": ["Bern", "Bern", 46.95, 7.45, "Europe/Zurich"], "cy": ["Nikosia", "Nicosia", 35.17, 33.36, "Asia/Nicosia"], "cz": ["Praha", "Prague", 50.09, 14.42, "Europe/Prague"], "de": ["Berlin", "Berlin", 52.52, 13.4, "Europe/Berlin"], "dk": ["København", "Copenhagen", 55.68, 12.57, "Europe/Copenhagen"], "ee": ["Tallinn", "Tallinn", 59.44, 24.75, "Europe/Tallinn"], "es": ["Madrid", "Madrid", 40.42, -3.7, "Europe/Madrid"], "fi": ["Helsingfors", "Helsinki", 60.17, 24.94, "Europe/Helsinki"], "fr": ["Paris", "Paris", 48.86, 2.35, "Europe/Paris"], "gr": ["Athen", "Athens", 37.98, 23.73, "Europe/Athens"], "hr": ["Zagreb", "Zagreb", 45.81, 15.98, "Europe/Zagreb"], "hu": ["Budapest", "Budapest", 47.5, 19.04, "Europe/Budapest"], "ie": ["Dublin", "Dublin", 53.35, -6.26, "Europe/Dublin"], "is": ["Reykjavík", "Reykjavik", 64.15, -21.94, "Atlantic/Reykjavik"], "it": ["Roma", "Rome", 41.9, 12.5, "Europe/Rome"], "lt": ["Vilnius", "Vilnius", 54.69, 25.28, "Europe/Vilnius"], "lu": ["Luxembourg", "Luxembourg", 49.61, 6.13, "Europe/Luxembourg"], "lv": ["Riga", "Riga", 56.95, 24.11, "Europe/Riga"], "md": ["Chișinău", "Chisinau", 47.01, 28.86, "Europe/Chisinau"], "me": ["Podgorica", "Podgorica", 42.44, 19.26, "Europe/Podgorica"], "mk": ["Skopje", "Skopje", 41.996, 21.43, "Europe/Skopje"], "mt": ["Valletta", "Valletta", 35.9, 14.51, "Europe/Malta"], "nl": ["Amsterdam", "Amsterdam", 52.37, 4.9, "Europe/Amsterdam"], "no": ["Oslo", "Oslo", 59.91, 10.75, "Europe/Oslo"], "pl": ["Warszawa", "Warsaw", 52.23, 21.01, "Europe/Warsaw"], "pt": ["Lisboa", "Lisbon", 38.72, -9.14, "Europe/Lisbon"], "ro": ["Bucuresti", "Bucharest", 44.43, 26.1, "Europe/Bucharest"], "rs": ["Beograd", "Belgrade", 44.79, 20.45, "Europe/Belgrade"], "se": ["Stockholm", "Stockholm", 59.33, 18.07, "Europe/Stockholm"], "si": ["Ljubljana", "Ljubljana", 46.06, 14.51, "Europe/Ljubljana"], "sk": ["Bratislava", "Bratislava", 48.15, 17.11, "Europe/Bratislava"], "ua": ["Kyiv", "Kyiv", 50.45, 30.52, "Europe/Kyiv"], "uk": ["London", "London", 51.51, -0.13, "Europe/London"]};
+
+const UI = {"en": {"lede": "Catalogue of open data sources across Europe", "step1": "1 — Country or region", "step2": "2 — Choose theme", "selectLabel": "Choose a country or region", "regions": "Regions", "countries": "Countries", "intro": "Pick a theme below and Varde will point you to the right portal.", "special": "Specialist source", "single": "Held in the national portal", "unmapped": "Not mapped in detail", "confirmed": "✓ confirmed", "unconfirmed": "unconfirmed", "confirmedTitle": "Address checked against an independent source", "unconfirmedTitle": "Agency is probably right, address unconfirmed", "go": "Go to the portal ↗", "other": "Other sources", "foot1": "A curated catalogue of official open data sources in Europe. All 37 countries have a national portal; 55 of about 100 sources have been confirmed against an independent source; the rest are marked unconfirmed.", "orgs": "Professional bodies", "orgsNote": "Member organisations for people working with geographic information.", "tools": "Other useful sites", "toolsNote": "Tools for making and reading maps. Not data sources.", "license": "Open source under the", "madeBy": "Developed by", "footLabel": "On the labels:", "foot2": "“Confirmed” means the address has been checked against an independent source as the right entry point to that agency’s data. “Unconfirmed” means the agency is probably right, but the address may lead to a front page rather than to the datasets. Links point to each source’s own site; Varde stores no data itself."}, "no": {"lede": "Katalog over kilder til åpne data i Europa", "step1": "1 — Land eller region", "step2": "2 — Velg tema", "selectLabel": "Velg land eller region", "regions": "Regioner", "countries": "Land", "intro": "Velg et tema under, så peker Varde deg til riktig portal.", "special": "Spesialkilde", "single": "Samlet i nasjonalportalen", "unmapped": "Ikke kartlagt i detalj", "confirmed": "✓ bekreftet", "unconfirmed": "ikke bekreftet", "confirmedTitle": "Adressen er bekreftet mot en uavhengig kilde", "unconfirmedTitle": "Etaten er trolig riktig, adressen er ikke bekreftet", "go": "Gå til portalen ↗", "other": "Andre kilder", "foot1": "Kuratert katalog over offisielle kilder til åpne data i Europa. Alle 37 land har nasjonalportal; 55 av rundt 100 kilder er bekreftet mot en uavhengig kilde; resten er merket ubekreftet.", "orgs": "Fagmiljøer og foreninger", "orgsNote": "Interesseorganisasjoner for folk som jobber med geografisk informasjon.", "tools": "Andre nyttige nettsider", "toolsNote": "Verktøy for å lage og lese kart. Ikke datakilder.", "license": "Åpen kildekode under", "madeBy": "Utviklet av", "footLabel": "Om merkingen:", "foot2": "«Bekreftet» betyr at adressen er kontrollert mot en uavhengig kilde som riktig inngang til etatens data. «Ikke bekreftet» betyr at etaten trolig er riktig, men at adressen kan peke til en forside i stedet for til datasettene. Lenkene peker til kildens egne sider; Varde lagrer ingen data selv."}};
 
 /* ---------- ASCII-klode ----------
    Strålekast mot kule, oppslag i pakket landmaske (1 bit per grad),
@@ -952,82 +961,78 @@ const UI = {"en": {"lede": "Catalogue of open data sources across Europe", "step
   }
 })();
 
+/* ---------- verdensklokke ---------- */
+const CLOCKS = [
+  ["OSL","Europe/Oslo"], ["LON","Europe/London"], ["PAR","Europe/Paris"],
+  ["NYC","America/New_York"], ["TYO","Asia/Tokyo"], ["UTC","UTC"],
+];
+(function(){
+  const el = document.getElementById('clock');
+  if(!el) return;
+  const tick = () => {
+    const now = new Date();
+    el.innerHTML = CLOCKS.map(([code, tz]) => {
+      const t = new Intl.DateTimeFormat('nb-NO', { timeZone:tz,
+        hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false }).format(now);
+      return `<span><b>${code}</b>${t}</span>`;
+    }).join('');
+  };
+  tick();
+  setInterval(tick, 1000);
+})();
+
 let lang = "no";
 
-/* ---------- posisjon, med vær som påskeegg ----------
-   Trykk én gang for koordinater, én gang til for været.
-   Data fra Open-Meteo (åpne data, ingen nøkkel).          */
-(function(){
+/* ---------- dagslys ----------
+   Soloppgang og solnedgang regnet ut lokalt fra NOAAs
+   tilnærming. Ingen eksterne kall.                      */
+function daylight(lat, lon, tz){
+  const now = new Date();
+  const start = Date.UTC(now.getUTCFullYear(), 0, 0);
+  const n = Math.floor((Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()) - start) / 86400000);
+  const g = 2 * Math.PI / 365 * (n - 1);
+
+  const eq = 229.18 * (0.000075 + 0.001868*Math.cos(g) - 0.032077*Math.sin(g)
+           - 0.014615*Math.cos(2*g) - 0.040849*Math.sin(2*g));
+  const dec = 0.006918 - 0.399912*Math.cos(g) + 0.070257*Math.sin(g)
+            - 0.006758*Math.cos(2*g) + 0.000907*Math.sin(2*g)
+            - 0.002697*Math.cos(3*g) + 0.00148*Math.sin(3*g);
+
+  const rad = lat * Math.PI / 180;
+  const cosH = Math.cos(90.833 * Math.PI/180) / (Math.cos(rad) * Math.cos(dec)) - Math.tan(rad) * Math.tan(dec);
+  if(cosH < -1) return { polar:"day" };
+  if(cosH >  1) return { polar:"night" };
+
+  const ha = Math.acos(cosH) * 180 / Math.PI;
+  const base = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  const mk = min => new Date(base + min * 60000);
+  const fmt = d => new Intl.DateTimeFormat('nb-NO',
+    { timeZone:tz, hour:'2-digit', minute:'2-digit', hour12:false }).format(d);
+
+  const rise = 720 + 4 * (-lon - ha) - eq;
+  const set  = 720 + 4 * (-lon + ha) - eq;
+  const len  = (set - rise) / 60;
+  return { rise:fmt(mk(rise)), set:fmt(mk(set)),
+           h:Math.floor(len), m:Math.round((len - Math.floor(len)) * 60) };
+}
+
+function loadWeather(){
   const el = document.getElementById('coords');
-  if(!el) return;
+  const cap = CAP[place];
+  if(!el || !cap) return;
+  const [nameNo, nameEn, lat, lon, tz] = cap;
+  const city = lang === "no" ? nameNo : nameEn;
+  const d = daylight(lat, lon, tz);
 
-  let pos = null, stage = 0;
-
-  const dms = (v, pos_, neg) => {
-    const hemi = v >= 0 ? pos_ : neg;
-    const a = Math.abs(v), d = Math.floor(a), m = Math.round((a - d) * 60);
-    return `${d}\u00b0${String(m).padStart(2,'0')}\u2032${hemi}`;
-  };
-  const coordText = () => dms(pos.lat, "N", "S") + "  " +
-    dms(pos.lon, lang === "no" ? "\u00d8" : "E", "W");
-
-  const T = {
-    no:{ ask:"vis posisjon", deny:"posisjon ikke delt", wait:"...", fail:"fikk ikke v\u00e6ret" },
-    en:{ ask:"show position", deny:"position not shared", wait:"...", fail:"weather unavailable" },
-  };
-  const t2 = k => T[lang === "no" ? "no" : "en"][k];
-
-  /* WMO-koder til enkle tegn */
-  const SYM = c =>
-    c === 0 ? "\u2600" :
-    c <= 2  ? "\u25d1" :
-    c === 3 ? "\u2601" :
-    c <= 48 ? "\u2592" :
-    c <= 67 ? "\u2614" :
-    c <= 77 ? "\u2744" :
-    c <= 82 ? "\u2614" :
-    c <= 86 ? "\u2744" : "\u26a1";
-
-  el.textContent = t2('ask');
-  el._reset = () => {
-    if(stage === 0) el.textContent = t2('ask');
-    else if(pos) el.textContent = coordText() + (el._w || "");
-  };
-
-  el.onclick = () => {
-    if(stage === 0){
-      if(!navigator.geolocation){ el.textContent = t2('deny'); return; }
-      el.textContent = t2('wait');
-      navigator.geolocation.getCurrentPosition(
-        p => {
-          pos = { lat:p.coords.latitude, lon:p.coords.longitude };
-          stage = 1;
-          el.textContent = coordText();
-          el.title = lang === "no" ? "trykk igjen" : "click again";
-        },
-        () => { el.textContent = t2('deny'); setTimeout(() => { el.textContent = t2('ask'); }, 2500); },
-        { timeout: 8000, maximumAge: 600000 }
-      );
-      return;
-    }
-    if(stage === 1 && pos){
-      stage = 2;
-      el.textContent = coordText() + "  " + t2('wait');
-      const u = "https://api.open-meteo.com/v1/forecast?latitude=" + pos.lat.toFixed(3) +
-                "&longitude=" + pos.lon.toFixed(3) + "&current=temperature_2m,weather_code";
-      fetch(u).then(r => r.json()).then(j => {
-        const c = j.current;
-        el._w = "  \u00b7  " + Math.round(c.temperature_2m) + "\u00b0C " + SYM(c.weather_code);
-        el.textContent = coordText() + el._w;
-        el.title = "Open-Meteo";
-        el.classList.add('set');
-      }).catch(() => {
-        el.textContent = coordText() + "  \u00b7  " + t2('fail');
-        stage = 1;
-      });
-    }
-  };
-})();
+  if(d.polar === "day"){
+    el.textContent = city + "  " + (lang === "no" ? "midnattssol" : "midnight sun");
+  } else if(d.polar === "night"){
+    el.textContent = city + "  " + (lang === "no" ? "m\u00f8rketid" : "polar night");
+  } else {
+    el.textContent = city + "  \u2600 " + d.rise + "\u2013" + d.set +
+                     "  \u00b7  " + d.h + "t " + d.m + "m";
+  }
+}
 
 let place = "no", theme = null;
 
@@ -1068,13 +1073,11 @@ function applyLang(){
   document.getElementById('footLabel').textContent = t('footLabel');
   document.getElementById('madeBy').textContent    = t('madeBy');
   document.getElementById('licenseTxt').textContent= t('license');
-  document.getElementById('weatherNote').textContent= t('weatherNote');
   document.getElementById('toolsTitle').textContent= t('tools');
   document.getElementById('toolsNote').textContent = t('toolsNote');
   document.getElementById('orgsTitle').textContent = t('orgs');
   document.getElementById('orgsNote').textContent  = t('orgsNote');
-  const co = document.getElementById('coords');
-  if(co && co._reset) co._reset();
+  loadWeather();
   buildTools();
   buildOrgs();
   document.getElementById('foot2').textContent     = ' ' + t('foot2');
@@ -1215,7 +1218,7 @@ function render(){
     ${rest.length ? `<p class="also">${esc(t('other'))}</p>${alts}` : ''}`;
 }
 
-placeEl.onchange = () => { place = placeEl.value; if(theme) render(); };
+placeEl.onchange = () => { place = placeEl.value; loadWeather(); if(theme) render(); };
 
 applyLang();
 </script>
