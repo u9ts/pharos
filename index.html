@@ -264,6 +264,8 @@
   .tools summary:hover{ color:var(--ice); }
   .tools summary:focus-visible{ outline:2px solid var(--brass); outline-offset:2px; }
   .tools-note{ font-size:0.84rem; color:var(--text-faint); margin:0 0 18px; }
+  .tools-note a{ color:var(--brass); text-underline-offset:3px; }
+  .tools-note a:hover{ color:var(--ice); }
   .tools.muted{ padding:0; border-top:none; }
   .tools.muted summary{ color:var(--text-faint); padding:12px 0; }
   .tools.muted summary::before{ color:var(--text-faint); }
@@ -405,6 +407,10 @@
       <summary><span id="footLabel"></span></summary>
       <p class="tools-note" id="foot2"></p>
     </details>
+    <details class="tools muted" id="contactBox">
+    <summary><span id="contactTitle">Kontakt</span></summary>
+    <p class="tools-note" id="contactBody"></p>
+    </details>
     <div class="clock" id="clock" aria-hidden="true"></div>
     <p class="made-by"><span id="madeBy">Utviklet av</span>
     <a href="https://github.com/u9ts" target="_blank" rel="noopener">u9ts</a>
@@ -457,7 +463,7 @@ const PLACES = {
   dk:{ name:"Denmark", portal:{ n:"Open Data DK", o:"Municipalities and regions", u:"https://www.opendata.dk" } },
   ee:{ name:"Estonia", portal:{ n:"avaandmed.eesti.ee", o:"Central government", u:"https://avaandmed.eesti.ee" } },
   es:{ name:"Spain", portal:{ n:"datos.gob.es", o:"Red.es", u:"https://datos.gob.es" } },
-  fi:{ name:"Finland", portal:{ n:"avoindata.fi", o:"Digi- ja väestötietovirasto", u:"https://www.avoindata.fi" } },
+  fi:{ name:"Finland", portal:{ n:"Suomi.fi-avoindata", o:"Digi- ja väestötietovirasto", u:"https://avoindata.suomi.fi/en", v:1 } },
   fr:{ name:"France", portal:{ n:"data.gouv.fr", o:"Etalab", u:"https://www.data.gouv.fr" } },
   gr:{ name:"Greece", portal:{ n:"data.gov.gr", o:"Ministry of Digitalisation", u:"https://data.gov.gr" } },
   hr:{ name:"Croatia", portal:{ n:"data.gov.hr", o:"Digital Agency", u:"https://data.gov.hr" } },
@@ -524,7 +530,7 @@ const NAT_SPECIAL = {
        SOCI:[["Statistikkbanken API","SSB","https://data.ssb.no/api/",1]],
        ECON:[["Enhetsregisteret","Brønnøysund Register Centre","https://data.brreg.no",1]],
        GOVE:[["Enhetsregisteret","Brønnøysund Register Centre","https://data.brreg.no",1]],
-       TRAN:[["NVDB API","Norwegian Public Roads Administration","https://nvdbapiles-v3.atlas.vegvesen.no/dokumentasjon",1],
+       TRAN:[["NVDB API Les V4","Norwegian Public Roads Administration","https://nvdbapiles.atlas.vegvesen.no/",1],
              ["Entur","Entur","https://developer.entur.org"]],
        HEAL:[["Statistics bank","Norwegian Institute of Public Health","https://www.fhi.no/hn/helseregistre-og-registre/statistikkbank/"]],
        ENER:[["NVE map services","NVE","https://www.nve.no/karttjenester"]],
@@ -923,7 +929,7 @@ const ORGS = [
 
 const CAP = {"EU": ["Brussel", "Brussels", 50.85, 4.35, "Europe/Brussels"], "NORDIC": ["Oslo", "Oslo", 59.91, 10.75, "Europe/Oslo"], "al": ["Tirana", "Tirana", 41.33, 19.82, "Europe/Tirane"], "at": ["Wien", "Vienna", 48.21, 16.37, "Europe/Vienna"], "be": ["Brussel", "Brussels", 50.85, 4.35, "Europe/Brussels"], "bg": ["Sofia", "Sofia", 42.7, 23.32, "Europe/Sofia"], "ch": ["Bern", "Bern", 46.95, 7.45, "Europe/Zurich"], "cy": ["Nikosia", "Nicosia", 35.17, 33.36, "Asia/Nicosia"], "cz": ["Praha", "Prague", 50.09, 14.42, "Europe/Prague"], "de": ["Berlin", "Berlin", 52.52, 13.4, "Europe/Berlin"], "dk": ["København", "Copenhagen", 55.68, 12.57, "Europe/Copenhagen"], "ee": ["Tallinn", "Tallinn", 59.44, 24.75, "Europe/Tallinn"], "es": ["Madrid", "Madrid", 40.42, -3.7, "Europe/Madrid"], "fi": ["Helsingfors", "Helsinki", 60.17, 24.94, "Europe/Helsinki"], "fr": ["Paris", "Paris", 48.86, 2.35, "Europe/Paris"], "gr": ["Athen", "Athens", 37.98, 23.73, "Europe/Athens"], "hr": ["Zagreb", "Zagreb", 45.81, 15.98, "Europe/Zagreb"], "hu": ["Budapest", "Budapest", 47.5, 19.04, "Europe/Budapest"], "ie": ["Dublin", "Dublin", 53.35, -6.26, "Europe/Dublin"], "is": ["Reykjavík", "Reykjavik", 64.15, -21.94, "Atlantic/Reykjavik"], "it": ["Roma", "Rome", 41.9, 12.5, "Europe/Rome"], "lt": ["Vilnius", "Vilnius", 54.69, 25.28, "Europe/Vilnius"], "lu": ["Luxembourg", "Luxembourg", 49.61, 6.13, "Europe/Luxembourg"], "lv": ["Riga", "Riga", 56.95, 24.11, "Europe/Riga"], "md": ["Chișinău", "Chisinau", 47.01, 28.86, "Europe/Chisinau"], "me": ["Podgorica", "Podgorica", 42.44, 19.26, "Europe/Podgorica"], "mk": ["Skopje", "Skopje", 41.996, 21.43, "Europe/Skopje"], "mt": ["Valletta", "Valletta", 35.9, 14.51, "Europe/Malta"], "nl": ["Amsterdam", "Amsterdam", 52.37, 4.9, "Europe/Amsterdam"], "no": ["Oslo", "Oslo", 59.91, 10.75, "Europe/Oslo"], "pl": ["Warszawa", "Warsaw", 52.23, 21.01, "Europe/Warsaw"], "pt": ["Lisboa", "Lisbon", 38.72, -9.14, "Europe/Lisbon"], "ro": ["Bucuresti", "Bucharest", 44.43, 26.1, "Europe/Bucharest"], "rs": ["Beograd", "Belgrade", 44.79, 20.45, "Europe/Belgrade"], "se": ["Stockholm", "Stockholm", 59.33, 18.07, "Europe/Stockholm"], "si": ["Ljubljana", "Ljubljana", 46.06, 14.51, "Europe/Ljubljana"], "sk": ["Bratislava", "Bratislava", 48.15, 17.11, "Europe/Bratislava"], "ua": ["Kyiv", "Kyiv", 50.45, 30.52, "Europe/Kyiv"], "uk": ["London", "London", 51.51, -0.13, "Europe/London"]};
 
-const UI = {"en": {"lede": "Catalogue of open data sources across Europe", "step1": "1 — Country or region", "step2": "2 — Choose theme", "selectLabel": "Choose a country or region", "regions": "Regions", "countries": "Countries", "intro": "Pick a theme below and varde will point you to the right portal.", "special": "Specialist source", "single": "Held in the national portal", "unmapped": "Not mapped in detail", "confirmed": "✓ confirmed", "unconfirmed": "unconfirmed", "confirmedTitle": "Address checked against an independent source", "unconfirmedTitle": "Agency is probably right, address unconfirmed", "go": "Go to the portal ↗", "other": "Other sources", "foot1": "A curated catalogue of official open data sources in Europe. All 37 countries have a national portal; 55 of about 100 sources have been confirmed against an independent source; the rest are marked unconfirmed.", "orgs": "Professional bodies", "orgsNote": "Member organisations for people working with geographic information.", "tools": "Other useful sites", "toolsNote": "Tools for making and reading maps. Not data sources.", "license": "Open source under the", "madeBy": "Developed by", "sponsor": "Domain supported by", "aboutTitle": "About varde", "footLabel": "On the labels", "foot2": "“Confirmed” means the address has been checked against an independent source as the right entry point to that agency’s data. “Unconfirmed” means the agency is probably right, but the address may lead to a front page rather than to the datasets. Links point to each source’s own site; varde stores no data itself."}, "no": {"lede": "Katalog over kilder til åpne data i Europa", "step1": "1 — Land eller region", "step2": "2 — Velg tema", "selectLabel": "Velg land eller region", "regions": "Regioner", "countries": "Land", "intro": "Velg et tema under, så peker varde deg til riktig portal.", "special": "Spesialkilde", "single": "Samlet i nasjonalportalen", "unmapped": "Ikke kartlagt i detalj", "confirmed": "✓ bekreftet", "unconfirmed": "ikke bekreftet", "confirmedTitle": "Adressen er bekreftet mot en uavhengig kilde", "unconfirmedTitle": "Etaten er trolig riktig, adressen er ikke bekreftet", "go": "Gå til portalen ↗", "other": "Andre kilder", "foot1": "Kuratert katalog over offisielle kilder til åpne data i Europa. Alle 37 land har nasjonalportal; 55 av rundt 100 kilder er bekreftet mot en uavhengig kilde; resten er merket ubekreftet.", "orgs": "Fagmiljøer og foreninger", "orgsNote": "Interesseorganisasjoner for folk som jobber med geografisk informasjon.", "tools": "Andre nyttige nettsider", "toolsNote": "Verktøy for å lage og lese kart. Ikke datakilder.", "license": "Åpen kildekode under", "madeBy": "Utviklet av", "sponsor": "Domene støttet av", "aboutTitle": "Om varde", "footLabel": "Om merkingen", "foot2": "«Bekreftet» betyr at adressen er kontrollert mot en uavhengig kilde som riktig inngang til etatens data. «Ikke bekreftet» betyr at etaten trolig er riktig, men at adressen kan peke til en forside i stedet for til datasettene. Lenkene peker til kildens egne sider; varde lagrer ingen data selv."}};
+const UI = {"en": {"lede": "Catalogue of open data sources across Europe", "step1": "1 — Country or region", "step2": "2 — Choose theme", "selectLabel": "Choose a country or region", "regions": "Regions", "countries": "Countries", "intro": "Pick a theme below and varde will point you to the right portal.", "special": "Specialist source", "single": "Held in the national portal", "unmapped": "Not mapped in detail", "confirmed": "✓ confirmed", "unconfirmed": "unconfirmed", "confirmedTitle": "Address checked against an independent source", "unconfirmedTitle": "Agency is probably right, address unconfirmed", "go": "Go to the portal ↗", "other": "Other sources", "foot1": "A curated catalogue of official open data sources across Europe. Pick a theme and a country, and varde points you to the agency that holds the data. The aim is to make open data easier to explore \u2014 and to encourage more people to try. All 37 countries have a national portal, and the specialist sources are added as they are confirmed.", "contact": "Contact", "contactBody": "Suggestions for improvement, or something you are wondering about? Send me an email at ", "orgs": "Professional bodies", "orgsNote": "Member organisations for people working with geographic information.", "tools": "Other useful sites", "toolsNote": "Tools for making and reading maps. Not data sources.", "license": "Open source under the", "madeBy": "Developed by", "sponsor": "Domain supported by", "aboutTitle": "About varde", "footLabel": "On the labels", "foot2": "55 of about 100 sources have been checked against an independent source and are marked “confirmed”. “Unconfirmed” means the agency is probably right, but the address may lead to a front page rather than to the datasets. Links point to each source’s own site; varde stores no data itself. Errors do occur."}, "no": {"lede": "Katalog over kilder til åpne data i Europa", "step1": "1 — Land eller region", "step2": "2 — Velg tema", "selectLabel": "Velg land eller region", "regions": "Regioner", "countries": "Land", "intro": "Velg et tema under, så peker varde deg til riktig portal.", "special": "Spesialkilde", "single": "Samlet i nasjonalportalen", "unmapped": "Ikke kartlagt i detalj", "confirmed": "✓ bekreftet", "unconfirmed": "ikke bekreftet", "confirmedTitle": "Adressen er bekreftet mot en uavhengig kilde", "unconfirmedTitle": "Etaten er trolig riktig, adressen er ikke bekreftet", "go": "Gå til portalen ↗", "other": "Andre kilder", "foot1": "Kuratert katalog over offisielle kilder til åpne data i Europa. Velg tema og land, så peker varde deg til etaten som forvalter dataene. Formålet er å gjøre åpne data lettere å utforske. Alle 37 land har nasjonalportal, og spesialkildene legges til etter hvert som de bekreftes.", "contact": "Kontakt", "contactBody": "Forslag til forbedringer eller lurer på noe? Send meg e-post på ", "orgs": "Fagmiljøer og foreninger", "orgsNote": "Interesseorganisasjoner for folk som jobber med geografisk informasjon.", "tools": "Andre nyttige nettsider", "toolsNote": "Verktøy for å lage og lese kart. Ikke datakilder.", "license": "Åpen kildekode under", "madeBy": "Utviklet av", "sponsor": "Domene støttet av", "aboutTitle": "Om varde", "footLabel": "Om merkingen", "foot2": "55 av rundt 100 kilder er kontrollert mot en uavhengig kilde og merket «bekreftet». «Ikke bekreftet» betyr at etaten trolig er riktig, men at adressen kan peke til en forside i stedet for til datasettene. Lenkene peker til kildens egne sider; varde lagrer ingen data selv. Det tas forbehold om feil."}};
 
 /* ---------- ASCII-klode ----------
    Strålekast mot kule, oppslag i pakket landmaske (1 bit per grad),
@@ -1119,7 +1125,7 @@ function applyLang(){
   document.getElementById('lede').textContent      = t('lede');
   document.getElementById('lbl-step1').textContent = t('step1');
   document.getElementById('lbl-step2').textContent = t('step2');
-  document.getElementById('foot1').textContent     = t('foot1');
+  document.getElementById('foot1').innerHTML       = brand(t('foot1'));
   document.getElementById('footLabel').textContent = t('footLabel');
   document.getElementById('aboutTitle').textContent= t('aboutTitle');
   document.getElementById('sponsorTxt').textContent = t('sponsor');
@@ -1129,6 +1135,9 @@ function applyLang(){
   document.getElementById('toolsNote').textContent = t('toolsNote');
   document.getElementById('orgsTitle').textContent = t('orgs');
   document.getElementById('orgsNote').textContent  = t('orgsNote');
+  document.getElementById('contactTitle').textContent = t('contact');
+  document.getElementById('contactBody').innerHTML =
+    t('contactBody') + '<a href="mailto:mpe.gowland@proton.me">mpe.gowland@proton.me</a>';
   loadWeather();
   buildTools();
   buildOrgs();
