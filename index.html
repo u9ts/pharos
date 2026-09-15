@@ -40,8 +40,14 @@
     --flame:      #ffffff;
     --glow:       #ffffff;
     --ice:        #a9d3e3;   /* svak isblå, kun i verktøyseksjonen */
-    --line:       rgba(255,255,255,0.18);
-    --line-strong:rgba(255,255,255,0.30);
+    --tint:       255,255,255;
+    --shadow:     rgba(0,0,0,0.75);
+    --well:       rgba(0,0,0,0.22);
+    --on-accent:  #0b0b0b;
+    --on-accent-soft: rgba(11,11,11,0.62);
+    --halo:       rgba(255,255,255,0.13);
+    --line:       rgba(var(--tint),0.18);
+    --line-strong:rgba(var(--tint),0.30);
   }
   *{ box-sizing:border-box; }
   body{
@@ -54,19 +60,32 @@
   .wrap{ max-width:880px; margin:0 auto; padding:0 26px; }
 
   .step-top{
-    display:flex; align-items:center; justify-content:space-between;
+    display:flex; align-items:center; justify-content:flex-end;
     gap:16px; margin-bottom:12px;
   }
-  .step-top .step-label{ margin:0; }
+  .step-top .step-label{ margin:0; margin-right:auto; }
   .langs{ display:flex; gap:4px; }
+  .lightswitch{
+    display:inline-flex; align-items:center; justify-content:center;
+    padding:4px 8px; margin-right:8px; cursor:pointer; border-radius:2px;
+    background:transparent; color:var(--text-faint);
+    border:1px solid rgba(var(--tint),0.22);
+  }
+  .lightswitch:hover{ background:rgba(169,211,227,0.20); border-color:var(--ice); }
+  .lightswitch[aria-pressed="true"]{ background:var(--ice); color:var(--on-accent); border-color:var(--ice); }
+  .lightswitch:focus-visible{ outline:2px solid var(--ice); outline-offset:2px; }
+  .lightswitch svg{ flex:0 0 auto; }
+  .lightswitch .ico-moon{ display:none; }
+  body.light .lightswitch .ico-sun{ display:none; }
+  body.light .lightswitch .ico-moon{ display:block; }
   .langs button{
     font-family:"JetBrains Mono",monospace; font-size:0.68rem; letter-spacing:0.08em;
-    padding:3px 10px; cursor:pointer; border-radius:2px;
+    height:24px; padding:0 10px; cursor:pointer; border-radius:2px;
     background:transparent; color:var(--text-faint);
-    border:1px solid rgba(255,255,255,0.22);
+    border:1px solid rgba(var(--tint),0.22);
   }
   .langs button:hover{ color:var(--ice); border-color:rgba(169,211,227,0.55); }
-  .langs button[aria-pressed="true"]{ background:var(--brass); color:#000; border-color:var(--brass); }
+  .langs button[aria-pressed="true"]{ background:var(--brass); color:var(--on-accent); border-color:var(--brass); }
   .langs button:focus-visible{ outline:2px solid var(--brass); outline-offset:2px; }
 
   .intro-line{
@@ -81,8 +100,9 @@
     content:""; position:absolute; top:-50px; left:50%;
     width:660px; height:330px; transform:translateX(-50%);
     background:radial-gradient(ellipse at 50% 32%,
-      rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.07) 36%,
-      rgba(255,255,255,0) 70%);
+      rgba(var(--tint),0.13) 0%, rgba(var(--tint),0.07) 36%,
+      rgba(var(--tint),0) 70%);
+    opacity:1;
     pointer-events:none;
   }
   .hero .wrap{ position:relative; }
@@ -129,7 +149,7 @@
   .panel{
     max-width:880px; margin:0 auto 70px; background:var(--panel);
     border:1px solid var(--line); border-radius:4px;
-    box-shadow:0 24px 60px -24px rgba(0,0,0,0.75);
+    box-shadow:0 24px 60px -24px var(--shadow);
   }
   .info{
     padding:17px 26px;
@@ -165,17 +185,17 @@
     font-family:inherit; font-size:1rem;
     grid-column:1 / 2; width:100%; min-width:0;
     padding:11px 14px; color:var(--text);
-    background:rgba(0,0,0,0.22); border:1px solid rgba(255,255,255,0.26);
+    background:var(--well); border:1px solid rgba(var(--tint),0.26);
     border-radius:2px; cursor:pointer;
   }
-  select:focus{ outline:none; border-color:var(--brass); box-shadow:0 0 0 3px rgba(255,255,255,0.18); }
+  select:focus{ outline:none; border-color:var(--brass); box-shadow:0 0 0 3px rgba(var(--tint),0.18); }
   option{ background:var(--night); color:var(--text); }
 
   .themes{ display:grid; grid-template-columns:repeat(auto-fill,minmax(178px,1fr)); gap:8px; }
   .theme{
     font-family:inherit; text-align:left; cursor:pointer; padding:12px 14px;
-    background:rgba(255,255,255,0.06); color:var(--text);
-    border:1px solid rgba(255,255,255,0.28); border-radius:3px;
+    background:rgba(var(--tint),0.06); color:var(--text);
+    border:1px solid rgba(var(--tint),0.28); border-radius:3px;
   }
   .theme:hover{
     background:rgba(169,211,227,0.10);
@@ -183,8 +203,8 @@
     color:var(--ice);
   }
   .theme:hover span{ color:var(--ice); }
-  .theme[aria-pressed="true"]{ background:var(--brass); color:#000; border-color:var(--brass); }
-  .theme[aria-pressed="true"] span{ color:rgba(0,0,0,0.62); }
+  .theme[aria-pressed="true"]{ background:var(--brass); color:var(--on-accent); border-color:var(--brass); }
+  .theme[aria-pressed="true"] span{ color:var(--on-accent-soft); }
   .theme:focus-visible{ outline:2px solid var(--brass); outline-offset:2px; }
   .theme strong{ display:block; font-size:0.92rem; font-weight:600; }
   .theme span{ font-size:0.75rem; color:var(--text-faint); }
@@ -198,12 +218,12 @@
     color:var(--ice); margin:0 0 14px;
   }
   .badge{ font-size:0.64rem; letter-spacing:0.06em; padding:2px 9px; border-radius:999px; text-transform:none; }
-  .badge.ok{ border:1px solid rgba(255,255,255,0.40); color:var(--brass); background:rgba(255,255,255,0.08); }
-  .badge.warn{ border:1px dashed rgba(255,255,255,0.55); color:var(--text-soft); background:transparent; }
+  .badge.ok{ border:1px solid rgba(var(--tint),0.40); color:var(--brass); background:rgba(var(--tint),0.08); }
+  .badge.warn{ border:1px dashed rgba(var(--tint),0.55); color:var(--text-soft); background:transparent; }
 
   .primary{
     display:block; text-decoration:none; color:inherit;
-    background:rgba(255,255,255,0.09); border:1px solid rgba(255,255,255,0.38);
+    background:rgba(var(--tint),0.09); border:1px solid rgba(var(--tint),0.38);
     border-radius:3px; padding:20px 22px; margin-bottom:20px;
   }
   .primary:hover{ background:rgba(169,211,227,0.10); border-color:var(--ice); }
@@ -217,11 +237,11 @@
 
   .caveat{
     font-size:0.85rem; color:var(--text-soft); margin:0 0 20px;
-    border-left:2px dashed rgba(255,255,255,0.45); padding-left:14px;
+    border-left:2px dashed rgba(var(--tint),0.45); padding-left:14px;
   }
   .v{ font-size:0.66rem; letter-spacing:0.03em; padding:1px 7px; border-radius:999px; white-space:nowrap; }
-  .v.ok{ color:var(--brass); border:1px solid rgba(255,255,255,0.35); }
-  .v.no{ color:var(--text-faint); border:1px solid rgba(255,255,255,0.22); }
+  .v.ok{ color:var(--brass); border:1px solid rgba(var(--tint),0.35); }
+  .v.no{ color:var(--text-faint); border:1px solid rgba(var(--tint),0.22); }
   .alt .v{ margin-left:6px; }
 
   .also{
@@ -268,11 +288,11 @@
   .tools-note a:hover{ color:var(--ice); }
   .tools.muted{ padding:0; border-top:none; }
   .tools.muted summary{ color:var(--text-faint); padding:12px 0; }
+  footer .tools.muted + .tools.muted{ border-top:1px solid var(--line); }
   .tools.muted summary::before{ color:var(--text-faint); }
   .tools.muted summary:hover{ color:var(--text-soft); }
   .tools.muted summary:hover::before{ color:var(--text-soft); }
   .tools.muted[open]{ padding-bottom:6px; }
-  footer .tools.muted + .tools.muted{ border-top:1px solid var(--line); }
   .tool-group{ margin-bottom:20px; }
   .tool-group h3{
     font-family:"JetBrains Mono","SF Mono",Menlo,Consolas,monospace;
@@ -319,6 +339,33 @@
     .panel{ margin:0 12px 40px; }
     header.hero{ padding:24px 0 18px; }
   }
+
+
+  /* ---------- lys drakt ---------- */
+  body.light{
+    --night:      #e9e7e2;
+    --night-deep: #dad7d0;
+    --panel:      #faf9f6;
+    --panel-lift: #efedE8;
+    --text:       #1a1b1d;
+    --text-soft:  #4a4d51;
+    --text-faint: #6e7378;
+    --brass:      #1a1b1d;
+    --brass-dim:  #4a4d51;
+    --flame:      #1a1b1d;
+    --glow:       #1a1b1d;
+    --ice:        #2c6f8a;
+    --tint:       0,0,0;
+    --shadow:     rgba(0,0,0,0.14);
+    --well:       rgba(0,0,0,0.035);
+    --on-accent:  #faf9f6;
+    --on-accent-soft: rgba(250,249,246,0.72);
+    --line:       rgba(var(--tint),0.14);
+    --line-strong:rgba(var(--tint),0.26);
+  }
+  body.light pre.globe{ opacity:1; }
+  body.light .made-by img{ filter:invert(1); opacity:0.75; }
+
 
   /* ---------- mobil ---------- */
   @media (max-width:640px){
@@ -372,10 +419,12 @@
         <button type="button" data-lang="no" aria-pressed="true">NO</button>
         <button type="button" data-lang="en" aria-pressed="false">EN</button>
       </div>
+      <button type="button" class="lightswitch" id="lightswitch" aria-pressed="false">
+        <svg class="ico-sun" viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="8" cy="8" r="3.1" fill="none" stroke="currentColor" stroke-width="1.3"/><g stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><path d="M8 1.2v1.7M8 13.1v1.7M1.2 8h1.7M13.1 8h1.7"/><path d="M3.2 3.2 4.4 4.4M11.6 11.6l1.2 1.2M12.8 3.2 11.6 4.4M4.4 11.6l-1.2 1.2"/></g></svg><svg class="ico-moon" viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M13.2 10.1A5.6 5.6 0 0 1 6 2.8a5.7 5.7 0 1 0 7.2 7.3Z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></button>
     </div>
     <div class="place-row">
       <select id="place" aria-label="Velg land eller region"></select>
-      <span class="coords" id="coords"></span>
+      <span class="coords" id="daylight"></span>
     </div>
   </div>
 
@@ -447,6 +496,9 @@ const PLACES = {
   EU: { name:"Europe (all)", group:"Regions",
         portal:{ n:"data.europa.eu", o:"European Commission", u:"https://data.europa.eu",
                  d:"Harvests every national portal in Europe" } },
+  GLOBAL:{ name:"Global", group:"Regions",
+        portal:{ n:"World Bank Open Data", o:"World Bank", u:"https://data.worldbank.org", v:1,
+                 d:"Fri tilgang til globale utviklingsdata" } },
   NORDIC:{ name:"Nordics", group:"Regions",
         portal:{ n:"Nordic Statistics", o:"Nordic Council of Ministers", u:"https://www.nordicstatistics.org",
                  d:"Comparable statistics for the Nordic countries" } },
@@ -522,6 +574,26 @@ const EU_SPECIAL = {
 
 /* National specialist sources. Shown before the Europe-wide ones. */
 const NAT_SPECIAL = {
+  GLOBAL:{ REGI:[["OpenStreetMap","OSM Foundation","https://www.openstreetmap.org"],
+                 ["Natural Earth","Natural Earth","https://www.naturalearthdata.com"]],
+           ORTO:[["NASA Earthdata","NASA","https://www.earthdata.nasa.gov"],
+                 ["Copernicus Data Space","ESA and EU","https://dataspace.copernicus.eu"]],
+           ENVI:[["GBIF","Global Biodiversity Information Facility","https://www.gbif.org",1],
+                 ["NASA Earthdata","NASA","https://www.earthdata.nasa.gov"]],
+           SOCI:[["UN Data","United Nations","https://data.un.org"],
+                 ["World Bank Open Data","World Bank","https://data.worldbank.org",1]],
+           ECON:[["World Bank Open Data","World Bank","https://data.worldbank.org",1],
+                 ["OECD Data Explorer","OECD","https://data-explorer.oecd.org"]],
+           GOVE:[["UN Data","United Nations","https://data.un.org"],
+                 ["dataportals.org","Open Knowledge","https://dataportals.org",1]],
+           HEAL:[["Global Health Observatory","World Health Organization","https://www.who.int/data/gho",1]],
+           AGRI:[["FAOSTAT","FAO","https://www.fao.org/faostat/"]],
+           ENER:[["IRENA statistics","IRENA","https://www.irena.org/Data"]],
+           EDUC:[["UIS statistics","UNESCO","https://uis.unesco.org"]],
+           TECH:[["Zenodo","CERN","https://zenodo.org"],
+                 ["OpenAIRE","OpenAIRE","https://www.openaire.eu"]],
+           INTR:[["Humanitarian Data Exchange","UN OCHA","https://data.humdata.org"],
+                 ["IATI Registry","IATI","https://iatiregistry.org"]] },
   no:{ ORTO:[["Norge i bilder","Kartverket — fri visning, nedlasting krever Norge digitalt","https://www.norgeibilder.no",1]],
        REGI:[["Geonorge","Norwegian Mapping Authority","https://www.geonorge.no",1],
              ["Kilden","NIBIO","https://kilden.nibio.no",1]],
@@ -615,9 +687,21 @@ const NAT_SPECIAL = {
 
 
 const NO_THEMES = {"REGI": {"name": "Kart og geodata", "hint": "terreng, eiendom, arealbruk"}, "ORTO": {"name": "Fly- og satellittbilder", "hint": "ortofoto, arealdekke"}, "ENVI": {"name": "Miljø og klima", "hint": "natur, vær, forurensning"}, "SOCI": {"name": "Befolkning og samfunn", "hint": "demografi, levekår"}, "ECON": {"name": "Økonomi og næring", "hint": "foretak, handel, priser"}, "GOVE": {"name": "Forvaltning", "hint": "registre, budsjett, valg"}, "TRAN": {"name": "Transport", "hint": "veg, kollektiv, sjøfart"}, "HEAL": {"name": "Helse", "hint": "folkehelse, sykdom"}, "ENER": {"name": "Energi", "hint": "kraft, forbruk, nett"}, "AGRI": {"name": "Landbruk og fiskeri", "hint": "jord, skog, hav"}, "EDUC": {"name": "Utdanning", "hint": "skole, forskning"}, "JUST": {"name": "Justis", "hint": "lover, rettsvesen"}, "TECH": {"name": "Forskningsdata", "hint": "publikasjoner, datasett"}, "INTR": {"name": "Internasjonalt", "hint": "bistand, samarbeid"}};
-const NO_PLACES = {"EU": "Europa (samlet)", "NORDIC": "Norden", "al": "Albania", "at": "Østerrike", "be": "Belgia", "bg": "Bulgaria", "ch": "Sveits", "cy": "Kypros", "cz": "Tsjekkia", "de": "Tyskland", "dk": "Danmark", "ee": "Estland", "es": "Spania", "fi": "Finland", "fr": "Frankrike", "gr": "Hellas", "hr": "Kroatia", "hu": "Ungarn", "ie": "Irland", "is": "Island", "it": "Italia", "lt": "Litauen", "lu": "Luxembourg", "lv": "Latvia", "md": "Moldova", "me": "Montenegro", "mk": "Nord-Makedonia", "mt": "Malta", "nl": "Nederland", "no": "Norge", "pl": "Polen", "pt": "Portugal", "ro": "Romania", "rs": "Serbia", "se": "Sverige", "si": "Slovenia", "sk": "Slovakia", "ua": "Ukraina", "uk": "Storbritannia"};
+const NO_PLACES = {"EU": "Europa (samlet)", "GLOBAL": "Global", "NORDIC": "Norden", "al": "Albania", "at": "Østerrike", "be": "Belgia", "bg": "Bulgaria", "ch": "Sveits", "cy": "Kypros", "cz": "Tsjekkia", "de": "Tyskland", "dk": "Danmark", "ee": "Estland", "es": "Spania", "fi": "Finland", "fr": "Frankrike", "gr": "Hellas", "hr": "Kroatia", "hu": "Ungarn", "ie": "Irland", "is": "Island", "it": "Italia", "lt": "Litauen", "lu": "Luxembourg", "lv": "Latvia", "md": "Moldova", "me": "Montenegro", "mk": "Nord-Makedonia", "mt": "Malta", "nl": "Nederland", "no": "Norge", "pl": "Polen", "pt": "Portugal", "ro": "Romania", "rs": "Serbia", "se": "Sverige", "si": "Slovenia", "sk": "Slovakia", "ua": "Ukraina", "uk": "Storbritannia"};
 const ORG_NO = {
 "Norwegian Mapping Authority": "Kartverket",
+"World Bank": "Verdensbanken",
+"United Nations": "FN",
+"World Health Organization": "Verdens helseorganisasjon",
+"Global Biodiversity Information Facility": "GBIF",
+"OSM Foundation": "OpenStreetMap-stiftelsen",
+"UN OCHA": "FNs nødhjelpskontor",
+"Open Knowledge": "Open Knowledge",
+"NASA": "NASA",
+"OECD": "OECD",
+"UNESCO": "UNESCO",
+"IRENA": "IRENA",
+"FAO": "FAO",
 "Kartverket — fri visning, nedlasting krever Norge digitalt": "Kartverket – fri visning, nedlasting krever Norge digitalt",
 "ESA and EU": "ESA og EU",
 "CNIG / IGN": "Spanias kartverk",
@@ -927,9 +1011,10 @@ const ORGS = [
 }
 ];
 
-const CAP = {"EU": ["Brussel", "Brussels", 50.85, 4.35, "Europe/Brussels"], "NORDIC": ["Oslo", "Oslo", 59.91, 10.75, "Europe/Oslo"], "al": ["Tirana", "Tirana", 41.33, 19.82, "Europe/Tirane"], "at": ["Wien", "Vienna", 48.21, 16.37, "Europe/Vienna"], "be": ["Brussel", "Brussels", 50.85, 4.35, "Europe/Brussels"], "bg": ["Sofia", "Sofia", 42.7, 23.32, "Europe/Sofia"], "ch": ["Bern", "Bern", 46.95, 7.45, "Europe/Zurich"], "cy": ["Nikosia", "Nicosia", 35.17, 33.36, "Asia/Nicosia"], "cz": ["Praha", "Prague", 50.09, 14.42, "Europe/Prague"], "de": ["Berlin", "Berlin", 52.52, 13.4, "Europe/Berlin"], "dk": ["København", "Copenhagen", 55.68, 12.57, "Europe/Copenhagen"], "ee": ["Tallinn", "Tallinn", 59.44, 24.75, "Europe/Tallinn"], "es": ["Madrid", "Madrid", 40.42, -3.7, "Europe/Madrid"], "fi": ["Helsingfors", "Helsinki", 60.17, 24.94, "Europe/Helsinki"], "fr": ["Paris", "Paris", 48.86, 2.35, "Europe/Paris"], "gr": ["Athen", "Athens", 37.98, 23.73, "Europe/Athens"], "hr": ["Zagreb", "Zagreb", 45.81, 15.98, "Europe/Zagreb"], "hu": ["Budapest", "Budapest", 47.5, 19.04, "Europe/Budapest"], "ie": ["Dublin", "Dublin", 53.35, -6.26, "Europe/Dublin"], "is": ["Reykjavík", "Reykjavik", 64.15, -21.94, "Atlantic/Reykjavik"], "it": ["Roma", "Rome", 41.9, 12.5, "Europe/Rome"], "lt": ["Vilnius", "Vilnius", 54.69, 25.28, "Europe/Vilnius"], "lu": ["Luxembourg", "Luxembourg", 49.61, 6.13, "Europe/Luxembourg"], "lv": ["Riga", "Riga", 56.95, 24.11, "Europe/Riga"], "md": ["Chișinău", "Chisinau", 47.01, 28.86, "Europe/Chisinau"], "me": ["Podgorica", "Podgorica", 42.44, 19.26, "Europe/Podgorica"], "mk": ["Skopje", "Skopje", 41.996, 21.43, "Europe/Skopje"], "mt": ["Valletta", "Valletta", 35.9, 14.51, "Europe/Malta"], "nl": ["Amsterdam", "Amsterdam", 52.37, 4.9, "Europe/Amsterdam"], "no": ["Oslo", "Oslo", 59.91, 10.75, "Europe/Oslo"], "pl": ["Warszawa", "Warsaw", 52.23, 21.01, "Europe/Warsaw"], "pt": ["Lisboa", "Lisbon", 38.72, -9.14, "Europe/Lisbon"], "ro": ["Bucuresti", "Bucharest", 44.43, 26.1, "Europe/Bucharest"], "rs": ["Beograd", "Belgrade", 44.79, 20.45, "Europe/Belgrade"], "se": ["Stockholm", "Stockholm", 59.33, 18.07, "Europe/Stockholm"], "si": ["Ljubljana", "Ljubljana", 46.06, 14.51, "Europe/Ljubljana"], "sk": ["Bratislava", "Bratislava", 48.15, 17.11, "Europe/Bratislava"], "ua": ["Kyiv", "Kyiv", 50.45, 30.52, "Europe/Kyiv"], "uk": ["London", "London", 51.51, -0.13, "Europe/London"]};
 
-const UI = {"en": {"lede": "Catalogue of open data sources across Europe", "step1": "1 — Country or region", "step2": "2 — Choose theme", "selectLabel": "Choose a country or region", "regions": "Regions", "countries": "Countries", "intro": "Pick a theme below and varde will point you to the right portal.", "special": "Specialist source", "single": "Held in the national portal", "unmapped": "Not mapped in detail", "confirmed": "✓ confirmed", "unconfirmed": "unconfirmed", "confirmedTitle": "Address checked against an independent source", "unconfirmedTitle": "Agency is probably right, address unconfirmed", "go": "Go to the portal ↗", "other": "Other sources", "foot1": "A curated catalogue of official open data sources across Europe. Pick a theme and a country, and varde points you to the agency that holds the data. The aim is to make open data easier to explore \u2014 and to encourage more people to try. All 37 countries have a national portal, and the specialist sources are added as they are confirmed.", "contact": "Contact", "contactBody": "Suggestions for improvement, or something you are wondering about? Send me an email at ", "orgs": "Professional bodies", "orgsNote": "Member organisations for people working with geographic information.", "tools": "Other useful sites", "toolsNote": "Tools for making and reading maps. Not data sources.", "license": "Open source under the", "madeBy": "Developed by", "sponsor": "Domain supported by", "aboutTitle": "About varde", "footLabel": "On the labels", "foot2": "55 of about 100 sources have been checked against an independent source and are marked “confirmed”. “Unconfirmed” means the agency is probably right, but the address may lead to a front page rather than to the datasets. Links point to each source’s own site; varde stores no data itself. Errors do occur."}, "no": {"lede": "Katalog over kilder til åpne data i Europa", "step1": "1 — Land eller region", "step2": "2 — Velg tema", "selectLabel": "Velg land eller region", "regions": "Regioner", "countries": "Land", "intro": "Velg et tema under, så peker varde deg til riktig portal.", "special": "Spesialkilde", "single": "Samlet i nasjonalportalen", "unmapped": "Ikke kartlagt i detalj", "confirmed": "✓ bekreftet", "unconfirmed": "ikke bekreftet", "confirmedTitle": "Adressen er bekreftet mot en uavhengig kilde", "unconfirmedTitle": "Etaten er trolig riktig, adressen er ikke bekreftet", "go": "Gå til portalen ↗", "other": "Andre kilder", "foot1": "Kuratert katalog over offisielle kilder til åpne data i Europa. Velg tema og land, så peker varde deg til etaten som forvalter dataene. Formålet er å gjøre åpne data lettere å utforske. Alle 37 land har nasjonalportal, og spesialkildene legges til etter hvert som de bekreftes.", "contact": "Kontakt", "contactBody": "Forslag til forbedringer eller lurer på noe? Send meg e-post på ", "orgs": "Fagmiljøer og foreninger", "orgsNote": "Interesseorganisasjoner for folk som jobber med geografisk informasjon.", "tools": "Andre nyttige nettsider", "toolsNote": "Verktøy for å lage og lese kart. Ikke datakilder.", "license": "Åpen kildekode under", "madeBy": "Utviklet av", "sponsor": "Domene støttet av", "aboutTitle": "Om varde", "footLabel": "Om merkingen", "foot2": "55 av rundt 100 kilder er kontrollert mot en uavhengig kilde og merket «bekreftet». «Ikke bekreftet» betyr at etaten trolig er riktig, men at adressen kan peke til en forside i stedet for til datasettene. Lenkene peker til kildens egne sider; varde lagrer ingen data selv. Det tas forbehold om feil."}};
+const CAP = {"EU": ["Brussel", "Brussels", 50.85, 4.35, "Europe/Brussels"], "GLOBAL": ["Genève", "Geneva", 46.2, 6.14, "Europe/Zurich"], "NORDIC": ["Oslo", "Oslo", 59.91, 10.75, "Europe/Oslo"], "al": ["Tirana", "Tirana", 41.33, 19.82, "Europe/Tirane"], "at": ["Wien", "Vienna", 48.21, 16.37, "Europe/Vienna"], "be": ["Brussel", "Brussels", 50.85, 4.35, "Europe/Brussels"], "bg": ["Sofia", "Sofia", 42.7, 23.32, "Europe/Sofia"], "ch": ["Bern", "Bern", 46.95, 7.45, "Europe/Zurich"], "cy": ["Nikosia", "Nicosia", 35.17, 33.36, "Asia/Nicosia"], "cz": ["Praha", "Prague", 50.09, 14.42, "Europe/Prague"], "de": ["Berlin", "Berlin", 52.52, 13.4, "Europe/Berlin"], "dk": ["København", "Copenhagen", 55.68, 12.57, "Europe/Copenhagen"], "ee": ["Tallinn", "Tallinn", 59.44, 24.75, "Europe/Tallinn"], "es": ["Madrid", "Madrid", 40.42, -3.7, "Europe/Madrid"], "fi": ["Helsingfors", "Helsinki", 60.17, 24.94, "Europe/Helsinki"], "fr": ["Paris", "Paris", 48.86, 2.35, "Europe/Paris"], "gr": ["Athen", "Athens", 37.98, 23.73, "Europe/Athens"], "hr": ["Zagreb", "Zagreb", 45.81, 15.98, "Europe/Zagreb"], "hu": ["Budapest", "Budapest", 47.5, 19.04, "Europe/Budapest"], "ie": ["Dublin", "Dublin", 53.35, -6.26, "Europe/Dublin"], "is": ["Reykjavík", "Reykjavik", 64.15, -21.94, "Atlantic/Reykjavik"], "it": ["Roma", "Rome", 41.9, 12.5, "Europe/Rome"], "lt": ["Vilnius", "Vilnius", 54.69, 25.28, "Europe/Vilnius"], "lu": ["Luxembourg", "Luxembourg", 49.61, 6.13, "Europe/Luxembourg"], "lv": ["Riga", "Riga", 56.95, 24.11, "Europe/Riga"], "md": ["Chișinău", "Chisinau", 47.01, 28.86, "Europe/Chisinau"], "me": ["Podgorica", "Podgorica", 42.44, 19.26, "Europe/Podgorica"], "mk": ["Skopje", "Skopje", 41.996, 21.43, "Europe/Skopje"], "mt": ["Valletta", "Valletta", 35.9, 14.51, "Europe/Malta"], "nl": ["Amsterdam", "Amsterdam", 52.37, 4.9, "Europe/Amsterdam"], "no": ["Oslo", "Oslo", 59.91, 10.75, "Europe/Oslo"], "pl": ["Warszawa", "Warsaw", 52.23, 21.01, "Europe/Warsaw"], "pt": ["Lisboa", "Lisbon", 38.72, -9.14, "Europe/Lisbon"], "ro": ["Bucuresti", "Bucharest", 44.43, 26.1, "Europe/Bucharest"], "rs": ["Beograd", "Belgrade", 44.79, 20.45, "Europe/Belgrade"], "se": ["Stockholm", "Stockholm", 59.33, 18.07, "Europe/Stockholm"], "si": ["Ljubljana", "Ljubljana", 46.06, 14.51, "Europe/Ljubljana"], "sk": ["Bratislava", "Bratislava", 48.15, 17.11, "Europe/Bratislava"], "ua": ["Kyiv", "Kyiv", 50.45, 30.52, "Europe/Kyiv"], "uk": ["London", "London", 51.51, -0.13, "Europe/London"]};
+
+const UI = {"en": {"lede": "Catalogue of open data sources across Europe", "step1": "1 — Country or region", "step2": "2 — Choose theme", "selectLabel": "Choose a country or region", "regions": "Regions", "countries": "Countries", "intro": "Pick a theme below and varde will point you to the right portal.", "special": "Specialist source", "single": "Held in the national portal", "unmapped": "Not mapped in detail", "confirmed": "✓ confirmed", "unconfirmed": "unconfirmed", "confirmedTitle": "Address checked against an independent source", "unconfirmedTitle": "Agency is probably right, address unconfirmed", "go": "Go to the portal ↗", "other": "Other sources", "foot1": "A curated catalogue of official open data sources across Europe. Pick a theme and a country, and varde points you to the agency that holds the data. The aim is to make open data easier to explore \u2014 and to encourage more people to try. All 37 countries have a national portal, and the specialist sources are added as they are confirmed.", "lightswitch": "light", "darkswitch": "dark", "contact": "Contact", "contactBody": "Suggestions for improvement, or something you are wondering about? Send me an email at ", "orgs": "Professional bodies", "orgsNote": "Member organisations for people working with geographic information.", "tools": "Other useful sites", "toolsNote": "Tools for making and reading maps. Not data sources.", "license": "Open source under the", "madeBy": "Developed by", "sponsor": "Domain supported by", "aboutTitle": "About varde", "footLabel": "On the labels", "foot2": "55 of about 100 sources have been checked against an independent source and are marked “confirmed”. “Unconfirmed” means the agency is probably right, but the address may lead to a front page rather than to the datasets. Links point to each source’s own site; varde stores no data itself. Errors do occur."}, "no": {"lede": "Katalog over kilder til åpne data i Europa", "step1": "1 — Land eller region", "step2": "2 — Velg tema", "selectLabel": "Velg land eller region", "regions": "Regioner", "countries": "Land", "intro": "Velg et tema under, så peker varde deg til riktig portal.", "special": "Spesialkilde", "single": "Samlet i nasjonalportalen", "unmapped": "Ikke kartlagt i detalj", "confirmed": "✓ bekreftet", "unconfirmed": "ikke bekreftet", "confirmedTitle": "Adressen er bekreftet mot en uavhengig kilde", "unconfirmedTitle": "Etaten er trolig riktig, adressen er ikke bekreftet", "go": "Gå til portalen ↗", "other": "Andre kilder", "foot1": "Kuratert katalog over offisielle kilder til åpne data i Europa. Velg tema og land, så peker varde deg til etaten som forvalter dataene. Formålet er å gjøre åpne data lettere å utforske. Alle 37 land har nasjonalportal, og spesialkildene legges til etter hvert som de bekreftes.", "lightswitch": "lys", "darkswitch": "mørk", "contact": "Kontakt", "contactBody": "Forslag til forbedringer eller lurer på noe? Send meg e-post på ", "orgs": "Fagmiljøer og foreninger", "orgsNote": "Interesseorganisasjoner for folk som jobber med geografisk informasjon.", "tools": "Andre nyttige nettsider", "toolsNote": "Verktøy for å lage og lese kart. Ikke datakilder.", "license": "Åpen kildekode under", "madeBy": "Utviklet av", "sponsor": "Domene støttet av", "aboutTitle": "Om varde", "footLabel": "Om merkingen", "foot2": "55 av rundt 100 kilder er kontrollert mot en uavhengig kilde og merket «bekreftet». «Ikke bekreftet» betyr at etaten trolig er riktig, men at adressen kan peke til en forside i stedet for til datasettene. Lenkene peker til kildens egne sider; varde lagrer ingen data selv. Det tas forbehold om feil."}};
 
 /* ---------- ASCII-klode ----------
    Strålekast mot kule, oppslag i pakket landmaske (1 bit per grad),
@@ -1018,7 +1103,7 @@ const UI = {"en": {"lede": "Catalogue of open data sources across Europe", "step
 
 /* ---------- verdensklokke ---------- */
 const CLOCKS = [
-  ["OSL","Europe/Oslo"], ["LON","Europe/London"], ["PAR","Europe/Paris"],
+  ["OSL","Europe/Oslo"], ["LON","Europe/London"], ["HEL","Europe/Helsinki"],
   ["NYC","America/New_York"], ["TYO","Asia/Tokyo"], ["UTC","UTC"],
 ];
 (function(){
@@ -1036,7 +1121,31 @@ const CLOCKS = [
   setInterval(tick, 1000);
 })();
 
+/* ---------- lys / mørk ---------- */
+
 let lang = "no";
+
+function labelSwitch(){
+  const b = document.getElementById('lightswitch');
+  if(!b) return;
+  const isLight = document.body.classList.contains('light');
+  const txt = t(isLight ? 'darkswitch' : 'lightswitch');
+  b.title = txt;
+  b.setAttribute('aria-label', txt);
+}
+
+(function(){
+  const b = document.getElementById('lightswitch');
+  if(!b) return;
+  const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+  const set = on => {
+    document.body.classList.toggle('light', on);
+    b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    labelSwitch();
+  };
+  set(prefersLight);
+  b.onclick = () => set(!document.body.classList.contains('light'));
+})();
 
 /* ---------- dagslys ----------
    Soloppgang og solnedgang regnet ut lokalt fra NOAAs
@@ -1072,7 +1181,7 @@ function daylight(lat, lon, tz){
 }
 
 function loadWeather(){
-  const el = document.getElementById('coords');
+  const el = document.getElementById('daylight');
   const cap = CAP[place];
   if(!el || !cap) return;
   const [nameNo, nameEn, lat, lon, tz] = cap;
@@ -1136,6 +1245,7 @@ function applyLang(){
   document.getElementById('orgsTitle').textContent = t('orgs');
   document.getElementById('orgsNote').textContent  = t('orgsNote');
   document.getElementById('contactTitle').textContent = t('contact');
+  labelSwitch();
   document.getElementById('contactBody').innerHTML =
     t('contactBody') + '<a href="mailto:mpe.gowland@proton.me">mpe.gowland@proton.me</a>';
   loadWeather();
